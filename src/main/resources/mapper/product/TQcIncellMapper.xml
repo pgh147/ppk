@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.springboot.mapper.product.TQcIncellMapper">
+  <resultMap id="BaseResultMap" type="cn.springboot.model.product.TQcIncell">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="bill_no" jdbcType="VARCHAR" property="billNo" />
+    <result column="product_no" jdbcType="VARCHAR" property="productNo" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="p_user_no" jdbcType="VARCHAR" property="pUserNo" />
+    <result column="ok_qty" jdbcType="INTEGER" property="okQty" />
+    <result column="no_ok_qty" jdbcType="INTEGER" property="noOkQty" />
+    <result column="qc_notice" jdbcType="INTEGER" property="qcNotice" />
+    <result column="qc_reason" jdbcType="VARCHAR" property="qcReason" />
+    <result column="incell_qty" jdbcType="INTEGER" property="incellQty" />
+    <result column="return_qty" jdbcType="INTEGER" property="returnQty" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="product_status" jdbcType="INTEGER" property="productStatus" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater" jdbcType="VARCHAR" property="updater" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="img_data" jdbcType="VARCHAR" property="imgData" />
+    <result column="purchaser_no" jdbcType="VARCHAR" property="purchaserNo" />
+    <result column="purchase_qty" jdbcType="VARCHAR" property="purchaseQty" />
+    <result column="purchase_no" jdbcType="VARCHAR" property="purchaseNo"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bill_no, product_no, user_no, ok_qty, no_ok_qty, qc_reason, incell_qty, return_qty, 
+    status, product_status, update_time, updater, create_time, creater, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_qc_incell
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_qc_incell
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.springboot.model.product.TQcIncell">
+    insert into t_qc_incell (id, bill_no, product_no, 
+      user_no, ok_qty, no_ok_qty, 
+      qc_reason, incell_qty, return_qty, 
+      status, product_status, update_time, 
+      updater, create_time, creater, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{billNo,jdbcType=VARCHAR}, #{productNo,jdbcType=VARCHAR}, 
+      #{userNo,jdbcType=VARCHAR}, #{okQty,jdbcType=INTEGER}, #{noOkQty,jdbcType=INTEGER}, 
+      #{qcReason,jdbcType=VARCHAR}, #{incellQty,jdbcType=INTEGER}, #{returnQty,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{productStatus,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.springboot.model.product.TQcIncell">
+    insert into t_qc_incell
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="billNo != null">
+        bill_no,
+      </if>
+      <if test="productNo != null">
+        product_no,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="okQty != null">
+        ok_qty,
+      </if>
+      <if test="noOkQty != null">
+        no_ok_qty,
+      </if>
+      <if test="qcReason != null">
+        qc_reason,
+      </if>
+      <if test="incellQty != null">
+        incell_qty,
+      </if>
+      <if test="returnQty != null">
+        return_qty,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="productStatus != null">
+        product_status,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="purchaseNo != null and '' != purchaseNo ">
+        purchase_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null">
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productNo != null">
+        #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="okQty != null">
+        #{okQty,jdbcType=INTEGER},
+      </if>
+      <if test="noOkQty != null">
+        #{noOkQty,jdbcType=INTEGER},
+      </if>
+      <if test="qcReason != null">
+        #{qcReason,jdbcType=VARCHAR},
+      </if>
+      <if test="incellQty != null">
+        #{incellQty,jdbcType=INTEGER},
+      </if>
+      <if test="returnQty != null">
+        #{returnQty,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="productStatus != null">
+        #{productStatus,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNo != null and '' != purchaseNo ">
+        #{purchaseNo,jdbcType=VARCHAR},
+      </if>      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.springboot.model.product.TQcIncell">
+    update t_qc_incell
+    <set>
+      <if test="billNo != null and '' != billNo ">
+        bill_no = #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productNo != null and '' != productNo ">
+        product_no = #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null and '' != userNo ">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="okQty != null and '' != okQty ">
+        ok_qty = #{okQty,jdbcType=INTEGER},
+      </if>
+      <if test="noOkQty != null and '' != noOkQty ">
+        no_ok_qty = #{noOkQty,jdbcType=INTEGER},
+      </if>
+      <if test="qcReason != null and '' != qcReason ">
+        qc_reason = #{qcReason,jdbcType=VARCHAR},
+      </if>
+      <if test="incellQty != null and '' != incellQty ">
+        incell_qty = #{incellQty,jdbcType=INTEGER},
+      </if>
+      <if test="returnQty != null and '' != returnQty ">
+        return_qty = #{returnQty,jdbcType=INTEGER},
+      </if>
+      <if test="status != null and '' != status ">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="productStatus != null and '' != productStatus ">
+        product_status = #{productStatus,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null and '' != updater ">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null and '' != creater ">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and '' != remark ">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseNo != null and '' != purchaseNo ">
+       purchase_no =  #{purchaseNo,jdbcType=VARCHAR},
+      </if>        
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.springboot.model.product.TQcIncell">
+    update t_qc_incell
+    set bill_no = #{billNo,jdbcType=VARCHAR},
+      product_no = #{productNo,jdbcType=VARCHAR},
+      user_no = #{userNo,jdbcType=VARCHAR},
+      ok_qty = #{okQty,jdbcType=INTEGER},
+      no_ok_qty = #{noOkQty,jdbcType=INTEGER},
+      qc_reason = #{qcReason,jdbcType=VARCHAR},
+      incell_qty = #{incellQty,jdbcType=INTEGER},
+      return_qty = #{returnQty,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      product_status = #{productStatus,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="findProductByPage" parameterType="cn.springboot.model.product.TQcIncell" resultMap="BaseResultMap">
+  	select a.id, a.bill_no, a.product_no, a.user_no, a.ok_qty, a.no_ok_qty, a.qc_reason, a.incell_qty, a.return_qty, b.qc_notice,a.purchase_no,p.purchase_qty,p.user_no as purchaser_no,
+    a.status, a.product_status, a.update_time, a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data,b.user_no p_user_no
+    from t_qc_incell a inner join t_product b on a.product_no = b.product_no left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
+    left join t_purchase p on a.purchase_no = p.bill_no 
+        <where>  1 = 1 
+        <if test="billNo != null and '' != billNo ">
+        and a.bill_no = #{billNo,jdbcType=VARCHAR}
+      </if>
+     <if test="productNo != null and '' != productNo ">
+        and a.product_no like '%${productNo}%' 
+      </if>
+            <if test="productName != null and '' != productName ">
+        and b.product_name  like '%${productName}%' 
+      </if>
+      <if test="userNo != null and '' != userNo ">
+        and a.user_no  like '%${userNo}%' 
+      </if>
+      <if test="okQty != null and '' != okQty ">
+        and a.ok_qty = #{okQty,jdbcType=INTEGER}
+      </if>
+      <if test="noOkQty != null and '' != noOkQty ">
+        and a.no_ok_qty = #{noOkQty,jdbcType=INTEGER}
+      </if>
+      <if test="qcReason != null and '' != qcReason ">
+        and a.qc_reason  like '%${qcReason}%'
+      </if>
+      <if test="incellQty != null and '' != incellQty ">
+        and a.incell_qty = #{incellQty,jdbcType=INTEGER}
+      </if>
+      <if test="returnQty != null and '' != returnQty ">
+        and a.return_qty = #{returnQty,jdbcType=INTEGER}
+      </if>
+      <if test="status != null and '' != status ">
+        and a.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="productStatus != null and '' != productStatus ">
+        and a.product_status = #{productStatus,jdbcType=INTEGER}
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        and a.update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updater != null and '' != updater ">
+        and a.updater = #{updater,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        and a.create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="creater != null and '' != creater ">
+        and a.creater = #{creater,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null and '' != remark ">
+        and a.remark = #{remark,jdbcType=VARCHAR}
+      </if>
+        </where> 
+        <if test="orderSql != null">
+        ${orderSql}
+        </if>
+        <if test="orderSql == null ">
+        order by a.create_time desc
+        </if>
+  </select>
+</mapper>

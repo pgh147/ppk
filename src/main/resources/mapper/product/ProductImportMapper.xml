@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.springboot.mapper.product.ProductImportMapper">
+
+	<resultMap id="newsMap" type="cn.springboot.model.product.TProductImport">
+		<result column="amazon_order_id" property="amazonOrderId" />
+		<result column="merchant_order_id" property="merchantOrderId" />
+		<result column="purchase_date" property="purchaseDate" jdbcType="TIMESTAMP"  />
+		<result column="last_updated_date" property="lastUpdatedDate" jdbcType="TIMESTAMP" />
+		<result column="order_status" property="orderStatus" />
+		<result column="fulfillment_channel" property="fulfillmentChannel" />
+		<result column="sales_channel" property="salesChannel" />
+		<result column="order_channel" property="orderChannel" />
+		<result column="ship_service_level" property="shipServiceLevel" />
+		<result column="product_name" property="productName" />
+		<result column="sku" property="sku" />
+	</resultMap>
+
+	<insert id="insert" parameterType="cn.springboot.model.product.TProductImport">
+		insert into t_product_import
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="amazonOrderId != null">
+				amazon_order_id ,
+			</if>
+			<if test="merchantOrderId != null">	
+				merchant_order_id ,
+			</if>
+			<if test="purchaseDate != null">	
+				purchase_date	,
+			</if>
+			<if test="lastUpdatedDate != null">	
+				last_updated_date	,
+			</if>
+			<if test="orderStatus != null">	
+				order_status	,
+			</if>
+			<if test="fulfillmentChannel != null">	
+				fulfillment_channel	 ,
+			</if>
+			<if test="salesChannel != null">	
+				sales_channel	 ,
+			</if>
+			<if test="orderChannel != null">	
+				order_channel	,
+			</if>
+			<if test="url != null">	
+				url	,
+			</if>
+			<if test="shipServiceLevel != null">	
+				ship_service_level	,
+			</if>
+			<if test="productName != null">	
+				product_name	,
+			</if>
+			<if test="sku != null">	
+				sku	,
+			</if>
+			<if test="asin != null">	
+				asin	,
+			</if>
+			<if test="itemStatus != null">	
+				item_status	,
+			</if>
+			<if test="quantity != null">	
+				quantity	,
+			</if>
+			<if test="currency != null">	
+				currency	,
+			</if>
+			<if test="itemPrice != null">	
+				item_price	,
+			</if>
+			<if test="itemTax != null">	
+				item_tax	,
+			</if>
+			<if test="shippingPrice != null">	
+				shipping_price	,
+			</if>
+			<if test="shippingTax != null">	
+				shipping_tax	,
+			</if>
+			<if test="giftWrapPrice != null">	
+				gift_wrap_price	,
+			</if>
+			<if test="giftWrapTax != null">	
+				gift_wrap_tax	,
+			</if>
+			<if test="itemPromotionDiscount != null">	
+				item_promotion_discount	,
+			</if>
+			<if test="shipPromotionDiscount != null">	
+				ship_promotion_discount	,
+			</if>
+			<if test="shipCity != null">	
+				ship_city	,
+			</if>
+			<if test="shipState != null">	
+				ship_state	,
+			</if>
+			<if test="shipPostalCode != null">	
+				ship_postal_code	,
+			</if>
+			<if test="shipCountry != null">	
+				ship_country	,
+			</if>
+			<if test="promotionIds != null">	
+				promotion_ids ,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="amazonOrderId != null">
+				#{amazonOrderId} ,
+			</if>
+			<if test="merchantOrderId != null">	
+				#{merchantOrderId} ,
+			</if>
+			<if test="purchaseDate != null">	
+				#{purchaseDate}	,
+			</if>
+			<if test="lastUpdatedDate != null">	
+				#{lastUpdatedDate}	,
+			</if>
+			<if test="orderStatus != null">	
+				#{orderStatus}	,
+			</if>
+			<if test="fulfillmentChannel != null">	
+				#{fulfillmentChannel}	 ,
+			</if>
+			<if test="salesChannel != null">	
+				#{salesChannel}	 ,
+			</if>
+			<if test="orderChannel != null">	
+				#{orderChannel}	,
+			</if>
+			<if test="url != null">	
+				#{url}	,
+			</if>
+			<if test="shipServiceLevel != null">	
+				#{shipServiceLevel}	,
+			</if>
+			<if test="productName != null">	
+				#{productName}	,
+			</if>
+			<if test="sku != null">	
+				#{sku}	,
+			</if>
+			<if test="asin != null">	
+				#{asin}	,
+			</if>
+			<if test="itemStatus != null">	
+				#{itemStatus}	,
+			</if>
+			<if test="quantity != null">	
+				#{quantity}	,
+			</if>
+			<if test="currency != null">	
+				#{currency}	,
+			</if>
+			<if test="itemPrice != null">	
+				#{itemPrice}	,
+			</if>
+			<if test="itemTax != null">	
+				#{itemTax}	,
+			</if>
+			<if test="shippingPrice != null">	
+				#{shippingPrice}	,
+			</if>
+			<if test="shippingTax != null">	
+				#{shippingTax}	,
+			</if>
+			<if test="giftWrapPrice != null">	
+				#{giftWrapPrice}	,
+			</if>
+			<if test="giftWrapTax != null">	
+				#{giftWrapTax}	,
+			</if>
+			<if test="itemPromotionDiscount != null">	
+				#{itemPromotionDiscount}	,
+			</if>
+			<if test="shipPromotionDiscount != null">	
+				#{shipPromotionDiscount}	,
+			</if>
+			<if test="shipCity != null">	
+				#{shipCity}	,
+			</if>
+			<if test="shipState != null">	
+				#{shipState}	,
+			</if>
+			<if test="shipPostalCode != null">	
+				#{shipPostalCode}	,
+			</if>
+			<if test="shipCountry != null">	
+				#{shipCountry}	,
+			</if>
+			<if test="promotionIds != null">	
+				#{promotionIds} ,
+			</if>
+		</trim>
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			select a.id , a.product_no,a.user_no,a.sale_qty ,a.create_time ,a.creater ,a.remark,a.cell_qty 
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	from t_product_vindicate a 
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	where 1=1
+	    ]]>
+	</sql>
+
+	<select id="findById" parameterType="string" resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			where a.id=#{id}
+		]]>
+	</select>
+<select id="findProductListIn" parameterType="string" resultType="string">
+		select amazon_order_id from t_product_import where 
+		amazon_order_id in (${orderIds}) 
+</select>		
+	<select id="findProductByKeywords" parameterType="string"
+		resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="keywords != null and keywords != ''"> a.product_no like '%${keywords}%'</if>
+		</where>
+	</select>
+
+	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct" resultMap="newsMap">
+		<include refid="find_xxx" />,c.img_data ,b.product_name,b.product_price,b.predict_sales_qty,b.product_order_qty
+		<include refid="from_xxx" /> inner join t_product b on a.product_no = b.product_no
+		left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
+		<where> 1 = 1 
+	      <if test="null!=productNo and ''!= productNo">
+		       and a.product_no = #{productNo}
+		  </if>
+		  <if test="null!=userNo and ''!= userNo">
+		       and a.user_no = #{userNo}
+		  </if>		    
+		</where>
+		order by a.create_time desc
+	</select>
+
+	<update id="update" parameterType="cn.springboot.model.product.TProductImport">
+		update t_product_import
+		<set>
+			<if test="amazonOrderId != null">
+				 amazon_order_id = #{amazonOrderId} ,
+			</if>
+			<if test="merchantOrderId != null">	
+				merchant_order_id = #{merchantOrderId} ,
+			</if>
+			<if test="purchaseDate != null">	
+				 purchase_date= #{purchaseDate}	,
+			</if>
+			<if test="lastUpdatedDate != null">	
+				 last_updated_date= #{lastUpdatedDate}	,
+			</if>
+			<if test="orderStatus != null">	
+				order_status = #{orderStatus}	,
+			</if>
+			<if test="fulfillmentChannel != null">	
+				 fulfillment_channel= #{fulfillmentChannel}	 ,
+			</if>
+			<if test="salesChannel != null">	
+				 sales_channel= #{salesChannel}	 ,
+			</if>
+			<if test="orderChannel != null">	
+				 order_channel= #{orderChannel}	,
+			</if>
+			<if test="url != null">	
+				url = #{url}	,
+			</if>
+			<if test="shipServiceLevel != null">	
+				ship_service_level = #{shipServiceLevel}	,
+			</if>
+			<if test="productName != null">	
+				product_name = #{productName}	,
+			</if>
+			<if test="sku != null">	
+				sku = #{sku}	,
+			</if>
+			<if test="asin != null">	
+				asin = #{asin}	,
+			</if>
+			<if test="itemStatus != null">	
+				item_status = #{itemStatus}	,
+			</if>
+			<if test="quantity != null">	
+				quantity = #{quantity}	,
+			</if>
+			<if test="currency != null">	
+				currency = #{currency}	,
+			</if>
+			<if test="itemPrice != null">	
+				item_price = #{itemPrice}	,
+			</if>
+			<if test="itemTax != null">	
+				item_tax = #{itemTax}	,
+			</if>
+			<if test="shippingPrice != null">	
+				shipping_price = #{shippingPrice}	,
+			</if>
+			<if test="shippingTax != null">	
+				shipping_tax = #{shippingTax}	,
+			</if>
+			<if test="giftWrapPrice != null">	
+				gift_wrap_price = #{giftWrapPrice}	,
+			</if>
+			<if test="giftWrapTax != null">	
+				gift_wrap_tax = #{giftWrapTax}	,
+			</if>
+			<if test="itemPromotionDiscount != null">	
+				item_promotion_discount = #{itemPromotionDiscount}	,
+			</if>
+			<if test="shipPromotionDiscount != null">	
+				ship_promotion_discount = #{shipPromotionDiscount}	,
+			</if>
+			<if test="shipCity != null">	
+				ship_city = #{shipCity}	,
+			</if>
+			<if test="shipState != null">	
+				ship_state = #{shipState}	,
+			</if>
+			<if test="shipPostalCode != null">	
+				ship_postal_code = #{shipPostalCode}	,
+			</if>
+			<if test="shipCountry != null">	
+				ship_country = #{shipCountry}	,
+			</if>
+			<if test="promotionIds != null">	
+				promotion_ids = #{promotionIds} ,
+			</if>
+		</set>
+		where amazon_order_id = #{amazonOrderId}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from t_product_import where
+		amazon_order_id=#{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.springboot.mapper.product.ProductStkMapper">
+
+	<resultMap id="newsMap" type="cn.springboot.model.product.TProductStk">
+		<result column="seller_sku" property="id" />
+		<result column="fulfillment_channel_sku" property="productNo" />
+		<result column="asin" property="productName" />
+		<result column="condition_type" property="userNo" />
+		<result column="warehouse_condition_code" property="uploadAccount" />
+		<result column="quantity_available" property="productImgNo" />
+		
+	</resultMap>
+
+	<insert id="insert" parameterType="cn.springboot.model.product.TProductStk">
+		insert into t_product_stk
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="sellerSku != null">
+				seller_sku ,
+			</if>
+			<if test="fulfillmentChannelSku != null">
+				fulfillment_channel_sku,
+			</if>
+			<if test="asin != null">
+				asin,
+			</if>
+			<if test="conditionType != null">
+				condition_type ,
+			</if>
+			<if test="warehouseConditionCode != null">
+				warehouse_condition_code ,
+			</if>
+			<if test="quantityAvailable != null">
+				quantity_available ,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sellerSku != null">
+				#{sellerSku} ,
+			</if>
+			<if test="fulfillmentChannelSku != null">
+				#{fulfillmentChannelSku},
+			</if>
+			<if test="asin != null">
+				#{asin},
+			</if>
+			<if test="conditionType != null">
+				#{conditionType} ,
+			</if>
+			<if test="warehouseConditionCode != null">
+				#{warehouseConditionCode} ,
+			</if>
+			<if test="quantityAvailable != null">
+				#{quantityAvailable} ,
+			</if>
+		</trim>
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			select a.id , a.product_no,a.user_no,a.sale_qty ,a.create_time ,a.creater ,a.remark,a.cell_qty 
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	from t_product_vindicate a 
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	where 1=1
+	    ]]>
+	</sql>
+
+	<select id="findById" parameterType="string" resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			where a.id=#{id}
+		]]>
+	</select>
+	<select id="findProductBySkuStatus" parameterType="string" resultType="string">
+		select seller_sku from t_product_stk where 
+		seller_sku in (${sku}) and warehouse_condition_code = #{status}
+	</select>
+	
+	<select id="findProductByKeywords" parameterType="string"
+		resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="keywords != null and keywords != ''"> a.product_no like '%${keywords}%'</if>
+		</where>
+	</select>
+
+	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct" resultMap="newsMap">
+		<include refid="find_xxx" />,c.img_data ,b.product_name,b.product_price,b.predict_sales_qty,b.product_order_qty
+		<include refid="from_xxx" /> inner join t_product b on a.product_no = b.product_no
+		left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
+		<where> 1 = 1 
+	      <if test="null!=productNo and ''!= productNo">
+		       and a.product_no = #{productNo}
+		  </if>
+		  <if test="null!=userNo and ''!= userNo">
+		       and a.user_no = #{userNo}
+		  </if>		    
+		</where>
+		order by a.create_time desc
+	</select>
+
+	<update id="update" parameterType="cn.springboot.model.product.TProductStk">
+		update t_product_stk
+		<set>
+			<if test="sellerSku != null">
+				seller_sku =  #{sellerSku} ,
+			</if>
+			<if test="fulfillmentChannelSku != null">
+				fulfillment_channel_sku =  #{fulfillmentChannelSku},
+			</if>
+			<if test="asin != null">
+				asin =  #{asin},
+			</if>
+			<if test="conditionType != null">
+				condition_type =  #{conditionType} ,
+			</if>
+			<if test="warehouseConditionCode != null">
+				warehouse_condition_code =  #{warehouseConditionCode} ,
+			</if>
+			<if test="quantityAvailable != null">
+				quantity_available =  #{quantityAvailable} ,
+			</if>
+		</set>
+		where seller_sku = #{sellerSku} and warehouse_condition_code = #{warehouseConditionCode}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from t_product_stk where
+		seller_sku=#{id}
+	</delete>
+
+</mapper>

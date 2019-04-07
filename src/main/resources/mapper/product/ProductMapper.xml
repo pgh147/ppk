@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.springboot.mapper.product.ProductMapper">
+
+	<resultMap id="newsMap" type="cn.springboot.model.product.TProduct">
+		<result column="id" property="id" />
+		<result column="product_no" property="productNo" />
+		<result column="product_name" property="productName" />
+		<result column="user_no" property="userNo" />
+		<result column="upload_account" property="uploadAccount" />
+		<result column="product_img_no" property="productImgNo" />
+		<result column="img_data" property="productImgData" />
+		<result column="rival_link" property="rivalLink" />
+		<result column="supplier_link" property="supplierLink" />
+		<result column="product_anys" property="productAnys" />
+		<result column="product_safe" property="productSafe" />
+		<result column="product_price" property="productPrice" />
+		<result column="product_size" property="productSize" />
+		<result column="product_vol" property="productVol" />
+		<result column="first_send_qty" property="firstSendQty" />
+		<result column="product_order_qty" property="productOrderQty" />
+		<result column="predict_sales_qty" property="predictSalesQty" />
+		<result column="status" property="status" />
+		<result column="product_status" property="productStatus" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="updater" property="updater" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="creater" property="creater" />
+		<result column="remark" property="remark" />
+		    <result column="product_selling1" jdbcType="VARCHAR" property="productSelling1" />
+    <result column="product_selling2" jdbcType="VARCHAR" property="productSelling2" />
+    <result column="product_selling3" jdbcType="VARCHAR" property="productSelling3" />
+    <result column="product_selling4" jdbcType="VARCHAR" property="productSelling4" />
+    <result column="product_selling5" jdbcType="VARCHAR" property="productSelling5" />
+    <result column="descript" jdbcType="VARCHAR" property="descript" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="search_term" jdbcType="VARCHAR" property="searchTerm" />
+    <result column="classify" jdbcType="VARCHAR" property="classify" />
+    
+    <result column="p_size" jdbcType="VARCHAR" property="pSize" />
+    <result column="p_vol" jdbcType="VARCHAR" property="pVol" />	
+    <result column="qc_notice" jdbcType="VARCHAR" property="qcNotice"/>
+    <result column="en_title" jdbcType="VARCHAR" property="enTitle"/>
+	</resultMap>
+
+	<insert id="insert" parameterType="cn.springboot.model.product.TProduct">
+		insert into t_product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id ,
+			</if>
+			<if test="productNo != null">
+				product_no,
+			</if>
+			<if test="productName != null">
+				product_name,
+			</if>
+			<if test="userNo != null">
+				user_no,
+			</if>
+			<if test="uploadAccount != null">
+				upload_account,
+			</if>
+			<if test="productImgNo != null">
+				product_img_no,
+			</if>
+			<if test="rivalLink != null">
+				rival_link,
+			</if>
+			<if test="supplierLink != null">
+				supplier_link,
+			</if>
+			<if test="productAnys != null">
+				product_anys,
+			</if>
+			<if test="productSafe != null">
+				product_safe,
+			</if>
+			<if test="productPrice != null">
+				product_price ,
+			</if>
+			<if test="productSize != null">
+				product_size ,
+			</if>
+			<if test="productVol != null">
+				product_vol ,
+			</if>
+			<if test="firstSendQty != null">
+				first_send_qty ,
+			</if>
+			<if test="productOrderQty != null">
+				product_order_qty ,
+			</if>
+			<if test="predictSalesQty != null">
+				predict_sales_qty ,
+			</if>
+			<if test="createTime != null">
+				create_time ,
+			</if>
+			<if test="creater != null">
+				creater ,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+	 <if test="productSelling1 != null and '' != productSelling1 ">
+        product_selling1,
+      </if>
+      <if test="productSelling2 != null and '' != productSelling2 ">
+        product_selling2,
+      </if>
+      <if test="productSelling3 != null and '' != productSelling3 ">
+        product_selling3,
+      </if>
+      <if test="productSelling4 != null and '' != productSelling4 ">
+        product_selling4,
+      </if>
+      <if test="productSelling5 != null and '' != productSelling5 ">
+        product_selling5,
+      </if>
+      <if test="descript != null and '' != descript ">
+        descript,
+      </if>
+      <if test="message != null and '' != message ">
+        message,
+      </if>
+      <if test="enTitle != null and '' != enTitle ">
+      	en_title,
+      </if>
+      <if test="qcNotice != null and '' != qcNotice ">
+      	qc_notice,
+      </if>      
+      <if test="searchTerm != null and '' != searchTerm ">
+        search_term,
+      </if>
+      <if test="classify != null and '' != classify ">
+        classify,
+      </if>		
+            <if test="pSize != null and '' != pSize ">
+        p_size,
+      </if>
+      <if test="pVol != null and '' != pVol ">
+        p_vol,
+      </if>		
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id} ,
+			</if>
+			<if test="productNo != null">
+				#{productNo},
+			</if>
+			<if test="productName != null">
+				#{productName},
+			</if>
+			<if test="userNo != null">
+				#{userNo},
+			</if>
+			<if test="uploadAccount != null">
+				#{uploadAccount},
+			</if>
+			<if test="productImgNo != null">
+				#{productImgNo},
+			</if>
+			<if test="rivalLink != null">
+				#{rivalLink},
+			</if>
+			<if test="supplierLink != null">
+				#{supplierLink},
+			</if>
+			<if test="productAnys != null">
+				#{productAnys},
+			</if>
+			<if test="productSafe != null">
+				#{productSafe},
+			</if>
+			<if test="productPrice != null">
+				#{productPrice} ,
+			</if>
+			<if test="productSize != null">
+				#{productSize} ,
+			</if>
+			<if test="productVol != null">
+				#{productVol} ,
+			</if>
+			<if test="firstSendQty != null">
+				#{firstSendQty} ,
+			</if>
+			<if test="productOrderQty != null">
+				#{productOrderQty} ,
+			</if>
+			<if test="predictSalesQty != null">
+				#{predictSalesQty} ,
+			</if>
+			<if test="createTime != null">
+				#{createTime} ,
+			</if>
+			<if test="creater != null">
+				#{creater} ,
+			</if>
+			<if test="remark != null">
+				#{remark},
+			</if>
+			<if test="productSelling1 != null and '' != productSelling1 ">
+        #{productSelling1,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling2 != null and '' != productSelling2 ">
+        #{productSelling2,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling3 != null and '' != productSelling3 ">
+        #{productSelling3,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling4 != null and '' != productSelling4 ">
+        #{productSelling4,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling5 != null and '' != productSelling5 ">
+        #{productSelling5,jdbcType=VARCHAR},
+      </if>
+      <if test="descript != null and '' != descript ">
+        #{descript,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null and '' != message ">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="enTitle != null and '' != enTitle ">
+      	 #{enTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="qcNotice != null and '' != qcNotice ">
+      	#{qcNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="searchTerm != null and '' != searchTerm ">
+        #{searchTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null and '' != classify ">
+        #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="pSize != null and '' != pSize ">
+        #{pSize,jdbcType=VARCHAR},
+      </if>
+      <if test="pVol != null and '' != pVol ">
+        #{pVol,jdbcType=VARCHAR},
+      </if>	
+		</trim>
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			select a.id , a.product_no,a.product_name,a.user_no,a.upload_account,a.product_img_no,a.rival_link,a.supplier_link
+			,a.product_anys,a.product_safe,a.product_price ,a.product_size ,a.product_vol ,a.first_send_qty ,a.product_order_qty 
+			,a.predict_sales_qty ,a.create_time ,a.creater ,a.remark ,a.product_status,
+			a.product_selling1,a. product_selling2, a.product_selling3, a.product_selling4, 
+    a.product_selling5, a.descript, a.message, a.search_term, a.classify,a.p_size,a.p_vol,a.qc_notice,a.en_title
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	from t_product a 
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	where 1=1
+	    ]]>
+	</sql>
+
+	<select id="findById" parameterType="string" resultMap="newsMap">
+		<include refid="find_xxx" />,b.img_data
+		<include refid="from_xxx" /> left join t_product_img b on a.product_img_no = b.img_no and b.type = 1
+		<![CDATA[
+			where a.id=#{id}
+		]]>
+	</select>
+
+	<select id="findProductByKeywords" parameterType="string"
+		resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="keywords != null and keywords != ''"> a.product_no like '%${keywords}%'</if>
+		</where>
+	</select>
+
+	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct" resultMap="newsMap">
+		<include refid="find_xxx" />,b.img_data 
+		<include refid="from_xxx" /> left join t_product_img b on a.product_img_no = b.img_no and b.type = 1
+		<where> 1 = 1 
+	      <if test="null!=productNo and ''!= productNo">
+		       and a.product_no like '%${productNo}%'
+		  </if>
+		  <if test="null!=productName and '' != productName">
+		       and a.product_name like '%${productName}%'
+		  </if>
+		  <if test="null!=userNo and ''!= userNo">
+		       and a.user_no = #{userNo}
+		  </if>
+		  <if test="null!=uploadAccount and '' != uploadAccount">
+		       and a.upload_account = #{uploadAccount}
+		  </if>
+	      <if test="null!=productAnys and ''!= productAnys">
+		       and a.product_anys like '%${productAnys}%'
+		  </if>
+		  <if test="null!=productSafe and '' != productSafe">
+		       and a.product_safe like '%${productSafe}%'
+		  </if>		
+		  <if test="null!=productPrice and '' != productPrice">
+		       and a.product_price = #{productPrice}
+		  </if>	
+		  <if test="null!=productStatus and '' != productStatus">
+		       and a.product_status = #{productStatus}
+		  </if>		    
+		</where>
+		order by create_time desc
+	</select>
+
+	<update id="update" parameterType="cn.springboot.model.product.TProduct">
+		update t_product
+		<set>
+			<if test="productName != null and '' != productName ">
+				product_name =  #{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="uploadAccount != null and '' != uploadAccount ">
+				upload_account =  #{uploadAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="productImgNo != null and '' != productImgNo ">
+				product_img_no =  #{productImgNo,jdbcType=VARCHAR},
+			</if>
+			<if test="rivalLink != null and '' != rivalLink ">
+				rival_link =  #{rivalLink,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierLink != null and '' != supplierLink ">
+				supplier_link =  #{supplierLink,jdbcType=VARCHAR},
+			</if>
+			<if test="productAnys != null and '' != productAnys ">
+				product_anys =  #{productAnys,jdbcType=VARCHAR},
+			</if>
+			<if test="productSafe != null and '' != productSafe ">
+				product_safe =  #{productSafe,jdbcType=VARCHAR},
+			</if>
+			<if test="productPrice != null and '' != productPrice ">
+				product_price  =  #{productPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="productSize != null and '' != productSize ">
+				product_size =  #{productSize,jdbcType=VARCHAR} ,
+			</if>
+			<if test="productVol != null and '' != productVol ">
+				product_vol  =  #{productVol,jdbcType=DECIMAL},
+			</if>
+			<if test="firstSendQty != null and '' != firstSendQty ">
+				first_send_qty  =  #{firstSendQty,jdbcType=DECIMAL},
+			</if>
+			<if test="productOrderQty != null and '' != productOrderQty ">
+				product_order_qty  =  #{productOrderQty,jdbcType=DECIMAL},
+			</if>
+			<if test="predictSalesQty != null and '' != predictSalesQty ">
+				predict_sales_qty  =  #{predictSalesQty,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null and '' != status ">
+				status  =  #{status,jdbcType=INTEGER},
+			</if>
+			<if test="null != productStatus and '' != productStatus and 0 != productStatus">
+				product_status  =  #{productStatus,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null and '' != updateTime ">
+				update_time  =  #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null and '' != updater ">
+				updater  =  #{updater,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="remark != null and '' != remark ">
+				remark =  #{remark,jdbcType=VARCHAR},
+			</if>
+			
+			      <if test="productSelling1 != null and '' != productSelling1 ">
+        product_selling1 = #{productSelling1,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling2 != null and '' != productSelling2 ">
+        product_selling2 = #{productSelling2,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling3 != null and '' != productSelling3 ">
+        product_selling3 = #{productSelling3,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling4 != null and '' != productSelling4 ">
+        product_selling4 = #{productSelling4,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling5 != null and '' != productSelling5 ">
+        product_selling5 = #{productSelling5,jdbcType=VARCHAR},
+      </if>
+      <if test="descript != null and '' != descript ">
+        descript = #{descript,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null and '' != message ">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="searchTerm != null and '' != searchTerm ">
+        search_term = #{searchTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null and '' != classify ">
+        classify = #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="enTitle != null and '' != enTitle ">
+        en_title = #{enTitle,jdbcType=VARCHAR},
+      </if>
+            <if test="qcNotice != null and '' != qcNotice ">
+      	qc_notice = #{qcNotice,jdbcType=VARCHAR},
+      </if>
+            <if test="pSize != null and '' != pSize ">
+        p_size = #{pSize,jdbcType=VARCHAR},
+      </if>
+      <if test="pVol != null and '' != pVol ">
+        p_vol = #{pVol,jdbcType=VARCHAR},
+      </if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from t_product where
+		id=#{id}
+	</delete>
+
+</mapper>

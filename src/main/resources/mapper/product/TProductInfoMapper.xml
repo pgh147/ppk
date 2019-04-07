@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.springboot.mapper.product.TProductInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.springboot.model.product.TProductInfo">
+    <id column="product_no" jdbcType="VARCHAR" property="productNo" />
+    <result column="product_selling1" jdbcType="VARCHAR" property="productSelling1" />
+    <result column="product_selling2" jdbcType="VARCHAR" property="productSelling2" />
+    <result column="product_selling3" jdbcType="VARCHAR" property="productSelling3" />
+    <result column="product_selling4" jdbcType="VARCHAR" property="productSelling4" />
+    <result column="product_selling5" jdbcType="VARCHAR" property="productSelling5" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="search_term" jdbcType="VARCHAR" property="searchTerm" />
+    <result column="classify" jdbcType="VARCHAR" property="classify" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater" jdbcType="VARCHAR" property="updater" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    product_no, product_selling1, product_selling2, product_selling3, product_selling4, 
+    product_selling5, desc, message, search_term, classify, update_time, updater, create_time, 
+    creater, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_info
+    where product_no = #{productNo,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByProductInfo" parameterType="cn.springboot.model.product.TProductInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_info a
+    <where> 1 = 1 
+	      <if test="null!=productNo and ''!= productNo">
+		       and a.product_no = #{productNo}
+		  </if>
+		  <if test="null!=userNo and ''!= userNo">
+		       and a.user_no = #{userNo}
+		  </if>
+	</where>	  
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_product_info
+    where product_no = #{productNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.springboot.model.product.TProductInfo">
+    insert into t_product_info (product_no, product_selling1, product_selling2, 
+      product_selling3, product_selling4, product_selling5, 
+      desc, message, search_term, 
+      classify, update_time, updater, 
+      create_time, creater, remark
+      )
+    values (#{productNo,jdbcType=VARCHAR}, #{productSelling1,jdbcType=VARCHAR}, #{productSelling2,jdbcType=VARCHAR}, 
+      #{productSelling3,jdbcType=VARCHAR}, #{productSelling4,jdbcType=VARCHAR}, #{productSelling5,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{searchTerm,jdbcType=VARCHAR}, 
+      #{classify,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.springboot.model.product.TProductInfo">
+    insert into t_product_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productNo != null and '' != productNo ">
+        product_no,
+      </if>
+      <if test="productSelling1 != null and '' != productSelling1 ">
+        product_selling1,
+      </if>
+      <if test="productSelling2 != null and '' != productSelling2 ">
+        product_selling2,
+      </if>
+      <if test="productSelling3 != null and '' != productSelling3 ">
+        product_selling3,
+      </if>
+      <if test="productSelling4 != null and '' != productSelling4 ">
+        product_selling4,
+      </if>
+      <if test="productSelling5 != null and '' != productSelling5 ">
+        product_selling5,
+      </if>
+      <if test="desc != null and '' != desc ">
+        desc,
+      </if>
+      <if test="message != null and '' != message ">
+        message,
+      </if>
+      <if test="searchTerm != null and '' != searchTerm ">
+        search_term,
+      </if>
+      <if test="classify != null and '' != classify ">
+        classify,
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        update_time,
+      </if>
+      <if test="updater != null and '' != updater ">
+        updater,
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        create_time,
+      </if>
+      <if test="creater != null and '' != creater ">
+        creater,
+      </if>
+      <if test="remark != null and '' != remark ">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productNo != null and '' != productNo ">
+        #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling1 != null and '' != productSelling1 ">
+        #{productSelling1,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling2 != null and '' != productSelling2 ">
+        #{productSelling2,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling3 != null and '' != productSelling3 ">
+        #{productSelling3,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling4 != null and '' != productSelling4 ">
+        #{productSelling4,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling5 != null and '' != productSelling5 ">
+        #{productSelling5,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null and '' != desc ">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null and '' != message ">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="searchTerm != null and '' != searchTerm ">
+        #{searchTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null and '' != classify ">
+        #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null and '' != updater ">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null and '' != creater ">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and '' != remark ">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.springboot.model.product.TProductInfo">
+    update t_product_info
+    <set>
+      <if test="productSelling1 != null and '' != productSelling1 ">
+        product_selling1 = #{productSelling1,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling2 != null and '' != productSelling2 ">
+        product_selling2 = #{productSelling2,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling3 != null and '' != productSelling3 ">
+        product_selling3 = #{productSelling3,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling4 != null and '' != productSelling4 ">
+        product_selling4 = #{productSelling4,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling5 != null and '' != productSelling5 ">
+        product_selling5 = #{productSelling5,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null and '' != desc ">
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null and '' != message ">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="searchTerm != null and '' != searchTerm ">
+        search_term = #{searchTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null and '' != classify ">
+        classify = #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null and '' != updater ">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null and '' != creater ">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and '' != remark ">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where product_no = #{productNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.springboot.model.product.TProductInfo">
+    update t_product_info
+    set product_selling1 = #{productSelling1,jdbcType=VARCHAR},
+      product_selling2 = #{productSelling2,jdbcType=VARCHAR},
+      product_selling3 = #{productSelling3,jdbcType=VARCHAR},
+      product_selling4 = #{productSelling4,jdbcType=VARCHAR},
+      product_selling5 = #{productSelling5,jdbcType=VARCHAR},
+      desc = #{desc,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR},
+      search_term = #{searchTerm,jdbcType=VARCHAR},
+      classify = #{classify,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where product_no = #{productNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

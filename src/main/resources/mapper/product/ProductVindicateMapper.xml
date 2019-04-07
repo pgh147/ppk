@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.springboot.mapper.product.ProductVindicateMapper">
+
+	<resultMap id="newsMap" type="cn.springboot.model.product.TProduct">
+		<result column="id" property="id" />
+		<result column="product_no" property="productNo" />
+		<result column="product_name" property="productName" />
+		<result column="user_no" property="userNo" />
+		<result column="upload_account" property="uploadAccount" />
+		<result column="product_img_no" property="productImgNo" />
+		<result column="img_data" property="productImgData" />
+		<result column="rival_link" property="rivalLink" />
+		<result column="supplier_link" property="supplierLink" />
+		<result column="product_anys" property="productAnys" />
+		<result column="product_safe" property="productSafe" />
+		<result column="product_price" property="productPrice" />
+		<result column="product_size" property="productSize" />
+		<result column="product_vol" property="productVol" />
+		<result column="first_send_qty" property="firstSendQty" />
+		<result column="product_order_qty" property="productOrderQty" />
+		<result column="predict_sales_qty" property="predictSalesQty" />
+		<result column="sale_qty" property="SaleQty" />
+		<result column="cell_qty" property="cellQty" />
+		<result column="status" property="status" />
+		<result column="product_status" property="productStatus" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="updater" property="updater" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="creater" property="creater" />
+		<result column="remark" property="remark" />
+		<result column="monthQty" property="monthQty" />
+		<result column="weekQty" property="weekQty" />
+		<result column="threeQty" property="threeQty" />
+		<result column="stkQty" property="stkQty" />
+		<result column="in_qty" property="inQty" />
+		<result column="ing_qty" property="ingQty" />
+	</resultMap>
+
+	<insert id="insert" parameterType="cn.springboot.model.product.TProductVindicate">
+		insert into t_product_vindicate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id ,
+			</if>
+			<if test="productNo != null">
+				product_no,
+			</if>
+			<if test="userNo != null">
+				user_no,
+			</if>
+			<if test="saleQty != null">
+				sales_qty ,
+			</if>
+			<if test="cellQty != null">
+				cell_qty ,
+			</if>
+			<if test="createTime != null">
+				create_time ,
+			</if>
+			<if test="creater != null">
+				creater ,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id} ,
+			</if>
+			<if test="productNo != null">
+				#{productNo},
+			</if>
+			<if test="userNo != null">
+				#{userNo},
+			</if>
+			
+			<if test="saleQty != null">
+				#{saleQty} ,
+			</if>
+			<if test="cellQty != null">
+				#{cellQty} ,
+			</if>
+			<if test="createTime != null">
+				#{createTime} ,
+			</if>
+			<if test="creater != null">
+				#{creater} ,
+			</if>
+			<if test="remark != null">
+				#{remark},
+			</if>
+		</trim>
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[
+			select a.id , a.product_no,a.user_no,a.sale_qty ,a.create_time ,a.creater ,a.remark,a.cell_qty 
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	from t_product_vindicate a 
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	where 1=1
+	    ]]>
+	</sql>
+
+	<select id="findById" parameterType="string" resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			where a.id=#{id}
+		]]>
+	</select>
+
+	<select id="findProductByKeywords" parameterType="string"
+		resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="keywords != null and keywords != ''"> a.product_no like '%${keywords}%'</if>
+		</where>
+	</select>
+
+	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct" resultMap="newsMap">
+		SELECT a.product_name,a.user_no,a.upload_account,img.img_data,a.product_no,e.quantity_available stkQty,b.quantity monthQty,c.quantity weekQty,d.quantity threeQty
+		,dd.incell_qty - ee.out_qty inQty,ff.purchase_qty - dd.incell_qty - dd.return_qty ingQty 
+		from t_product a 
+		LEFT JOIN t_product_img img on a.product_img_no = img.img_no and  img.type = 1
+		LEFT JOIN t_product_stk e on a.product_no = e.seller_sku and e.warehouse_condition_code =  'SELLABLE'
+		
+		LEFT JOIN (SELECT	product_no,SUM(incell_qty) incell_qty,SUM(return_qty) return_qty FROM	t_qc_incell	GROUP BY	product_no) AS dd ON a.product_no = dd.product_no
+LEFT JOIN (SELECT	product_no,SUM(out_qty) out_qty FROM	t_outcell	GROUP BY	product_no) AS ee ON a.product_no = ee.product_no
+LEFT JOIN (SELECT	product_no,sum(purchase_qty) purchase_qty  FROM	t_purchase	GROUP BY	product_no) AS ff ON a.product_no = ff.product_no
+		
+		
+		LEFT JOIN (SELECT sku,sum(quantity) quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= purchase_date GROUP BY sku) as b on a.product_no = b.sku
+		LEFT JOIN (SELECT sku,sum(quantity)quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= purchase_date GROUP BY sku) as c on a.product_no = c.sku
+		left JOIN(SELECT sku,sum(quantity)quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;= purchase_date GROUP BY sku)as d on a.product_no = d.sku
+		<where> 1 = 1 
+	      <if test="null!=productNo and ''!= productNo">
+		       and a.product_no like '%${productNo}%'
+		  </if>
+		  <if test="null!=userNo and ''!= userNo">
+		       and a.user_no = #{userNo}
+		  </if>
+		  <if test="null!=uploadAccount and ''!= uploadAccount">
+		  and a.upload_account = #{uploadAccount}
+		  </if>
+		  <if test="null!=productName and ''!= productName">
+		  and a.product_name like '%${productName}%'
+		  </if>	    
+		</where> 
+		<if test="null!=orderBy and ''!= orderBy">
+		  order by ${orderBy}
+		  </if>	    
+		<if test="null == orderBy or '' == orderBy">
+		  order by monthQty desc
+		</if>	    
+	</select>
+
+	<update id="update" parameterType="cn.springboot.model.product.TProduct">
+		update t_product_vindicate
+		<set>
+			<if test="productNo != null">
+				product_no =  #{productNo,jdbcType=VARCHAR},
+			</if>
+			<if test="userNo != null">
+				user_no =  #{userNo,jdbcType=VARCHAR},
+			</if>
+			<if test="productPrice != null">
+				product_price  =  #{saleQty,jdbcType=DECIMAL},
+			</if>
+			<if test="cellQty != null">
+				cell_qty  =  #{cellQty,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				status  =  #{status,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time  =  #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				updater  =  #{updater,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="remark != null">
+				remark =  #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from t_product_vindicate where
+		id=#{id}
+	</delete>
+<select id="findTop10SKU" parameterType="map" resultMap="newsMap">
+	SELECT a.sku product_no,sum(a.quantity) sale_qty FROM t_product_import a  where order_status = 'Shipped' 
+	and purchase_date &lt;= #{param.endDate} and purchase_date &gt;= #{param.startDate} GROUP BY sku
+	ORDER BY sale_qty desc
+	LIMIT 10
+</select>
+
+<select id="findUserSaleQty" parameterType="map" resultMap="newsMap">
+SELECT b.user_no,sum(a.quantity) sale_qty FROM t_product_import a INNER JOIN t_product b on a.sku = b.product_no 
+where order_status = 'Shipped'  and purchase_date &lt;= #{param.endDate} and purchase_date &gt;= #{param.startDate} 
+GROUP BY b.user_no
+ORDER BY sale_qty desc
+</select>
+</mapper>
