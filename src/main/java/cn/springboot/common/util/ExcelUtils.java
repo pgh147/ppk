@@ -283,7 +283,7 @@ public class ExcelUtils {
 ////					String sDate=sdf.format(date);
 //					
 					
-					Date date2 = formatter.parse("2019-03-08T06:00:25+00:00");
+					Date date2 = formatter.parse(data);
 					SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //					String sDate=sdf.format(date);
 					date = sdf.parse(sdf.format(date2));

@@ -84,10 +84,14 @@ public class ProductVindicateServiceImpl implements ProductVindicateService {
       }
 	  List<String> ids = productImportMapper.findProductListIn(strbuff.substring(0,strbuff.length()-1));
 	  for(TProductImport tp:dataList){
-		  if(ids.contains(tp.getAmazonOrderId())){
-			  productImportMapper.update(tp);
-		  }else{
-			  productImportMapper.insert(tp);
+		  try{
+			  if(ids.contains(tp.getAmazonOrderId())){
+				  productImportMapper.update(tp);
+			  }else{
+				  productImportMapper.insert(tp);
+			  }
+		  }catch(Exception e){
+			  log.error("导入异常数据："+tp.getAmazonOrderId()+";"+e.getMessage());
 		  }
 	  }
 		
