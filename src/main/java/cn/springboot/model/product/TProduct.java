@@ -72,6 +72,7 @@ public class TProduct implements BaseEntity<String> {
 	private Integer inQty;//本地仓库存数量
 	private Integer ingQty;//在途库存数量
 	private String orderBy;
+	private BigDecimal salePrice;
 	public String getId() {
 		return id;
 	}
@@ -454,6 +455,14 @@ public class TProduct implements BaseEntity<String> {
 
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
+	}
+
+	public BigDecimal getSalePrice() {
+		return salePrice;
+	}
+
+	public void setSalePrice(BigDecimal salePrice) {
+		this.salePrice = salePrice;
 	}
 
 }

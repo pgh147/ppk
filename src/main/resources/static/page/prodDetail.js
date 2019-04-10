@@ -1,5 +1,9 @@
 
-
+window.onbeforeunload = function(e)
+{ 
+	e.returnValue="确定离开当前页面吗？";
+    return e;
+}
 
     var loadData;
         $(document).ready(function () {

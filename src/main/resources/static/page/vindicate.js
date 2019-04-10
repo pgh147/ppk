@@ -188,7 +188,7 @@
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
                 			 $tr += '<tr><td><img width="100" height="70" src="'+item.productImgData+'"></td><td>'+item.productNo+'</td> <td> <span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.uploadAccount+'</td> '+
-                            '<td>'+(item.threeQty?item.threeQty:'0')+'<br />'+(item.weekQty?item.weekQty:'0')+'<br />'+(item.monthQty?item.monthQty:'0')+' </td><td>'+(item.stkQty?item.stkQty:'0')+'</td><td>'+(item.ingQty?item.ingQty:'0')+'</td><td>'+(item.inQty?item.inQty:'0')+'</td><td>'+(item.monthQty?Math.round((item.stkQty/item.monthQty)*30):'无销量')+'</td><td>'+(item.monthQty?Math.round(((item.stkQty+item.ingQty+item.inQty)/item.monthQty)*30):'无销量')+'</td>'+//<td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty" class="canEdit"></td>'+
+                            '<td>'+(item.threeQty?item.threeQty:'0')+'<br />'+(item.weekQty?item.weekQty:'0')+'<br />'+(item.monthQty?item.monthQty:'0')+' </td><td>'+(item.stkQty?item.stkQty:'0')+'</td><td>'+(item.ingQty?item.ingQty:'0')+'</td><td>'+(item.inQty?item.inQty:'0')+'</td><td>'+(item.monthQty?Math.round((parseInt(item.stkQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td>'+(item.monthQty?Math.round(((parseInt(item.stkQty)+item.ingQty+item.inQty)/parseInt(item.monthQty))*30):'无销量')+'</td>'+//<td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty" class="canEdit"></td>'+
                          '</tr>';
                 			
                 		});

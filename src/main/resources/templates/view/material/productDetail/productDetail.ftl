@@ -167,6 +167,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="kuaiQianId"> 售价 </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text" id="salePrice" name="salePrice" value="" placeholder="售价" class="form-control" >
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="kuaiQianId"> 英文标题 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
 									<div style="color:red">不能超过200个字符,还可以输入<span id="enTitleSpan">200</span>字符</div>

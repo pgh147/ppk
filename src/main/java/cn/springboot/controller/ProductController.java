@@ -414,6 +414,7 @@ public class ProductController {
       Map<String,String> map9 = new HashMap<String,String>(); 
       Map<String,String> map10 = new HashMap<String,String>();
       Map<String,String> map11 = new HashMap<String,String>();
+      Map<String,String> map12 = new HashMap<String,String>();
       map1.put("title", "产品编号");
       map1.put("field", "productNo");
       map2.put("title", "英文标题");
@@ -435,11 +436,13 @@ public class ProductController {
       map10.put("title", "searchTerm");
       map10.put("field", "searchTerm");
       map11.put("title", "分类");
-      map11.put("field", "classify");      
+      map11.put("field", "classify");   
+      map12.put("title", "售价");
+      map12.put("field", "salePrice");  
       exportColumns.add(map1);exportColumns.add(map2);exportColumns.add(map3);
       exportColumns.add(map4);exportColumns.add(map5);exportColumns.add(map6);
       exportColumns.add(map7);exportColumns.add(map8);exportColumns.add(map9);
-      exportColumns.add(map10);exportColumns.add(map11);
+      exportColumns.add(map10);exportColumns.add(map11);exportColumns.add(map12);
       	SXSSFWorkbook wb = null;
     	//响应到客户端
 		try {

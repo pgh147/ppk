@@ -42,6 +42,7 @@
     <result column="p_vol" jdbcType="VARCHAR" property="pVol" />	
     <result column="qc_notice" jdbcType="VARCHAR" property="qcNotice"/>
     <result column="en_title" jdbcType="VARCHAR" property="enTitle"/>
+    <result column="sale_price"  property="salePrice"/>
 	</resultMap>
 
 	<insert id="insert" parameterType="cn.springboot.model.product.TProduct">
@@ -143,6 +144,9 @@
       <if test="pVol != null and '' != pVol ">
         p_vol,
       </if>		
+      <if test="salePrice != null">
+				remark,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -241,6 +245,9 @@
       <if test="pVol != null and '' != pVol ">
         #{pVol,jdbcType=VARCHAR},
       </if>	
+      <if test="salePrice != null and '' != salePrice ">
+				 #{salePrice},
+			</if>
 		</trim>
 	</insert>
 
@@ -249,7 +256,7 @@
 			select a.id , a.product_no,a.product_name,a.user_no,a.upload_account,a.product_img_no,a.rival_link,a.supplier_link
 			,a.product_anys,a.product_safe,a.product_price ,a.product_size ,a.product_vol ,a.first_send_qty ,a.product_order_qty 
 			,a.predict_sales_qty ,a.create_time ,a.creater ,a.remark ,a.product_status,
-			a.product_selling1,a. product_selling2, a.product_selling3, a.product_selling4, 
+			a.product_selling1,a. product_selling2, a.product_selling3, a.product_selling4, a.sale_price,
     a.product_selling5, a.descript, a.message, a.search_term, a.classify,a.p_size,a.p_vol,a.qc_notice,a.en_title
 	    ]]>
 	</sql>
@@ -412,6 +419,9 @@
       </if>
       <if test="pVol != null and '' != pVol ">
         p_vol = #{pVol,jdbcType=VARCHAR},
+      </if>
+      <if test="salePrice != null and '' != salePrice ">
+        sale_price = #{salePrice},
       </if>
 		</set>
 		where id = #{id}
