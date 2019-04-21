@@ -191,7 +191,9 @@ private ProductVindicateService productVindicateService;
     		}
     	}
     	if(!isAdmin){
-    		product.setUserNo(principal.getUser().getUsername());
+    		product.setUserNo("'"+principal.getUser().getUsername()+"','a13'");
+    	}else if(StringUtils.isNotBlank(product.getUserNo())){
+    		product.setUserNo("'"+product.getUserNo()+"'");
     	}
     	PageInfo<TProduct> page = productVindicateService.findProductByPage(pageNum, product);
         Map<String, Object> result = new HashMap<String, Object>();

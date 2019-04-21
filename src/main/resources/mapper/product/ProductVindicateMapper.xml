@@ -150,7 +150,7 @@ LEFT JOIN (SELECT	product_no,sum(purchase_qty) purchase_qty  FROM	t_purchase	GRO
 		       and a.product_no like '%${productNo}%'
 		  </if>
 		  <if test="null!=userNo and ''!= userNo">
-		       and a.user_no = #{userNo}
+		       and a.user_no in (${userNo})
 		  </if>
 		  <if test="null!=uploadAccount and ''!= uploadAccount">
 		  and a.upload_account = #{uploadAccount}

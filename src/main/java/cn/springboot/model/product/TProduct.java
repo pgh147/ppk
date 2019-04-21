@@ -73,6 +73,8 @@ public class TProduct implements BaseEntity<String> {
 	private Integer ingQty;//在途库存数量
 	private String orderBy;
 	private BigDecimal salePrice;
+	private String pUserNo;//权限
+	
 	public String getId() {
 		return id;
 	}
@@ -463,6 +465,14 @@ public class TProduct implements BaseEntity<String> {
 
 	public void setSalePrice(BigDecimal salePrice) {
 		this.salePrice = salePrice;
+	}
+
+	public String getpUserNo() {
+		return pUserNo;
+	}
+
+	public void setpUserNo(String pUserNo) {
+		this.pUserNo = pUserNo;
 	}
 
 }

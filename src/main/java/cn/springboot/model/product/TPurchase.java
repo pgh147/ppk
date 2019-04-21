@@ -39,7 +39,7 @@ public class TPurchase {
     private String imgData;
     private String orderSql;
     private String qcIncellNo;
-    
+    private String pUserNo;
     public String getId() {
         return id;
     }
@@ -192,5 +192,13 @@ public class TPurchase {
 
 	public void setQcIncellNo(String qcIncellNo) {
 		this.qcIncellNo = qcIncellNo;
+	}
+
+	public String getpUserNo() {
+		return pUserNo;
+	}
+
+	public void setpUserNo(String pUserNo) {
+		this.pUserNo = pUserNo;
 	}
 }

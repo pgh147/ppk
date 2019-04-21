@@ -45,7 +45,6 @@ public class TQcIncell {
     private String purchaserNo; //采购员
     private String purchaseQty; //采购数量
     private String purchaseNo;//采购单号
-    
     public String getId() {
         return id;
     }

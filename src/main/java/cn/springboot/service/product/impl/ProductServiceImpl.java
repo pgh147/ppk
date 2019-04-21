@@ -200,7 +200,7 @@ public class ProductServiceImpl implements ProductService {
 			return false;
 		}
 		productImgMapper.deleteByImgNo(pro.getProductImgNo());
-		return false;
+		return true;
 	}
 
 }

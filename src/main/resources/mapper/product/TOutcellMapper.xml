@@ -226,8 +226,11 @@
         and b.product_name  like '%${productName}%' 
       </if>
       <if test="userNo != null and '' != userNo ">
-        and a.user_no  like '%${userNo}%' 
+         and a.user_no  like '%${userNo}%'  
       </if>
+      <if test="pUserNo != null and '' != pUserNo ">
+        and ( a.user_no in (${pUserNo}) or b.user_no = 'a13')
+      </if> 
       <if test="outQty != null and '' != outQty ">
         and a.out_qty = #{outQty,jdbcType=INTEGER}
       </if>

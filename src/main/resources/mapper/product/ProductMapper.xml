@@ -300,9 +300,15 @@
 		  <if test="null!=productName and '' != productName">
 		       and a.product_name like '%${productName}%'
 		  </if>
-		  <if test="null!=userNo and ''!= userNo">
-		       and a.user_no = #{userNo}
-		  </if>
+<!-- 		  <if test="null!=userNo and ''!= userNo">
+		       and a.user_no in (${userNo})
+		  </if> -->
+	      <if test="userNo != null and '' != userNo ">
+	         and a.user_no  like '%${userNo}%'  
+	      </if>
+	      <if test="pUserNo != null and '' != pUserNo ">
+	        and a.user_no in (${pUserNo})
+	      </if> 		  
 		  <if test="null!=uploadAccount and '' != uploadAccount">
 		       and a.upload_account = #{uploadAccount}
 		  </if>

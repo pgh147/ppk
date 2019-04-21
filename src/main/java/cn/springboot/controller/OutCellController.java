@@ -29,6 +29,7 @@ import cn.springboot.model.ImportRequest;
 import cn.springboot.model.ImportResolve;
 import cn.springboot.model.auth.Role;
 import cn.springboot.model.product.TOutcell;
+import cn.springboot.model.product.TQcIncell;
 import cn.springboot.service.product.OutCellService;
 
 @Controller
@@ -69,11 +70,24 @@ private OutCellService outCellService;
     @RequestMapping(value = "/edit.json", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, String> edit(@RequestBody  TOutcell news) {
+    	Map<String, String> result = new HashMap<>();
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
 //    	news.setUpdateTime(new Date());
     	news.setUpdater(principal.getUser().getUsername());
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	if(!isAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+    		result.put("status", "0");
+            result.put("msg", "无权限");
+            return result;
+    	}
         boolean flag = outCellService.editProduct(news);
-        Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
             result.put("msg", "修改成功");
@@ -135,8 +149,11 @@ private OutCellService outCellService;
     		}
     	}
     	if(!isAdmin){
-    		product.setUserNo(principal.getUser().getUsername());
+    		product.setpUserNo("'"+principal.getUser().getUsername()+"','a13'");
     	}
+//    	else if(StringUtils.isNotBlank(product.getUserNo())){
+//    		product.setUserNo("'"+product.getUserNo()+"'");
+//    	}
     	PageInfo<TOutcell> page = outCellService.findProductByPage(pageNum, product);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("page", page);
@@ -166,8 +183,25 @@ private OutCellService outCellService;
     @RequestMapping(value = "/delete.json", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> deleteById(@RequestParam(value = "id") String id) {
-    	boolean flag = outCellService.deleteProduct(id);
     	Map<String, Object> result = new HashMap<>();
+    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	if(!isAdmin){
+    		TOutcell pro = outCellService.findProductById(id);
+    		if(null == pro || !pro.getUserNo().equals(principal.getUser().getUsername())){
+    			result.put("status", "0");
+                result.put("msg", "删除失败");
+    			return result;
+    		}
+    	}
+    	boolean flag = outCellService.deleteProduct(id);
         if (flag) {
             result.put("status", "1");
             result.put("msg", "修改成功");

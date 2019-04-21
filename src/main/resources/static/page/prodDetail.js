@@ -1,12 +1,43 @@
 
-window.onbeforeunload = function(e)
-{ 
-	e.returnValue="确定离开当前页面吗？";
-    return e;
-}
-
-    var loadData;
+//window.onbeforeunload = function(e)
+//{ 
+//	e.returnValue="确定离开当前页面吗？";
+//    return e;
+//}
+var detailData,detailId;
+	function bindAEvent(){
+		$("#side-menu a").bind('click',function(e){
+			isCanClick = true;
+			var t = $("#input_form").serializeArray();
+			if(detailData){
+				$.each(t, function() {
+					if(typeof detailData[this.name] == 'boolean'){
+						if(detailData[this.name]+'' != this.value){
+							isCanClick = false;
+							return true;      	    			
+						}
+					}else if(detailData[this.name]  != this.value){
+						isCanClick = false;
+						return true;  
+					}
+				});
+			}else{
+				$.each(t, function() {
+					if(this.value){
+						isCanClick = false;
+						return true;  
+					}
+				});
+			}
+      	    if(!isCanClick){
+      	    	alert("有修改，不能点击菜单链接到其他页面，如果需要链接过去，请刷新页面在尝试点击");
+      	    }
+			return  isCanClick	;
+    	});
+	}
+    var loadData,pageNum=1;
         $(document).ready(function () {
+        	
         	$('#descript').on('input', function (event) {
 			 	if ($(this).prop('comStart')) return;    // 中文输入过程中不截断
 			 	var val = $(this).val();
@@ -166,7 +197,9 @@ window.onbeforeunload = function(e)
             	var id ;
             	$.each(params,function(index,item){
             		if(item.indexOf("id=") == 0){
-            			id = item.split("=")[1];
+            			detailId = id = item.split("=")[1];
+            		}else if(item.indexOf("pageNum=") == 0 ){
+            			pageNum = item.split("=")[1];
             		}
             	});
             	if(id){
@@ -177,6 +210,7 @@ window.onbeforeunload = function(e)
           	          dataType: "json",
           	          data: null,
           	          success: function(data) {
+          	        	detailData = data.page;
           	        	  if(data.page){
           	        		  $("#show-img-data").append("<img src='"+data.page.productImgData+"' >");
           	        		  $.each($(':input','#input_form'),function(index,item){
@@ -196,42 +230,7 @@ window.onbeforeunload = function(e)
             		
             	}
             }
-//            $('#modal-form').on('show.bs.modal', function (e) {
-//            	$("#show-img-data").empty();
-////            	$(item).attr("disabled",true);
-//            	var button = $(event.target) // Button that triggered the modal
-//            	  var type = button.data('typemodel') // Extract info from data-* attributes
-//            	  if(type =='modlify'){
-//                	  $(this).find('.modal-title').text('修改产品')
-//            		  var id = button.data('idmodel');
-//            		  $.ajax({
-//            	          url: "/product/detail.json?id="+id,
-//            	          type: "get",
-//            	          dataType: "json",
-//            	          data: null,
-//            	          success: function(data) {
-//            	        	  if(data.page){
-//            	        		  $("#show-img-data").append("<img src='"+data.page.productImgData+"' >");
-//            	        		  $.each($(':input','#input_form'),function(index,item){
-//            	        			  $(item).val(data.page[item.name]);
-//            	        			  if(item.name == 'productNo' && data.page[item.name]){
-//            	        				  $(item).attr("readonly",true);
-//            	        			  }
-//            	        		  })
-//            	        	  }
-//            	          },
-//            	          error:function(e){
-//            	        	  toastr.error("获取明细错误");
-//            	          }
-//            	        });
-//            		  
-//            	  }else{
-//                	  $(this).find('.modal-title').text('添加产品')
-//            		  $.each($(':input','#input_form'),function(index,item){
-//            			  $(item).val('').attr("readonly",false);;
-//            		  })
-//            	  }
-//            	})
+
             	
             	//修改
       function editform(form) {
@@ -252,7 +251,7 @@ window.onbeforeunload = function(e)
             toastr.success('', '添加成功！');
             $('#modal-form').modal('hide');
 //            loadData();
-            window.location.href = '/product/upload/page';
+            window.location.href = '/product/upload/page?pageNum='+pageNum;
           },
           error:function(e){
         	  toastr.error("出现错误，请更改");

@@ -1,7 +1,7 @@
 //质检入库
 
 
-    var loadData;
+    var loadData,pageNum;
         $(document).ready(function () {
             //关闭模态框清空表单值
             $("#myModa-reset").on('hidden.bs.modal', function (event) {
@@ -151,9 +151,14 @@
 //          data: $(form).serialize(),
           data:JSON.stringify(data),
           success: function(data) {
-            toastr.success('', '添加成功！');
-            $('#modal-form').modal('hide');
-            loadData();
+            
+            if(data.status ==1){
+            	toastr.success('', '修改成功！');
+                $('#modal-form').modal('hide');
+                loadData(pageNum);               		
+        	}else{
+        		toastr.error("出现错误，请更改");
+        	}
           },
           error:function(e){
         	  toastr.error("出现错误，请更改");
@@ -186,6 +191,7 @@
       }
       //加载数据
       loadData = function loadData(num){
+    	  pageNum = num?num:1;
     	  var param ={
     			  productNo:$("#productNo").val(),
     			  billNo:$("#billNo").val(),
@@ -205,7 +211,8 @@
             	$("#table-body").empty();
             	if(data.page.total > 0){
             		$('#zxf_pagediv').jqPaginator('option', {
-            			totalCounts: data.page.total
+            			totalCounts: data.page.total,
+            			currentPage:num?parseInt(num):1
             		});
             		if(data.page.list.length > 0){
             			var $tr = "";
@@ -273,8 +280,9 @@
             last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
             page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
     	    onPageChange: function (num, type) {
-//    	        $('#text').html('当前第' + num + '页');
-    	        loadData(num);
+    	    	if(type != 'init'){
+    	    		loadData(num);	    		
+    	    	}
     	    }
     	});
       
@@ -310,6 +318,9 @@
       function  onchangeInput(id,self){
     	  	var param = {"id":id};
     	  	param[$(self).attr('name')]=$(self).val();
+    	  	if($(self).attr('name') != "userNo"){
+    	  		param['userNo']=$(self).parent().parent().find('input[name=userNo]').val();
+    	  	}
     	  	var me = self;
           	$.ajax({
 //                url: "/qcIncell/updateStatus.json",
@@ -326,7 +337,11 @@
 //                  toastr.success('', '修改成功！');
 //                  $('#modal-form').modal('hide');
 //                  loadData();
-                	$(me).parent().addClass("ok");
+                	if(data.status ==1){
+                		$(me).parent().removeClass("no-ok").addClass("ok");                		
+                	}else{
+                		 $(me).parent().removeClass("ok").addClass("no-ok");
+                	}
                 },
                 error:function(e){
 //              	  toastr.error("修改出现错误，请更改");

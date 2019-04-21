@@ -120,6 +120,21 @@ public class ProductController {
     	if(news.getProductStatus() == 20){
     		result.put("status", "0");
             result.put("msg", "修改失败");
+            return result;
+    	}
+    	
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	if(!isAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+    		result.put("status", "0");
+            result.put("msg", "无权限");
+            return result;
     	}
     	boolean flag = productService.editProduct(news);
         if (flag) {
@@ -183,8 +198,11 @@ public class ProductController {
     		}
     	}
     	if(!isAdmin){
-    		product.setUserNo(principal.getUser().getUsername());
+    		product.setpUserNo("'"+principal.getUser().getUsername()+"','a13'");
     	}
+//    	if(StringUtils.isNotBlank(product.getUserNo())){
+//    		product.setUserNo("'"+product.getUserNo()+"'");
+//    	}
     	PageInfo<TProduct> page = productService.findProductByPage(pageNum, product);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("page", page);
@@ -214,8 +232,26 @@ public class ProductController {
     @RequestMapping(value = "/delete.json", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> deleteById(@RequestParam(value = "id") String id) {
-    	boolean flag = productService.deleteProduct(id);
     	Map<String, Object> result = new HashMap<>();
+    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	if(!isAdmin){
+    		TProduct pro = productService.findProductById(id);
+    		if(null == pro || !pro.getUserNo().equals(principal.getUser().getUsername())){
+    			result.put("status", "0");
+                result.put("msg", "删除失败");
+    			return result;
+    		}
+    	}
+    	boolean flag = productService.deleteProduct(id);
+    	
         if (flag) {
             result.put("status", "1");
             result.put("msg", "删除成功");

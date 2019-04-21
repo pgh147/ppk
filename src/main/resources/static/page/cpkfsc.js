@@ -65,14 +65,15 @@
             	$("#table-body").empty();
             	if(data.page.total > 0){
             		$('#zxf_pagediv').jqPaginator('option', {
-            			totalCounts: data.page.total
+            			totalCounts: data.page.total,
+            			currentPage:num?parseInt(num):1
             		});
             		if(data.page.list.length > 0){
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
                 			 $tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
 //                			 if(item.productStatus <= 15){
-                				 $tr +='<td><img width="100" height="70" src="'+item.productImgData+'"></td><td> <a href="/product/detail/page?id='+item.id+'" >'+item.productNo+' </a></td>';
+                				 $tr +='<td><img width="100" height="70" src="'+item.productImgData+'"></td><td> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'" >'+item.productNo+' </a></td>';
 //                				 $tr +='<td><img width="100" height="70" src="'+item.productImgData+'"></td><td> <a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.productNo+' </a></td>';
 //                			 }else{
 //                				 $tr +='<td><img width="100" height="70" src="'+item.productImgData+'"></td><td>'+item.productNo+'</td>';
@@ -100,7 +101,7 @@
                                  '<div class="btn-group ">';
                                  if(item.productStatus <= 15){
 //                                	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form"><i class="fa fa-pencil"></i> <a href="/product/detail/page?id='+item.id+'"> 编辑</a></button>';
-                                	 $tr += '<button class="btn btn-white btn-sm edit"  ><i class="fa fa-pencil"></i> <a href="/product/detail/page?id='+item.id+'"> 编辑</a></button>';
+                                	 $tr += '<button class="btn btn-white btn-sm edit"  ><i class="fa fa-pencil"></i> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'"> 编辑</a></button>';
                                  }
                                      if(data.flag){
                                     	 if(item.productStatus == 15){
@@ -135,23 +136,32 @@
       	});
       };
       
-
       $("#zxf_pagediv").jqPaginator({
     	  totalCounts: 1,
     	  pageSize: 10,
-    	    currentPage: 1,
-            first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-            prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
-            next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
-            last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-            page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
-    	    onPageChange: function (num, type) {
-//    	        $('#text').html('当前第' + num + '页');
-    	        loadData(num);
-    	    }
-    	});
-      
-      loadData();
+	    currentPage: 1,
+        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
+        prev: '<li class="prev"><a href="javascript:void(0);">上一页<\/a><\/li>',
+        next: '<li class="next"><a href="javascript:void(0);">下一页<\/a><\/li>',
+        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
+        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+	    onPageChange: function (num, type) {
+	    	if(type != 'init'){
+	    		loadData(num);	    		
+	    	}
+	    }
+	});
+
+      var params = window.location.href.substring(window.location.href.indexOf("?")+1).split("&");
+  	var pageNum ;
+  	$.each(params,function(index,item){
+  		if(item.indexOf("pageNum=") == 0 ){
+  			pageNum = item.split("=")[1];
+  			return true;
+  		}
+  	});
+      loadData(pageNum);
+
       var $button = null;
       //查询
       $("#search-button,#button-simple").click(function(e){

@@ -1,7 +1,7 @@
 //采购
 
 
-    var loadData;
+    var loadData,pageNum;
         $(document).ready(function () {
         	$("#excelImportCls").val("productNo,userNo,qcIncellNo,purchaseQty,productPrice,supplier,discount,remark");
         	//导入
@@ -192,9 +192,13 @@
 //          data: $(form).serialize(),
           data:JSON.stringify(data),
           success: function(data) {
-            toastr.success('', '修改成功！');
-            $('#modal-form').modal('hide');
-            loadData();
+        	  if(data.status ==1){
+              	toastr.success('', '修改成功！');
+                  $('#modal-form').modal('hide');
+                  loadData(pageNum);               		
+          	}else{
+          		toastr.error("出现错误，请更改");
+          	}
           },
           error:function(e){
         	  toastr.error("出现错误，请更改");
@@ -228,6 +232,7 @@
       }
       //加载数据
       loadData = function loadData(num){
+    	  pageNum = num?num:1;
     	  var param ={
     			  productNo:$("#productNo").val(),
     			  userNo:$("#userNo").val(),
@@ -247,7 +252,8 @@
             	$("#table-body").empty();
             	if(data.page.total > 0){
             		$('#zxf_pagediv').jqPaginator('option', {
-            			totalCounts: data.page.total
+            			totalCounts: data.page.total,
+            			currentPage:num?parseInt(num):1
             		});
             		if(data.page.list.length > 0){
             			var $tr = "";
@@ -311,7 +317,9 @@
             page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
     	    onPageChange: function (num, type) {
 //    	        $('#text').html('当前第' + num + '页');
-    	        loadData(num);
+    	    	if(type != 'init'){
+    	    		loadData(num);	    		
+    	    	}
     	    }
     	});
       

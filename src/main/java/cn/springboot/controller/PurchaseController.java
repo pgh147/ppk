@@ -28,6 +28,7 @@ import cn.springboot.config.shiro.vo.Principal;
 import cn.springboot.model.ImportRequest;
 import cn.springboot.model.ImportResolve;
 import cn.springboot.model.auth.Role;
+import cn.springboot.model.product.TProduct;
 import cn.springboot.model.product.TPurchase;
 import cn.springboot.service.product.PurchaseService;
 
@@ -69,11 +70,24 @@ private PurchaseService purchaseService;
     @RequestMapping(value = "/edit.json", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, String> edit(@RequestBody  TPurchase news) {
+    	Map<String, String> result = new HashMap<>();
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
 //    	news.setUpdateTime(new Date());
     	news.setUpdater(principal.getUser().getUsername());
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	if(!isAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+    		result.put("status", "0");
+            result.put("msg", "无权限");
+            return result;
+    	}
         boolean flag = purchaseService.editProduct(news);
-        Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
             result.put("msg", "修改成功");
@@ -135,8 +149,11 @@ private PurchaseService purchaseService;
     		}
     	}
     	if(!isAdmin){
-    		product.setUserNo(principal.getUser().getUsername());
+    		product.setpUserNo("'"+principal.getUser().getUsername()+"','a13'");
     	}
+//    	else if(StringUtils.isNotBlank(product.getUserNo())){
+//    		product.setUserNo("'"+product.getUserNo()+"'");
+//    	}
     	PageInfo<TPurchase> page = purchaseService.findProductByPage(pageNum, product);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("page", page);
@@ -166,8 +183,25 @@ private PurchaseService purchaseService;
     @RequestMapping(value = "/delete.json", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> deleteById(@RequestParam(value = "id") String id) {
-    	boolean flag = purchaseService.deleteProduct(id);
     	Map<String, Object> result = new HashMap<>();
+    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	if(!isAdmin){
+    		TPurchase pro = purchaseService.findProductById(id);
+    		if(null == pro || !pro.getUserNo().equals(principal.getUser().getUsername())){
+    			result.put("status", "0");
+                result.put("msg", "删除失败");
+    			return result;
+    		}
+    	}
+    	boolean flag = purchaseService.deleteProduct(id);
         if (flag) {
             result.put("status", "1");
             result.put("msg", "修改成功");

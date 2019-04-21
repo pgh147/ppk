@@ -1,5 +1,7 @@
 package cn.springboot;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
@@ -36,7 +38,7 @@ public class Application extends SpringBootServletInitializer {
         return new EmbeddedServletContainerCustomizer() {
             @Override
             public void customize(ConfigurableEmbeddedServletContainer container) {
-                
+            	container.setSessionTimeout(3600);//单位为S
                 // ERROR PAGE
                 ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/error/401.html");
                 ErrorPage error403Page = new ErrorPage(HttpStatus.FORBIDDEN, "/error/403.html");

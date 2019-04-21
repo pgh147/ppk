@@ -14,6 +14,9 @@ $(document).ready(function () {
 	$("#leftnav").load('/leftnav',function(response,status,xhr){
 	    if(status=='success'){
 	        //加载完成执行导航组件
+	    	if(typeof bindAEvent == "function"){
+	    		bindAEvent();
+	    	}
 	        $('#side-menu').metisMenu();
 	    }
 	});
