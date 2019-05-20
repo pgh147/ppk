@@ -126,6 +126,9 @@
                                                 <th>出库数量 </th>
                                                 <th>仓库剩余数量（手动）</th>
                                                 <th>仓库剩余数量（计算）</th>
+                                                <th>us数量</th>
+                                                <th>uk数量</th>
+                                                <th>ca数量</th>
                                                 <!--<th>创建时间</th>-->
                                                 <th>备注</th>
                                                 <th class="text-right">操作</th>

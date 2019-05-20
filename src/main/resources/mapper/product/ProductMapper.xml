@@ -334,6 +334,9 @@
 			<if test="productName != null and '' != productName ">
 				product_name =  #{productName,jdbcType=VARCHAR},
 			</if>
+			<if test="userNo != null and '' != userNo ">
+				user_no =  #{userNo,jdbcType=VARCHAR},
+			</if>
 			<if test="uploadAccount != null and '' != uploadAccount ">
 				upload_account =  #{uploadAccount,jdbcType=VARCHAR},
 			</if>

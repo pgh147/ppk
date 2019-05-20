@@ -19,6 +19,9 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
         <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="img_data" jdbcType="VARCHAR" property="imgData" />
+    <result column="us_qty" jdbcType="INTEGER" property="usQty" />
+    <result column="uk_qty" jdbcType="INTEGER" property="ukQty" />
+    <result column="ca_qty" jdbcType="INTEGER" property="caQty" />    
   </resultMap>
   <sql id="Base_Column_List">
     id, bill_no, product_no, user_no, out_qty, out_reason, status, product_status, update_time, 
@@ -206,11 +209,11 @@
   </update>
   <select id="findProductByPage" parameterType="cn.springboot.model.product.TOutcell" resultMap="BaseResultMap">
   	select a.id, a.bill_no, a.product_no, a.user_no, a.surplus_qty,a.out_qty, a.out_reason, a.status, a.product_status, a.update_time, 
-    a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data,d.incell_qty - e.out_qty as cell_surplus_qty 
+    a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data,d.incell_qty - e.out_qty as cell_surplus_qty,d.us_qty,d.uk_qty,d.ca_qty 
     from t_outcell a inner join t_product b on a.product_no = b.product_no 
     left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
     left JOIN (
-		SELECT product_no,SUM(incell_qty) incell_qty from t_qc_incell GROUP BY product_no
+		SELECT product_no,SUM(incell_qty) incell_qty,SUM(us_qty) us_qty,SUM(uk_qty) uk_qty,SUM(ca_qty) ca_qty from t_qc_incell GROUP BY product_no
 	) as d on a.product_no = d.product_no
 	left JOIN (
 		SELECT product_no,SUM(out_qty) out_qty from t_outcell GROUP BY product_no

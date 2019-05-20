@@ -124,6 +124,10 @@
                                                 <th>不合格数量</th>
                                                 <th>入库数量</th>
                                                 <th>退货数量</th>
+                                                <th>usukca入库数备注</th>
+                                                <th>us数量</th>
+                                                <th>uk数量</th>
+                                                <th>ca数量</th>
                                                 <th>创建时间</th>
                                                 <th>备注</th>
                                                 <th class="text-right">操作</th>
@@ -219,6 +223,24 @@
 									<input type="text"  name="returnQty" placeholder="退货数量" class="form-control" >
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > us数量 </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text"  name="usQty" placeholder="us数量" class="form-control" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > uk数量 </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text"  name="ukQty" placeholder="uk数量" class="form-control" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > ca数量 </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text"  name="caQty" placeholder="ca数量" class="form-control" >
+								</div>
+							</div>																					
 							<div class="form-group">
 								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > 备注 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">

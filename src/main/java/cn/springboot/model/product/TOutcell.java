@@ -35,6 +35,9 @@ public class TOutcell {
     private String imgData;
     private String orderSql;
     private String pUserNo;
+    private Integer caQty;
+    private Integer usQty;
+    private Integer ukQty;
     public String getId() {
         return id;
     }
@@ -185,5 +188,29 @@ public class TOutcell {
 
 	public void setpUserNo(String pUserNo) {
 		this.pUserNo = pUserNo;
+	}
+
+	public Integer getCaQty() {
+		return caQty;
+	}
+
+	public void setCaQty(Integer caQty) {
+		this.caQty = caQty;
+	}
+
+	public Integer getUsQty() {
+		return usQty;
+	}
+
+	public void setUsQty(Integer usQty) {
+		this.usQty = usQty;
+	}
+
+	public Integer getUkQty() {
+		return ukQty;
+	}
+
+	public void setUkQty(Integer ukQty) {
+		this.ukQty = ukQty;
 	}
 }

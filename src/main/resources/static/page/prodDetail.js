@@ -163,7 +163,8 @@ var detailData,detailId;
 //                    supplierLink: "请输入合法链接"
                 },
             	debug: true,
-		        submitHandler: function(form) {
+            	onkeyup: false,
+		        submitHandler: function(form,e) {
 		        	if($("#produc_id_h").val()){
 		        		editform(form)
 		        	}else{

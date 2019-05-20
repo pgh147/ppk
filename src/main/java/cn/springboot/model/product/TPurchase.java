@@ -40,6 +40,7 @@ public class TPurchase {
     private String orderSql;
     private String qcIncellNo;
     private String pUserNo;
+    private String causRemark;
     public String getId() {
         return id;
     }
@@ -200,5 +201,13 @@ public class TPurchase {
 
 	public void setpUserNo(String pUserNo) {
 		this.pUserNo = pUserNo;
+	}
+
+	public String getCausRemark() {
+		return causRemark;
+	}
+
+	public void setCausRemark(String causRemark) {
+		this.causRemark = causRemark;
 	}
 }

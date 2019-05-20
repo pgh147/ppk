@@ -25,10 +25,14 @@
     <result column="purchaser_no" jdbcType="VARCHAR" property="purchaserNo" />
     <result column="purchase_qty" jdbcType="VARCHAR" property="purchaseQty" />
     <result column="purchase_no" jdbcType="VARCHAR" property="purchaseNo"/>
+    <result column="us_qty" jdbcType="INTEGER" property="usQty" />
+    <result column="uk_qty" jdbcType="INTEGER" property="ukQty" />
+    <result column="ca_qty" jdbcType="INTEGER" property="caQty" />
+    <result column="caus_remark" jdbcType="VARCHAR" property="causRemark" />
   </resultMap>
   <sql id="Base_Column_List">
     id, bill_no, product_no, user_no, ok_qty, no_ok_qty, qc_reason, incell_qty, return_qty, 
-    status, product_status, update_time, updater, create_time, creater, remark
+    status, product_status, update_time, updater, create_time, creater, remark,us_qty,uk_qty,ca_qty
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -46,13 +50,13 @@
       qc_reason, incell_qty, return_qty, 
       status, product_status, update_time, 
       updater, create_time, creater, 
-      remark)
+      remark,us_qty,uk_qty,ca_qty)
     values (#{id,jdbcType=VARCHAR}, #{billNo,jdbcType=VARCHAR}, #{productNo,jdbcType=VARCHAR}, 
       #{userNo,jdbcType=VARCHAR}, #{okQty,jdbcType=INTEGER}, #{noOkQty,jdbcType=INTEGER}, 
       #{qcReason,jdbcType=VARCHAR}, #{incellQty,jdbcType=INTEGER}, #{returnQty,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{productStatus,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{usQty,jdbcType=INTEGER}, #{ukQty,jdbcType=INTEGER}, #{caQty,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.springboot.model.product.TQcIncell">
     insert into t_qc_incell
@@ -108,6 +112,15 @@
       <if test="purchaseNo != null and '' != purchaseNo ">
         purchase_no,
       </if>
+      <if test="usQty != null">
+        us_qty,
+      </if>
+      <if test="ukQty != null">
+        uk_qty,
+      </if>
+      <if test="caQty != null">
+        ca_qty,
+      </if>                  
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -161,6 +174,15 @@
       <if test="purchaseNo != null and '' != purchaseNo ">
         #{purchaseNo,jdbcType=VARCHAR},
       </if>      
+      <if test="usQty != null">
+        #{usQty,jdbcType=INTEGER},
+      </if>
+      <if test="ukQty != null">
+        #{ukQty,jdbcType=INTEGER},
+      </if>
+      <if test="caQty != null">
+        #{caQty,jdbcType=INTEGER},
+      </if>                  
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.springboot.model.product.TQcIncell">
@@ -213,7 +235,16 @@
       </if>
       <if test="purchaseNo != null and '' != purchaseNo ">
        purchase_no =  #{purchaseNo,jdbcType=VARCHAR},
-      </if>        
+      </if>     
+      <if test="usQty != null and '' != usQty ">
+       us_qty =  #{usQty,jdbcType=INTEGER},
+      </if>
+      <if test="ukQty != null and '' != ukQty ">
+        uk_qty = #{ukQty,jdbcType=INTEGER},
+      </if>
+      <if test="caQty != null and '' != caQty ">
+        ca_qty = #{caQty,jdbcType=INTEGER},
+      </if>         
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -237,8 +268,8 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="findProductByPage" parameterType="cn.springboot.model.product.TQcIncell" resultMap="BaseResultMap">
-  	select a.id, a.bill_no, a.product_no, a.user_no, a.ok_qty, a.no_ok_qty, a.qc_reason, a.incell_qty, a.return_qty, b.qc_notice,a.purchase_no,p.purchase_qty,p.user_no as purchaser_no,
-    a.status, a.product_status, a.update_time, a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data,b.user_no p_user_no
+  	select a.id, a.bill_no,a.us_qty,a.uk_qty,a.ca_qty, a.product_no, a.user_no, a.ok_qty, a.no_ok_qty, a.qc_reason, a.incell_qty, a.return_qty, b.qc_notice,a.purchase_no,p.purchase_qty,p.user_no as purchaser_no,
+    a.status, a.product_status, a.update_time, a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data,b.user_no p_user_no,p.caus_remark
     from t_qc_incell a inner join t_product b on a.product_no = b.product_no left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
     left join t_purchase p on a.purchase_no = p.bill_no 
         <where>  1 = 1 

@@ -262,7 +262,7 @@
                			 }
                 			 $tr +=  ' <td><img width="100" height="70" src="'+item.imgData+'"></td><td>'+item.productNo+'</td> <td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td> <td>'+item.userNo+'</td><td>'+item.outQty+'</td><td>'+(null != item.surplusQty && "" != item.surplusQty?item.surplusQty:"暂无记录")+'</td><td>'+(item.cellSurplusQty?item.cellSurplusQty:'0')+'</td>'+
 //                            '<td>'+(item.createTime?item.createTime:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
-                            '<td>'+(item.remark?item.remark:' ')+'</td>'+
+                            '<td>'+(item.usQty?item.usQty:' ')+'</td><td>'+(item.ukQty?item.ukQty:' ')+'</td><td>'+(item.caQty?item.caQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
                              '<td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';
                                  if(item.productStatus <= 15){

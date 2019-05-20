@@ -265,7 +265,7 @@
                 				 $tr += '<td>'+(item.billNo?item.billNo:' ')+'</td>';
                 			 }
                 			 $tr += '<td><img width="100" height="70" src="'+item.imgData+'"></td><td>'+item.productNo+'</td> <td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td> <td>'+item.userNo+'</td><td>'+(item.qcIncellNo?item.qcIncellNo:' ')+'</td><td>'+item.purchaseQty+'</td><td>'+(item.productPrice?item.productPrice:' ')+'</td>'+
-                            '<td>'+(item.discount?item.discount:' ')+'</td><td>'+(item.supplier?item.supplier:' ')+'</td> <td>'+(item.createTime?item.createTime:' ')+'</td><td>'+(item.remark?item.remark:' ')+' </td>'+
+                            '<td>'+(item.discount?item.discount:' ')+'</td><td>'+(item.causRemark?item.causRemark:' ')+'</td><td>'+(item.supplier?item.supplier:' ')+'</td> <td>'+(item.createTime?item.createTime:' ')+'</td><td>'+(item.remark?item.remark:' ')+' </td>'+
                              '<td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';
 //                                 if(item.productStatus <= 15){

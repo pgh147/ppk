@@ -183,14 +183,17 @@ private ProductVindicateService productVindicateService;
     public Map<String, Object> list(@RequestBody TProduct product, @RequestParam(value = "pageNum", required = false) Integer pageNum) {
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
     	List<Role> roles = principal.getRoles();
-    	boolean isAdmin = false;
+    	boolean seeAll = false;
     	for(Role role:roles){
     		if(role.getName().equals("超级管理员")){
-    			isAdmin = true;
+    			seeAll = true;
+    			break;
+    		}else if(role.getName().equals("采购")){
+    			seeAll = true;
     			break;
     		}
     	}
-    	if(!isAdmin){
+    	if(!seeAll){
     		product.setUserNo("'"+principal.getUser().getUsername()+"','a13'");
     	}else if(StringUtils.isNotBlank(product.getUserNo())){
     		product.setUserNo("'"+product.getUserNo()+"'");

@@ -45,6 +45,10 @@ public class TQcIncell {
     private String purchaserNo; //采购员
     private String purchaseQty; //采购数量
     private String purchaseNo;//采购单号
+    private Integer caQty;
+    private Integer usQty;
+    private Integer ukQty;
+    private String causRemark;
     public String getId() {
         return id;
     }
@@ -235,5 +239,37 @@ public class TQcIncell {
 
 	public void setPurchaseNo(String purchaseNo) {
 		this.purchaseNo = purchaseNo;
+	}
+
+	public Integer getCaQty() {
+		return caQty;
+	}
+
+	public void setCaQty(Integer caQty) {
+		this.caQty = caQty;
+	}
+
+	public Integer getUsQty() {
+		return usQty;
+	}
+
+	public void setUsQty(Integer usQty) {
+		this.usQty = usQty;
+	}
+
+	public Integer getUkQty() {
+		return ukQty;
+	}
+
+	public void setUkQty(Integer ukQty) {
+		this.ukQty = ukQty;
+	}
+
+	public String getCausRemark() {
+		return causRemark;
+	}
+
+	public void setCausRemark(String causRemark) {
+		this.causRemark = causRemark;
 	}
 }

@@ -20,10 +20,11 @@
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="img_data" jdbcType="VARCHAR" property="imgData" />
     <result column="qc_incell_no" jdbcType="VARCHAR" property="qcIncellNo" />
+    <result column="caus_remark" jdbcType="VARCHAR" property="causRemark" />
   </resultMap>
   <sql id="Base_Column_List">
     a.id,  a.bill_no,  a.product_no,  a.user_no,  a.purchase_qty,  a.product_price,  a.supplier,  a.status,  a.product_status, 
-    a.update_time, a.updater, a.create_time, a.creater, a.remark,a.discount,a.qc_incell_no
+    a.update_time, a.updater, a.create_time, a.creater, a.remark,a.discount,a.qc_incell_no,a.caus_remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -97,7 +98,10 @@
       </if>
       <if test="qcIncellNo != null and '' != qcIncellNo ">
         qc_incell_no,
-      </if>      
+      </if>  
+      <if test="causRemark != null and '' != causRemark ">
+        caus_remark,
+      </if>     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -147,7 +151,10 @@
       </if>
       <if test="qcIncellNo != null and '' != qcIncellNo ">
         #{qcIncellNo,jdbcType=VARCHAR},
-      </if>       
+      </if>  
+      <if test="causRemark != null and '' != causRemark ">
+        #{causRemark,jdbcType=VARCHAR},
+      </if>             
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.springboot.model.product.TPurchase">
@@ -198,6 +205,9 @@
       <if test="qcIncellNo != null and '' != qcIncellNo ">
         qc_incell_no = #{qcIncellNo,jdbcType=VARCHAR},
       </if>
+      <if test="causRemark != null and '' != causRemark ">
+        caus_remark = #{causRemark,jdbcType=VARCHAR},
+      </if> 
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>

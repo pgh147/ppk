@@ -82,6 +82,11 @@ private QcIncellService qcIncellService;
             result.put("msg", "无权限");
             return result;
     	}
+    	if(!isAdmin){
+    		news.setUsQty(null);
+    		news.setUkQty(null);
+    		news.setCaQty(null);
+    	}
         boolean flag = qcIncellService.editProduct(news);
         if (flag) {
             result.put("status", "1");
@@ -165,8 +170,18 @@ private QcIncellService qcIncellService;
     @ResponseBody
     public Map<String, Object> findById(@RequestParam(value = "id") String id) {
     	TQcIncell page = qcIncellService.findProductById(id);
+    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("page", page);
+        result.put("flag", isAdmin);
         return result;
     }
     
