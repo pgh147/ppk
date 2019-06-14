@@ -9783,7 +9783,7 @@ height: 160px;
     color: #337ab7
 }
 
-.table td .smallimg {
+.table td .smallimg1 {
     width: 38px;
     height: 28px;
     padding: 1px;
@@ -10212,3 +10212,19 @@ p.canSort{
       border-width: 0 4px 4px;
       border-color: transparent transparent #5e5e5e;
 }
+.big-img{
+	max-width:400px;
+	max-height:300px;
+}
+
+
+
+	.bigimg{width:600px;position: fixed;left: 0;top: 0; right: 0;bottom: 0;margin:auto;display: none;z-index:9999;border: 10px solid #fff;}
+	.mask{position: fixed;left: 0;top: 0; right: 0;bottom: 0;background-color: #000;opacity:0.5;filter: Alpha(opacity=50);z-index: 98;transition:all 1s;display: none}
+	.bigbox{width:840px;background: #fff;border:1px solid #ededed;margin:0 auto;border-radius: 10px;overflow: hidden;padding:10px;}
+	.bigbox>.imgbox{width:400px;height:250px;float:left;border-radius:5px;overflow: hidden;margin: 0 10px 10px 10px;}
+	.bigbox>.imgbox>img{width:100%;}
+	.imgbox:hover{cursor:zoom-in}
+	.mask:hover{cursor:zoom-out}
+	.mask>img{position: fixed;right:10px;top: 10px;width: 60px;}
+	.mask>img:hover{cursor:pointer}

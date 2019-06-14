@@ -19,7 +19,7 @@
 </head>
 
 <body class="fixed-sidebar">
-    <div id="wrapper" > 
+    <div id="wrapper"   > 
         <!----左侧导航开始----->
         <nav class="navbar-default navbar-static-side" role="navigation" id="leftnav"></nav>
         <!----左侧导航结束----->
@@ -66,12 +66,17 @@
 							<div class="form-group">
 								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="logoFile"> 产品图片 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
-									<div id="show-img-data"></div>
+									<div id="show-img-data" class="imgbox">
+										<img  class='big-img smallimg' >
+									</div>
 									<!--<div class="container" id="crop-avatar">
 										<div class="avatar-view" >上传图片</div>
 									</div>-->
-									<input type="file" class="file-loading"  id="productImgData"  accept="image/*">
-									<input type="text" style="display:none"  id="productImgData_h" name="productImgData" >
+									<div style="display: flex;">
+									
+										<input type="file" class="file-loading"  id="productImgData" name="productImgData" accept="image/*">
+										<div style="width:60px;height:25px;cursor: pointer;" id="uploadImage">上传图片</div>
+									</div>
 								</div>
 							</div>
 							
@@ -299,6 +304,11 @@
       </div> 
     </div>
     
+    
+          <img src="" alt="" class="bigimg">
+      <div class="mask">
+      	<img src="/static/img/close.png" alt="">
+      </div>
     <!-- 全局 scripts -->
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
     <script src="${ctx}/static/js/bootstrap.js"></script>
@@ -321,6 +331,7 @@
       <script src="${ctx}/static/js/plugins/pictureCut/cropper.min.js"></script>
   <script src="${ctx}/static/js/plugins/pictureCut/main.js"></script>
   -->
-    <script src="${ctx}/static/page/prodDetail.js"> </script>
+    <script src="${ctx}/static/page/prodDetail.js?v=20190613"> </script>
+    <script src="${ctx}/static/js/zoom.js?v=20190614"> </script>
 </body>
 </html>

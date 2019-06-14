@@ -167,7 +167,10 @@
         <!---右侧内容区结束----->
 
     </div>
-
+          <img src="" alt="" class="bigimg">
+      <div class="mask">
+      	<img src="/static/img/close.png" alt="">
+      </div>
     <div class="modal fade" id="modal-import" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -278,6 +281,7 @@
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
     <script src="${ctx}/static/js/bootstrap.js"></script>
     <script src="${ctx}/static/js/wuling.js"></script>
+    <script src="${ctx}/static/js/zoom.js?v=20190613"> </script>
     
     <script src="${ctx}/static/js/plugins/page/jq-paginator.min.js"></script>
 

@@ -115,11 +115,10 @@
                                                 <th>产品图片</th>
                                             	<th>产品编号 </th>
                                             	<th>产品名称 </th>
-                                                <th>质检入库员编号</th>
-                                                <th>产品开发员编号</th>
+                                                <th>入库员编号</th>
+                                                <th>开发员编号</th>
                                                 <th>采购员</th>
                                                 <th>采购数量</th>
-                                                <th>质检注意事项</th>
                                                 <th>合格数量 </th>
                                                 <th>不合格数量</th>
                                                 <th>入库数量</th>
@@ -128,8 +127,7 @@
                                                 <th>us数量</th>
                                                 <th>uk数量</th>
                                                 <th>ca数量</th>
-                                                <th>创建时间</th>
-                                                <th>备注</th>
+                                                <th>质检注意事项</th>
                                                 <th class="text-right">操作</th>
                                             </tr>
                                         </thead>
@@ -261,12 +259,15 @@
             </div>
         </div>
     </div>
-
+          <img src="" alt="" class="bigimg">
+      <div class="mask">
+      	<img src="/static/img/close.png" alt="">
+      </div>
     <!-- 全局 scripts -->
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
     <script src="${ctx}/static/js/bootstrap.js"></script>
     <script src="${ctx}/static/js/wuling.js"></script>
-    
+        <script src="${ctx}/static/js/zoom.js?v=20190613"> </script>
     <script src="${ctx}/static/js/plugins/page/jq-paginator.min.js"></script>
 
 

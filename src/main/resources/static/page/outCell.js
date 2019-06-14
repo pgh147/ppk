@@ -260,7 +260,7 @@
                				$tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
 //               				 $tr += '<td>'+item.billNo+'</td>';
                			 }
-                			 $tr +=  ' <td><img width="100" height="70" src="'+item.imgData+'"></td><td>'+item.productNo+'</td> <td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td> <td>'+item.userNo+'</td><td>'+item.outQty+'</td><td>'+(null != item.surplusQty && "" != item.surplusQty?item.surplusQty:"暂无记录")+'</td><td>'+(item.cellSurplusQty?item.cellSurplusQty:'0')+'</td>'+
+                			 $tr +=  ' <td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td> <td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td> <td>'+item.userNo+'</td><td>'+item.outQty+'</td><td>'+(null != item.surplusQty && "" != item.surplusQty?item.surplusQty:"暂无记录")+'</td><td>'+(item.cellSurplusQty?item.cellSurplusQty:'0')+'</td>'+
 //                            '<td>'+(item.createTime?item.createTime:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
                             '<td>'+(item.usQty?item.usQty:' ')+'</td><td>'+(item.ukQty?item.ukQty:' ')+'</td><td>'+(item.caQty?item.caQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
                              '<td class="text-right text-nowrap">'+
@@ -289,6 +289,8 @@
                 		});
                 		
                 		$("#table-body").html($tr);
+                		 var obj = new zoom('mask', 'bigimg','smallimg');
+              			obj.init();
             		}
             		
             	}

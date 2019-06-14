@@ -69,24 +69,24 @@ private QcIncellService qcIncellService;
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
 //    	news.setUpdateTime(new Date());
     	news.setUpdater(principal.getUser().getUsername());
-    	List<Role> roles = principal.getRoles();
-    	boolean isAdmin = false;
-    	for(Role role:roles){
-    		if(role.getName().equals("超级管理员")){
-    			isAdmin = true;
-    			break;
-    		}
-    	}
-    	if(!isAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
-    		result.put("status", "0");
-            result.put("msg", "无权限");
-            return result;
-    	}
-    	if(!isAdmin){
-    		news.setUsQty(null);
-    		news.setUkQty(null);
-    		news.setCaQty(null);
-    	}
+//    	List<Role> roles = principal.getRoles();
+//    	boolean isAdmin = false;
+//    	for(Role role:roles){
+//    		if(role.getName().equals("超级管理员")){
+//    			isAdmin = true;
+//    			break;
+//    		}
+//    	}
+//    	if(!isAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+//    		result.put("status", "0");
+//            result.put("msg", "无权限");
+//            return result;
+//    	}
+//    	if(!isAdmin){
+//    		news.setUsQty(null);
+//    		news.setUkQty(null);
+//    		news.setCaQty(null);
+//    	}
         boolean flag = qcIncellService.editProduct(news);
         if (flag) {
             result.put("status", "1");

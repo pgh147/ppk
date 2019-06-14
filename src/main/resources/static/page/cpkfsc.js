@@ -73,7 +73,7 @@
                 		$.each(data.page.list,function(index,item){
                 			 $tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
 //                			 if(item.productStatus <= 15){
-                				 $tr +='<td><img width="100" height="70" src="'+item.productImgData+'"></td><td> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'" >'+item.productNo+' </a></td>';
+                				 $tr +='<td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'" >'+item.productNo+' </a></td>';
 //                				 $tr +='<td><img width="100" height="70" src="'+item.productImgData+'"></td><td> <a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.productNo+' </a></td>';
 //                			 }else{
 //                				 $tr +='<td><img width="100" height="70" src="'+item.productImgData+'"></td><td>'+item.productNo+'</td>';
@@ -123,6 +123,8 @@
                 		});
                 		
                 		$("#table-body").html($tr);
+                	      var obj = new zoom('mask', 'bigimg','smallimg');
+                			obj.init();
             		}
             		
             	}

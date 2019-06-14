@@ -20,7 +20,7 @@ public interface ProductService {
     public boolean updateProduct(TProduct news);
     public boolean deleteProduct(String id);
     public TProduct findProductById(String newsId);
-
+    public String findProductImgByNo(String newsId);
     public List<TProduct> findProductByKeywords(String keywords);
 
     public PageInfo<TProduct> findProductByPage(Integer pageNum, TProduct keywords);

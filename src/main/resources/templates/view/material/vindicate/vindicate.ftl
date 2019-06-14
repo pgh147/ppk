@@ -244,12 +244,15 @@
             </div>
         </div>
     </div>
-
+          <img src="" alt="" class="bigimg">
+      <div class="mask">
+      	<img src="/static/img/close.png" alt="">
+      </div>
     <!-- 全局 scripts -->
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
     <script src="${ctx}/static/js/bootstrap.js"></script>
     <script src="${ctx}/static/js/wuling.js"></script>
-    
+    <script src="${ctx}/static/js/zoom.js?v=20190613"> </script>
     <script src="${ctx}/static/js/plugins/page/jq-paginator.min.js"></script>
 
 

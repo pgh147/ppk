@@ -202,5 +202,16 @@ public class ProductServiceImpl implements ProductService {
 		productImgMapper.deleteByImgNo(pro.getProductImgNo());
 		return true;
 	}
+	
+	@Override
+	public String findProductImgByNo(String id) {
+		Map<String,Object> parm = new HashMap<String,Object>();
+		parm.put("imgNo", id);
+		List<TProductImg> pro = productImgMapper.findAllByFilter(parm);
+		if(null == pro || pro.size() == 0){
+			return "";
+		}
+		return pro.get(0).getImgData();
+	}
 
 }

@@ -172,9 +172,9 @@ var detailData,detailId;
 		        	}
 		        }
             });
-            $("#productImgData").change(function(){
-            	gen_base64();
-            });
+//            $("#productImgData").change(function(){
+//            	gen_base64();
+//            });
             function $_(id) {
                     return document.getElementById(id);
             }
@@ -213,11 +213,15 @@ var detailData,detailId;
           	          success: function(data) {
           	        	detailData = data.page;
           	        	  if(data.page){
-          	        		  $("#show-img-data").append("<img src='"+data.page.productImgData+"' >");
+//          	        		  $("#show-img-data").append("<img src='/product/getImg/"+data.page.productNo+".json' class='big-img smallimg' >");
+          	        		$("#show-img-data img").attr("src",'/product/getImg/'+data.page.productNo+'.json');
           	        		  $.each($(':input','#input_form'),function(index,item){
-          	        			  $(item).val(data.page[item.name]);
+          	        			  
           	        			  if(item.name == 'productNo' && data.page[item.name]){
           	        				  $(item).attr("readonly",true);
+          	        				$(item).val(data.page[item.name]);
+          	        			  }else if(item.name != 'productImgData'){
+          	        				$(item).val(data.page[item.name]);
           	        			  }
           	        		  })
           	        	  }
@@ -235,57 +239,140 @@ var detailData,detailId;
             	
             	//修改
       function editform(form) {
-          	  var data = {};
+  	      if($('#productImgData').val()){
+  	    	  var data = {};
+  	    	  var formData = new FormData();
+  	  	      var t = $(form).serializeArray();
+  	  	      $.each(t, function() {
+  	  	    	if(this.name != 'productImgData' && this.name != 'isUpdateImg'){
+  	  	    		formData.append(this.name,this.value) ;  	    		
+  	  	    	}
+  	  	      });
+  	    	formData.append('file',  $('#productImgData')[0].files[0]);
+            $.ajax({
+                url : "/product/editUp.json",
+                type : 'POST',
+                data : formData,
+                cache: false,
+                async: false,
+                processData : false,  //必须false才会避开jQuery对 formdata 的默认处理
+                contentType : false,  //必须false才会自动加上正确的Content-Type
+                success: function (data) {
+  	                toastr.success('', '修改成功！');
+  		            $('#modal-form').modal('hide');
+  		            window.location.href = '/product/upload/page?pageNum='+pageNum;
+                },
+                error: function (data) {
+              	  toastr.error("出现错误，请更改");
+                }
+            });
+  	      }else{
+          	var data = {};
       	    var t = $(form).serializeArray();
       	    $.each(t, function() {
       	      data[this.name] = this.value;
       	    });
-        $.ajax({
-          url: "/product/edit.json",
-          type: "post",
-//          contentType:"application/x-www-form-urlencoded; charset=UTF-8",
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-//          data: $(form).serialize(),
-          data:JSON.stringify(data),
-          success: function(data) {
-            toastr.success('', '添加成功！');
-            $('#modal-form').modal('hide');
-//            loadData();
-            window.location.href = '/product/upload/page?pageNum='+pageNum;
-          },
-          error:function(e){
-        	  toastr.error("出现错误，请更改");
-          }
-        });
+	        $.ajax({
+	          url: "/product/edit.json",
+	          type: "post",
+	          contentType: "application/json; charset=utf-8",
+	          dataType: "json",
+	          data:JSON.stringify(data),
+	          success: function(data) {
+	            toastr.success('', '添加成功！');
+	            $('#modal-form').modal('hide');
+	            window.location.href = '/product/upload/page?pageNum='+pageNum;
+	          },
+	          error:function(e){
+	        	  toastr.error("出现错误，请更改");
+	          }
+	        });
+  	      }
       }
+      $("#uploadImage").click(
+     function(){
+    	 if(!$('#productImgData').val()||!$('#produc_id_h').val()||!$('input[name=productNo]').val())return;
+    	  var formData = new FormData();
+    	  formData.append("id",$("#produc_id_h").val()) ; 
+    	  formData.append("productImgNo",$("input[name=productNo]").val()) ;
+	  	  formData.append("productNo",$("input[name=productNo]").val()) ;  	
+	  	formData.append("userNo",$("input[name=userNo]").val()) ; 
+	      formData.append('file',  $('#productImgData')[0].files[0]);
+        $.ajax({
+            url : "/product/editUp.json",
+            type : 'POST',
+            data : formData,
+            cache: false,
+            async: false,
+            processData : false,  //必须false才会避开jQuery对 formdata 的默认处理
+            contentType : false,  //必须false才会自动加上正确的Content-Type
+            success: function (data) {
+	                toastr.success('', '修改成功！');
+		            $('#modal-form').modal('hide');
+		            window.location.href = '/product/upload/page?pageNum='+pageNum;
+            },
+            error: function (data) {
+          	  toastr.error("出现错误，请更改");
+            }
+        });
+      });
             //t添加
       function addform(form) {
-    	  var data = {};
-    	    var t = $(form).serializeArray();
-    	    $.each(t, function() {
-    	      data[this.name] = this.value;
-    	    });
-        $.ajax({
-          url: "/product/add.json",
-          type: "post",
-//          contentType:"application/x-www-form-urlencoded; charset=UTF-8",
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-//          data: $(form).serialize(),
-          data:JSON.stringify(data),
-          success: function(data) {
-            toastr.success('', '添加成功！');
-            $('#modal-form').modal('hide');
-//            loadData();
-            window.location.href = '/product/upload/page';
-          },
-          error:function(e){
-        	  toastr.error("出现错误，请更改");
-          }
-        });
+    	  if($('#productImgData').val()){
+    		  var formData = new FormData();
+    		  var data = {};
+    		  var t = $(form).serializeArray();
+    		  $.each(t, function() {
+    			  if(this.name != 'productImgData' && this.name != 'isUpdateImg'){
+    				  formData.append(this.name,this.value) ;  	    		
+    			  }
+    		  });
+    		  formData.append('file',  $('#productImgData')[0].files[0]);
+    		  $.ajax({
+    			  url : "/product/upload.json",
+    			  type : 'POST',
+    			  data : formData,
+    			  cache: false,
+    			  async: false,
+    			  processData : false,  //必须false才会避开jQuery对 formdata 的默认处理
+    			  contentType : false,  //必须false才会自动加上正确的Content-Type
+    			  
+    			  success: function (data) {
+    				  toastr.success('', '添加成功！');
+    				  $('#modal-form').modal('hide');
+    				  window.location.href = '/product/upload/page';
+    				  
+    			  },
+    			  error: function (data) {
+    				  toastr.error("出现错误，请更改");
+    			  }
+    		  });
+    		  
+    	  }else{
+	        $.ajax({
+	          url: "/product/add.json",
+	          type: "post",
+	//          contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+	          contentType: "application/json; charset=utf-8",
+	          dataType: "json",
+	//          data: $(form).serialize(),
+	          data:JSON.stringify(data),
+	          success: function(data) {
+	            toastr.success('', '添加成功！');
+	            $('#modal-form').modal('hide');
+	//            loadData();
+	            window.location.href = '/product/upload/page';
+	          },
+	          error:function(e){
+	        	  toastr.error("出现错误，请更改");
+	          }
+	        });
+    	  }
+
+        
       }
   
-    
+      var obj = new zoom('mask', 'bigimg','smallimg');
+		obj.init();
     });
             

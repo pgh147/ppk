@@ -184,7 +184,10 @@
         <!---右侧内容区结束----->
 
     </div>
-
+          <img src="" alt="" class="bigimg">
+      <div class="mask">
+      	<img src="/static/img/close.png" alt="">
+      </div>
     <!----添加用户--->
     <div class="modal fade" id="modal-form2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog">
@@ -194,8 +197,10 @@
         </div>
     </div>
     <!---添加用户结束--->
-    <!-- 全局 scripts -->
+    <!-- 全局 scripts
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
+     -->
+    <script src="${ctx}/static/js/jquery.js"></script>
     <script src="${ctx}/static/js/bootstrap.js"></script>
     <script src="${ctx}/static/js/wuling.js"></script>
     
@@ -205,7 +210,7 @@
     <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
     <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-
+    <script src="${ctx}/static/js/zoom.js?v=20190613"> </script>
     <!-- 插件 scripts -->
     <script src="${ctx}/static/js/plugins/chosen/chosen.jquery.js"></script>
     <script src="${ctx}/static/js/plugins/toastr/toastr.min.js" async></script><!---顶部弹出提示--->

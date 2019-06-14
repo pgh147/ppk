@@ -235,16 +235,15 @@
                 			 if(item.productStatus <= 15){
 //                				 $tr += ' <td><a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.billNo+'</a></td>';
                 				 $tr += ' <td><a>'+item.purchaseNo+'</a></td>';
-              				 $tr += '<td><img width="100" height="70" src="'+item.imgData+'"></td><td>'+item.productNo+'</td><td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td><input value="'+item.userNo+'" name="userNo" onchange="onchangeInput('+"'"+item.id+"'"+',this)" class="canEdit" /></td><td>'+item.pUserNo+'</td><td>'+(item.purchaserNo?item.purchaserNo:' ')+' </td><td>'+(item.purchaseQty?item.purchaseQty:' ')+' </td><td>'+(item.qcNotice?item.qcNotice:' ')+'</td><td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty"  class="canEdit" /></td>  <td><input value="'+(item.noOkQty?item.noOkQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="noOkQty"  class="canEdit" /></td>'+
-                				 '<td><input value="'+(item.incellQty?item.incellQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="incellQty"  class="canEdit" /></td><td><input value="'+(item.returnQty?item.returnQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="returnQty"  class="canEdit" /></td><td>'+(item.causRemark?item.causRemark:"")+'</td><td>'+item.usQty+'</td><td>'+item.ukQty+'</td><td>'+item.caQty+'</td>';
+              				 $tr += '<td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td><td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td><input value="'+item.userNo+'" name="userNo" onchange="onchangeInput('+"'"+item.id+"'"+',this)" class="canEdit" /></td><td>'+item.pUserNo+'</td><td>'+(item.purchaserNo?item.purchaserNo:' ')+' </td><td>'+(item.purchaseQty?item.purchaseQty:' ')+' </td><td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty"  class="canEdit" /></td>  <td><input value="'+(item.noOkQty?item.noOkQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="noOkQty"  class="canEdit" /></td>'+
+                				 '<td><input value="'+(item.incellQty?item.incellQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="incellQty"  class="canEdit" /></td><td><input value="'+(item.returnQty?item.returnQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="returnQty"  class="canEdit" /></td><td>'+(item.causRemark?item.causRemark:"")+'</td><td><input value="'+(item.usQty?item.usQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="usQty"  class="canEdit" /></td><td><input value="'+(item.usQty?item.ukQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="ukQty"  class="canEdit" /></td><td><input value="'+(item.usQty?item.caQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="caQty"  class="canEdit" /></td>';
         			 }else{
                 				 $tr += ' <td>'+item.purchaseNo+'</td>';
-                				 $tr += '<td><img width="100" height="70" src="'+item.imgData+'"></td><td>'+item.productNo+'</td><td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.pUserNo+'</td><td>'+(item.purchaserNo?item.purchaserNo:' ')+' </td><td>'+(item.purchaseQty?item.purchaseQty:' ')+' </td><td>'+(item.qcNotice?item.qcNotice:' ')+'</td><td>'+(item.okQty?item.okQty:'0')+'</td>  <td>'+(item.noOkQty?item.noOkQty:'0')+'</td>'+
+                				 $tr += '<td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td><td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.pUserNo+'</td><td>'+(item.purchaserNo?item.purchaserNo:' ')+' </td><td>'+(item.purchaseQty?item.purchaseQty:' ')+' </td><td>'+(item.okQty?item.okQty:'0')+'</td>  <td>'+(item.noOkQty?item.noOkQty:'0')+'</td>'+
                 				 '<td>'+(item.incellQty?item.incellQty:'0')+'</td><td>'+(item.returnQty?item.returnQty:'0')+'</td><td>'+(item.causRemark?item.causRemark:'')+'</td><td>'+item.usQty+'</td><td>'+item.ukQty+'</td><td>'+item.caQty+'</td>';
                 			 }
 //                             $tr += '<td>'+(item.purchaseNo?item.purchaseNo:' ')+' </td><td>'+(item.createTime?item.createTime:' ')+' </td><td>'+(item.remark?item.remark:' ')+'</td>'+
-                            $tr += '<td>'+(item.createTime?item.createTime:' ')+' </td><td>'+(item.remark?item.remark:' ')+'</td>'+
-                             '<td class="text-right text-nowrap">'+
+                            $tr += '<td>'+(item.qcNotice?item.qcNotice:' ')+'</td><td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';
                                  if(item.productStatus <= 15){
                                 	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form"><i class="fa fa-pencil"></i>  编辑</button>';
@@ -270,6 +269,8 @@
                 		});
                 		
                 		$("#table-body").html($tr);
+                		 var obj = new zoom('mask', 'bigimg','smallimg');
+              			obj.init();
             		}
             		
             	}

@@ -118,11 +118,8 @@
                                                 <th>质检入库员编号</th>
                                                 <th>采购数量 </th>
                                                 <th>产品单价</th>
-                                                <th>折扣</th>
                                                 <th>usukca质检入库备注</th>
                                                 <th>供应商</th>
-                                                <th>创建时间</th>
-                                                <th>备注</th>
                                                 <th class="text-right">操作</th>
                                             </tr>
                                         </thead>
@@ -159,7 +156,10 @@
         <!---右侧内容区结束----->
 
     </div>
-
+          <img src="" alt="" class="bigimg">
+      <div class="mask">
+      	<img src="/static/img/close.png" alt="">
+      </div>
     <div class="modal fade" id="modal-import" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -250,12 +250,6 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-3 control-label"> 折扣 </label>
-								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text"  name="discount" value="100" placeholder="请输入折扣，默认100无折扣" class="form-control" >
-								</div>
-							</div>
-							<div class="form-group">
 								<label class="col-sm-12 col-md-4 col-lg-3 control-label"> usukca入库数备注 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
 									<input type="text"  name="causRemark" value="100" placeholder="usukca入库数" class="form-control" >
@@ -293,7 +287,7 @@
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
     <script src="${ctx}/static/js/bootstrap.js"></script>
     <script src="${ctx}/static/js/wuling.js"></script>
-    
+        <script src="${ctx}/static/js/zoom.js?v=20190613"> </script>
     <script src="${ctx}/static/js/plugins/page/jq-paginator.min.js"></script>
 
 

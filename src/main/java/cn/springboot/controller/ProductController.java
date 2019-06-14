@@ -1,5 +1,9 @@
 package cn.springboot.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -17,14 +21,21 @@ import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import cn.springboot.common.util.FileNameLengthLimitExceededException;
+import cn.springboot.common.util.FileUploadUtils;
+
 import com.github.pagehelper.PageInfo;
 import cn.springboot.common.constants.Constants;
 import cn.springboot.common.exception.BusinessException;
@@ -43,11 +54,18 @@ public class ProductController {
     private static final Logger log = LoggerFactory.getLogger(ProductController.class);
 	@Autowired
 	private ProductService productService;
+	
 	@Autowired
 	private ExportBigExcelService excelService;
 	
     @Autowired
     private ProductMapper productMapper;
+	// 最大上传大小 字节为单位
+	private long maxSize = FileUploadUtils.DEFAULT_MAX_SIZE;
+	// 允许的文件内容类型
+	private String[] allowedExtension = { "jpg", "png", "gif","JPEG","PNG" };
+    @Value("${uploadPath}")
+    private String uploadPath;
 
     @RequestMapping(value = "/upload/page", method = RequestMethod.GET)
     String toPage(HttpServletRequest request, ModelMap map) {
@@ -102,6 +120,172 @@ public class ProductController {
         } else {
             result.put("status", "0");
             result.put("msg", "发布失败");
+        }
+        return result;
+    }
+    @RequestMapping(value = "/getImg/{id}.json")
+    public void getImg(@PathVariable String id,HttpServletResponse response){
+    	String url = productService.findProductImgByNo(id);
+    	File file = null;
+    	if(StringUtils.isNotBlank(url)){
+    		file = new File(url);
+    		FileInputStream fis =null;
+    		if(!file.exists()){
+    			response.setStatus(404);
+    			return ;
+    		}
+    		try {
+				fis = new FileInputStream(file);
+				final byte[] bis = new byte[1024];
+				while(fis.read(bis) > 0){
+					response.getOutputStream().write(bis);
+				}
+			} catch (Exception e) {
+//				response.setStatus(404);
+			} finally{
+				if(null != fis){
+					try {
+						fis.close();
+					} catch (IOException e) {
+						fis = null;
+					}
+				}
+				response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+			}
+    	}else{
+    		response.setStatus(404);
+    	}
+    }
+    /**
+     * @Description ajax开发上传产品
+     * @param news
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/upload.json", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> upload(@RequestParam("file") MultipartFile file,TProduct news,HttpServletRequest request) throws Exception {	
+    	
+    	int fileNamelength = file.getOriginalFilename().length();
+		if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
+			throw new FileNameLengthLimitExceededException(file.getOriginalFilename(), fileNamelength,
+					FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
+		}
+		
+		File folder = new File(getAppFolder(request));
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+		FileUploadUtils.assertAllowed(file, allowedExtension, maxSize);
+		String filenamePath = FileUploadUtils.extractFilename(file, getAppFolder(request), false);
+
+		File desc = new File(filenamePath);
+		if (!desc.exists()) {
+			desc.createNewFile();
+		}
+		file.transferTo(desc);
+		
+    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+    	news.setCreater(principal.getUser().getUsername());
+    	news.setProductImgData(filenamePath);
+    	boolean flag = false;
+    	try {
+    		flag = productService.addProduct(news);
+		} catch (Exception e) {
+			desc.delete();
+		}
+        
+        Map<String, String> result = new HashMap<>();
+        if (flag) {
+            result.put("status", "1");
+            result.put("msg", "发布成功");
+        } else {
+            result.put("status", "0");
+            result.put("msg", "发布失败");
+        }
+        return result;
+    }
+    /**
+	 * 目录
+	 * 
+	 * @param request
+	 * @return
+	 */
+	protected String getAppFolder(HttpServletRequest request) {
+//		String flag = request.getParameter("flag");
+//			if(StringUtils.isNotBlank(flag)){
+//				return FileUploadUtils.extractUploadDir(request) + flag;
+//			}else{
+//				return FileUploadUtils.extractUploadDir(request) + "appfolder";
+//			}
+		return uploadPath;
+
+	}
+    /**
+     * @Description ajax开发上传产品修改
+     * @param news
+     * @return
+     */
+    @RequestMapping(value = "/editUp.json", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> editUp(@RequestParam("file") MultipartFile file,TProduct news,HttpServletRequest request) throws Exception {	
+    	Map<String, String> result = new HashMap<>();
+    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+    	news.setCreater(principal.getUser().getUsername());
+    	if(news.getProductStatus() == 20){
+    		result.put("status", "0");
+            result.put("msg", "修改失败");
+            return result;
+    	}
+    	
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	if(!isAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+    		result.put("status", "0");
+            result.put("msg", "无权限");
+            return result;
+    	}
+
+    	if(null != file){
+    		int fileNamelength = file.getOriginalFilename().length();
+    		if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
+    			throw new FileNameLengthLimitExceededException(file.getOriginalFilename(), fileNamelength,
+    					FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
+    		}
+    		
+    		File folder = new File(getAppFolder(request));
+    		if (!folder.exists()) {
+    			folder.mkdirs();
+    		}
+    		FileUploadUtils.assertAllowed(file, allowedExtension, maxSize);
+    		String filenamePath = FileUploadUtils.extractFilename(file, getAppFolder(request), false);
+
+    		File desc = new File(filenamePath);
+    		if (!desc.exists()) {
+    			desc.createNewFile();
+    		}
+    		file.transferTo(desc);
+    		news.setProductImgData(filenamePath);
+    		news.setIsUpdateImg(true);
+    	}else{
+    		news.setIsUpdateImg(false);
+    	}
+    	
+    	boolean flag = false;
+    	flag = productService.editProduct(news);
+        
+        if (flag) {
+            result.put("status", "1");
+            result.put("msg", "修改成功");
+        } else {
+            result.put("status", "0");
+            result.put("msg", "修改失败");
         }
         return result;
     }
