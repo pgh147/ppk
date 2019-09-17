@@ -231,7 +231,7 @@
             		if(data.page.list.length > 0){
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
-                			 $tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
+                			 $tr += '<tr><td><input onclick="checkClick(this)" type="checkbox" name="checkd" value="'+item.id+'"></td><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
                 			 if(item.productStatus <= 15){
 //                				 $tr += ' <td><a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.billNo+'</a></td>';
                 				 $tr += ' <td><a>'+item.purchaseNo+'</a></td>';
@@ -284,6 +284,20 @@
       	});
       };
       
+      $("#selectAll").click(function(e){
+    	  if(this.checked){
+    		  $("#table-body input[type=checkbox]").prop("checked",true)
+    		  checkids = [];
+    		  $.each($("#table-body input[type=checkbox]"),function(index,item){
+    			  checkids.push($(item).val());
+    		  })
+//    		  $("#table-body input[type=checkbox]").attr("checked",true)
+    	  }else{
+    		  checkids = [];
+    		  $("#table-body input[type=checkbox]").removeAttr("checked")
+    	  }
+      })
+
 
       $("#zxf_pagediv").jqPaginator({
     	  totalCounts: 1,
@@ -363,4 +377,20 @@
               	  $(me).parent().addClass("no-ok");
                 }
               });
-        }        
+        }  
+      var checkids = [];
+      function checkClick(e){
+    	  if(e.checked ){
+    		 if( $("#table-body input[type=checkbox]:checked").length == $("#table-body input[type=checkbox]").length){
+    			 $("#selectAll").prop("checked",true)
+    		 }
+    		  if(checkids.indexOf($(e).val())<0){
+    			  checkids.push($(e).val());
+    		  }
+    	  }else{
+    		  $("#selectAll").removeAttr("checked");
+    		  if(checkids.indexOf($(e).val()) > -1){
+    			  checkids.splice(checkids.indexOf($(e).val()),1);
+    		  }
+    	  }
+      }

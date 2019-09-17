@@ -128,11 +128,22 @@ public class OutCellServiceImpl implements OutCellService {
 	public int importOutCell(List<TOutcell> list) {
 		int i = 0;
 		for(TOutcell tProduct:list){
-			String billNo = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
-        	tProduct.setBillNo("OUT"+billNo+i);
-        	tProduct.setId(FactoryAboutKey.getPK(TableEnum.T_OUTCELL));
-        	tProduct.setCreateTime(Calendar.getInstance().getTime());
-            int flag = tOutcellMapper.insertSelective(tProduct);
+			TOutcell outcell = tOutcellMapper.selectByProductNo(tProduct.getProductNo());
+			if(null != outcell && null != outcell.getBillNo()){
+				outcell.setUserNo(tProduct.getUserNo());
+				outcell.setOutQty(tProduct.getOutQty());
+				outcell.setSurplusQty(tProduct.getSurplusQty());
+				outcell.setUpdateTime(null);
+				outcell.setCreateTime(null);
+				tOutcellMapper.updateByPrimaryKeySelective(outcell);
+			}else{
+				
+				String billNo = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
+				tProduct.setBillNo("OUT"+billNo+i);
+				tProduct.setId(FactoryAboutKey.getPK(TableEnum.T_OUTCELL));
+				tProduct.setCreateTime(Calendar.getInstance().getTime());
+				int flag = tOutcellMapper.insertSelective(tProduct);
+			}
             i++;
 		}
 		return i;

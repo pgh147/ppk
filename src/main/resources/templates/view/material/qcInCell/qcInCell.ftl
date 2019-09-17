@@ -43,6 +43,9 @@
                                 添加记录 <i class="fa fa-plus"></i>
                             </a>
                              </@shiro.hasRole>  
+                             <a id="batch_delete" class="btn btn-primary" >
+                                	批量删除 <i class="fa fa-plus"></i>
+                            </a>
                         </div>
                         <div class=" col-lg-4 col-md-6 col-sm-8 " >
                                 <div class="tablesearch pull-right m-t-xs">
@@ -109,6 +112,7 @@
                                     <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
                                         <thead>
                                             <tr>
+                                            	<th><input type="checkbox" id="selectAll"></th>
                                                 <th>状态</th>
                                                 <!--<th>单号</th>-->
                                                 <th>采购单号</th>
