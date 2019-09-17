@@ -42,10 +42,10 @@
                             <a id="editable-sample_new" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ff"  href="#modal-form">
                                 添加记录 <i class="fa fa-plus"></i>
                             </a>
-                             </@shiro.hasRole>  
                              <a id="batch_delete" class="btn btn-primary" >
                                 	批量删除 <i class="fa fa-plus"></i>
                             </a>
+                             </@shiro.hasRole>  
                         </div>
                         <div class=" col-lg-4 col-md-6 col-sm-8 " >
                                 <div class="tablesearch pull-right m-t-xs">

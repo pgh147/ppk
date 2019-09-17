@@ -297,7 +297,9 @@
     		  $("#table-body input[type=checkbox]").removeAttr("checked")
     	  }
       })
-
+		$("#batch_delete").click(function(){
+			
+		})
 
       $("#zxf_pagediv").jqPaginator({
     	  totalCounts: 1,
