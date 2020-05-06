@@ -158,10 +158,10 @@
       <if test="userNo != null and '' != userNo ">
         user_no = #{userNo,jdbcType=VARCHAR},
       </if>
-      <if test="outQty != null and '' != outQty ">
+      <if test="outQty != null and '' != outQty or outQty == 0">
         out_qty = #{outQty,jdbcType=INTEGER},
       </if>
-      <if test="surplusQty != null and '' != surplusQty ">
+      <if test="surplusQty != null and '' != surplusQty or surplusQty == 0">
        surplus_qty =  #{surplusQty,jdbcType=VARCHAR},
       </if>
       <if test="outReason != null and '' != outReason ">

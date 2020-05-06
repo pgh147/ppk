@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,5 +154,28 @@ public class QcIncellServiceImpl implements QcIncellService {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean batchDeleteProduct(List<String> ids) {
+		StrBuilder str = new StrBuilder();
+		for(String s:ids){
+			str.append("'"+s+"',");
+		}
+		tQcIncellMapper.deleteByIds(str.substring(0,str.length()-1));
+		return false;
+	}
+	
+//	@Override
+//	public boolean deleteProduct(String id) {
+//		TQcIncell pro = tQcIncellMapper.selectByPrimaryKey(id);
+//		if(null == pro){
+//			return false;
+//		}
+//		int num = tQcIncellMapper.deleteByIds(ids);
+//		if(num <= 0){
+//			return false;
+//		}
+//		return false;
+//	}
 
 }

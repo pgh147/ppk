@@ -309,7 +309,7 @@
 	      <if test="pUserNo != null and '' != pUserNo ">
 	        and a.user_no in (${pUserNo})
 	      </if> 		  
-		  <if test="null!=uploadAccount and '' != uploadAccount">
+		  <if test="null!=uploadAccount and '' != uploadAccount or uploadAccount == 0">
 		       and a.upload_account = #{uploadAccount}
 		  </if>
 	      <if test="null!=productAnys and ''!= productAnys">
@@ -318,7 +318,7 @@
 		  <if test="null!=productSafe and '' != productSafe">
 		       and a.product_safe like '%${productSafe}%'
 		  </if>		
-		  <if test="null!=productPrice and '' != productPrice">
+		  <if test="null!=productPrice and '' != productPrice or productPrice == 0">
 		       and a.product_price = #{productPrice}
 		  </if>	
 		  <if test="null!=productStatus and '' != productStatus">
@@ -355,7 +355,7 @@
 			<if test="productSafe != null and '' != productSafe ">
 				product_safe =  #{productSafe,jdbcType=VARCHAR},
 			</if>
-			<if test="productPrice != null and '' != productPrice ">
+			<if test="productPrice != null and '' != productPrice or productPrice == 0">
 				product_price  =  #{productPrice,jdbcType=DECIMAL},
 			</if>
 			<if test="productSize != null and '' != productSize ">
@@ -364,13 +364,13 @@
 			<if test="productVol != null and '' != productVol ">
 				product_vol  =  #{productVol,jdbcType=DECIMAL},
 			</if>
-			<if test="firstSendQty != null and '' != firstSendQty ">
+			<if test="firstSendQty != null and '' != firstSendQty or firstSendQty == 0">
 				first_send_qty  =  #{firstSendQty,jdbcType=DECIMAL},
 			</if>
-			<if test="productOrderQty != null and '' != productOrderQty ">
+			<if test="productOrderQty != null and '' != productOrderQty or productOrderQty == 0">
 				product_order_qty  =  #{productOrderQty,jdbcType=DECIMAL},
 			</if>
-			<if test="predictSalesQty != null and '' != predictSalesQty ">
+			<if test="predictSalesQty != null and '' != predictSalesQty or predictSalesQty == 0">
 				predict_sales_qty  =  #{predictSalesQty,jdbcType=DECIMAL},
 			</if>
 			<if test="status != null and '' != status ">
@@ -423,13 +423,13 @@
             <if test="qcNotice != null and '' != qcNotice ">
       	qc_notice = #{qcNotice,jdbcType=VARCHAR},
       </if>
-            <if test="pSize != null and '' != pSize ">
+            <if test="pSize != null and '' != pSize or pSize == 0">
         p_size = #{pSize,jdbcType=VARCHAR},
       </if>
-      <if test="pVol != null and '' != pVol ">
+      <if test="pVol != null and '' != pVol or pVol == 0">
         p_vol = #{pVol,jdbcType=VARCHAR},
       </if>
-      <if test="salePrice != null and '' != salePrice ">
+      <if test="salePrice != null and '' != salePrice or salePrice == 0">
         sale_price = #{salePrice},
       </if>
 		</set>

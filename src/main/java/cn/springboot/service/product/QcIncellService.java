@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 
-import cn.springboot.model.product.TProduct;
 import cn.springboot.model.product.TQcIncell;
-import cn.springboot.model.simple.News;
 
 /** 
  * @Description 接口类
@@ -20,6 +18,7 @@ public interface QcIncellService {
     public boolean editProduct(TQcIncell news);
     public boolean updateProduct(TQcIncell news);
     public boolean deleteProduct(String id);
+    public boolean batchDeleteProduct(List<String> ids);
     public TQcIncell findProductById(String newsId);
 
     public List<TQcIncell> findProductByKeywords(String keywords);

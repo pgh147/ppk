@@ -31,7 +31,42 @@
                     				swal.close();
 //                    				toastr.success("删除成功");
                     				row.className="animated bounceOut";
-                    				loadData();
+                    				loadData(pageNum);
+                    			},
+                    			error:function(e){
+                    				swal.close();
+                    				toastr.error("删除失败");
+                    			}
+                    		});
+                    		
+                    	}
+                    });
+            });
+          //批量删除数据
+            $(document).on('click','#batch_delete', function () {
+                var row=$(this).parents("tr")[0];
+                var textCont = "该"+checkids.length+"条数据删除后将不可恢复!";
+                    var swa = swal({
+                        title: "您确定要删除这些数据吗?",
+                        text: textCont,//"数据删除后将不可恢复!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#1ab394",
+                        confirmButtonText: "确定删除！",
+                        closeOnConfirm: false
+                    }, function (isConfirm,b) {
+                    	if (isConfirm) {
+                    		
+                    		$.ajax({
+                    			url: "/qcIncell/batchDelete.json",
+                    			type: "POST",
+                    			dataType: "json",
+                    			contentType:"application/json",
+                    			data: JSON.stringify(checkids),
+                    			success: function(data) {
+                    				swal.close();
+                    				toastr.success("批量删除成功");
+                    				loadData(pageNum);
                     			},
                     			error:function(e){
                     				swal.close();
@@ -196,7 +231,7 @@
           success: function(data) {
             toastr.success('', '添加成功！');
             $('#modal-form').modal('hide');
-            loadData();
+            loadData(pageNum);
           },
           error:function(e){
         	  toastr.error("出现错误，请更改");
@@ -205,6 +240,7 @@
       }
       //加载数据
       loadData = function loadData(num){
+    	  checkids = [];
     	  pageNum = num?num:1;
     	  var param ={
     			  productNo:$("#productNo").val(),
@@ -338,7 +374,7 @@
                   success: function(data) {
                     toastr.success('', '修改成功！');
                     $('#modal-form').modal('hide');
-                    loadData();
+                    loadData(pageNum);
                   },
                   error:function(e){
                 	  toastr.error("出现错误，请更改");

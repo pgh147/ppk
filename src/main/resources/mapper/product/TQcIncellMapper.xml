@@ -44,6 +44,10 @@
     delete from t_qc_incell
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByIds" parameterType="java.lang.String">
+  	delete from t_qc_incell
+    where id in (${ids})
+  </delete>
   <insert id="insert" parameterType="cn.springboot.model.product.TQcIncell">
     insert into t_qc_incell (id, bill_no, product_no, 
       user_no, ok_qty, no_ok_qty, 
@@ -197,19 +201,19 @@
       <if test="userNo != null and '' != userNo ">
         user_no = #{userNo,jdbcType=VARCHAR},
       </if>
-      <if test="okQty != null and '' != okQty ">
+      <if test="okQty != null and '' != okQty  or okQty == 0">
         ok_qty = #{okQty,jdbcType=INTEGER},
       </if>
-      <if test="noOkQty != null and '' != noOkQty ">
+      <if test="noOkQty != null and '' != noOkQty  or noOkQty == 0">
         no_ok_qty = #{noOkQty,jdbcType=INTEGER},
       </if>
       <if test="qcReason != null and '' != qcReason ">
         qc_reason = #{qcReason,jdbcType=VARCHAR},
       </if>
-      <if test="incellQty != null and '' != incellQty ">
+      <if test="incellQty != null and '' != incellQty  or incellQty == 0">
         incell_qty = #{incellQty,jdbcType=INTEGER},
       </if>
-      <if test="returnQty != null and '' != returnQty ">
+      <if test="returnQty != null and '' != returnQty or returnQty == 0">
         return_qty = #{returnQty,jdbcType=INTEGER},
       </if>
       <if test="status != null and '' != status ">
@@ -236,13 +240,13 @@
       <if test="purchaseNo != null and '' != purchaseNo ">
        purchase_no =  #{purchaseNo,jdbcType=VARCHAR},
       </if>     
-      <if test="usQty != null and '' != usQty ">
+      <if test="usQty != null and '' != usQty  or usQty == 0">
        us_qty =  #{usQty,jdbcType=INTEGER},
       </if>
-      <if test="ukQty != null and '' != ukQty ">
+      <if test="ukQty != null and '' != ukQty  or ukQty == 0">
         uk_qty = #{ukQty,jdbcType=INTEGER},
       </if>
-      <if test="caQty != null and '' != caQty ">
+      <if test="caQty != null and '' != caQty  or caQty == 0">
         ca_qty = #{caQty,jdbcType=INTEGER},
       </if>         
     </set>

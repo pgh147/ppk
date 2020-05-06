@@ -1,7 +1,7 @@
 
 
 
-    var loadData;
+    var loadData,pageNum=0;
         $(document).ready(function () {
             //关闭模态框清空表单值
             $("#myModa-reset").on('hidden.bs.modal', function (event) {
@@ -31,7 +31,7 @@
                     				swal.close();
 //                    				toastr.success("删除成功");
                     				row.className="animated bounceOut";
-                    				loadData();
+                    				loadData(pageNum);
                     			},
                     			error:function(e){
                     				swal.close();
@@ -149,13 +149,13 @@
         page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
 	    onPageChange: function (num, type) {
 	    	if(type != 'init'){
-	    		loadData(num);	    		
+	    		pageNum = num;
+	    		loadData(pageNum);	    		
 	    	}
 	    }
 	});
 
       var params = window.location.href.substring(window.location.href.indexOf("?")+1).split("&");
-  	var pageNum ;
   	$.each(params,function(index,item){
   		if(item.indexOf("pageNum=") == 0 ){
   			pageNum = item.split("=")[1];
@@ -194,7 +194,7 @@
                   success: function(data) {
                     toastr.success('', '修改成功！');
                     $('#modal-form').modal('hide');
-                    loadData();
+                    loadData(pageNum);
                   },
                   error:function(e){
                 	  toastr.error("出现错误，请更改");

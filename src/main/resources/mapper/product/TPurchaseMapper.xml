@@ -169,13 +169,13 @@
       <if test="userNo != null and '' != userNo ">
         user_no = #{userNo,jdbcType=VARCHAR},
       </if>
-      <if test="purchaseQty != null and '' != purchaseQty ">
+      <if test="purchaseQty != null and '' != purchaseQty  or purchaseQty == 0">
         purchase_qty = #{purchaseQty,jdbcType=INTEGER},
       </if>
       <if test="discount != null and '' != discount ">
         discount = #{discount,jdbcType=DECIMAL},
       </if>
-      <if test="productPrice != null and '' != productPrice ">
+      <if test="productPrice != null and '' != productPrice  or productPrice == 0">
         product_price = #{productPrice,jdbcType=DECIMAL},
       </if>
       <if test="supplier != null and '' != supplier ">
