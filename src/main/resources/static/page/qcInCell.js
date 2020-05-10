@@ -268,37 +268,33 @@
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
                 			 $tr += '<tr><td><input onclick="checkClick(this)" type="checkbox" name="checkd" value="'+item.id+'"></td><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
-                			 if(item.productStatus <= 15){
-//                				 $tr += ' <td><a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.billNo+'</a></td>';
+                			 if(item.productStatus <= 15){	
                 				 $tr += ' <td><a>'+item.purchaseNo+'</a></td>';
-              				 $tr += '<td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td><td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td><input value="'+item.userNo+'" name="userNo" onchange="onchangeInput('+"'"+item.id+"'"+',this)" class="canEdit" /></td><td>'+item.pUserNo+'</td><td>'+(item.purchaserNo?item.purchaserNo:' ')+' </td><td>'+(item.purchaseQty?item.purchaseQty:' ')+' </td><td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty"  class="canEdit" /></td>  <td><input value="'+(item.noOkQty?item.noOkQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="noOkQty"  class="canEdit" /></td>'+
+                				 $tr += '<td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td><td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td><input value="'+item.userNo+'" name="userNo" onchange="onchangeInput('+"'"+item.id+"'"+',this)" class="canEdit" /></td><td>'+item.pUserNo+'</td><td>'+(item.purchaserNo?item.purchaserNo:' ')+' </td><td>'+(item.purchaseQty?item.purchaseQty:' ')+' </td><td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty"  class="canEdit" /></td>  <td><input value="'+(item.noOkQty?item.noOkQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="noOkQty"  class="canEdit" /></td>'+
                 				 '<td><input value="'+(item.incellQty?item.incellQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="incellQty"  class="canEdit" /></td><td><input value="'+(item.returnQty?item.returnQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="returnQty"  class="canEdit" /></td><td>'+(item.causRemark?item.causRemark:"")+'</td><td><input value="'+(item.usQty?item.usQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="usQty"  class="canEdit" /></td><td><input value="'+(item.usQty?item.ukQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="ukQty"  class="canEdit" /></td><td><input value="'+(item.usQty?item.caQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="caQty"  class="canEdit" /></td>';
-        			 }else{
+                			 }else{
                 				 $tr += ' <td>'+item.purchaseNo+'</td>';
                 				 $tr += '<td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td><td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.pUserNo+'</td><td>'+(item.purchaserNo?item.purchaserNo:' ')+' </td><td>'+(item.purchaseQty?item.purchaseQty:' ')+' </td><td>'+(item.okQty?item.okQty:'0')+'</td>  <td>'+(item.noOkQty?item.noOkQty:'0')+'</td>'+
                 				 '<td>'+(item.incellQty?item.incellQty:'0')+'</td><td>'+(item.returnQty?item.returnQty:'0')+'</td><td>'+(item.causRemark?item.causRemark:'')+'</td><td>'+item.usQty+'</td><td>'+item.ukQty+'</td><td>'+item.caQty+'</td>';
                 			 }
-//                             $tr += '<td>'+(item.purchaseNo?item.purchaseNo:' ')+' </td><td>'+(item.createTime?item.createTime:' ')+' </td><td>'+(item.remark?item.remark:' ')+'</td>'+
                             $tr += '<td>'+(item.qcNotice?item.qcNotice:' ')+'</td><td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';
-                                 if(item.productStatus <= 15){
-                                	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form"><i class="fa fa-pencil"></i>  编辑</button>';
-                                 }
-                                     if(data.flag){
-//                                    	 if(item.productStatus == 15){
-//                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')" ><i class="fa fa-eye"></i>审核</button>';
-//                                    	 }else 
-                                    		 if(item.productStatus < 15){
-                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')"><i class="fa fa-eye"></i>审核</button>';
-                                    	 }
-                                    	 if(item.productStatus > 15){
-                                    		 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';
-                                    	 }
-                                     }
-                                     if(item.productStatus <= 15){
-                                    	 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';
-                                     }
-                                     $tr += '</div>'+
+                             if(item.productStatus <= 15){
+                            	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form"><i class="fa fa-pencil"></i>  编辑</button>';
+                             }
+                             //有权限
+                             if(data.flag){
+                            	if(item.productStatus < 15){
+                            		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')"><i class="fa fa-eye"></i>审核</button>';
+                            	 }
+                            	 if(item.productStatus > 15){
+                            		 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';
+                            	 }
+                             }
+                             if(item.productStatus <= 15){
+                            	 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';
+                             }
+                             $tr += '</div>'+
                              '</td>'+
                          '</tr>';
                 			

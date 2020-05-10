@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
     <meta name="Author" content="zifan">
-    <meta name="copyright" content="胡桃夹子。All Rights Reserved">
+    <meta name="copyright" content="All Rights Reserved">
     <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
 html,body {
@@ -74,10 +74,21 @@ html,body {
 			<h3 class="form-signin-heading">请登录</h3>
 			<input type="text" class="form-control input-block-level" id="username" name="username" placeholder="用户" >
 			<input type="password" class="form-control input-block-level" id="password" name="password" placeholder="密码" >
-			<button class="btn btn-large btn-primary" type="submit">登录</button>
+			<button class="btn btn-large btn-primary" id="loginbutton" type="submit">登录</button>
 			</br>
 			</br>
 		</form>
 	</div>
+	    <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
+	<script type="text/javascript">
+		document.onkeydown = function (e) { // 回车提交表单
+// 兼容FF和IE和Opera
+    var theEvent = window.event || e;
+    var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+    if (code == 13) {
+        $("#loginbutton").click();
+    }
+}
+	</script>
 </body>
 </html>

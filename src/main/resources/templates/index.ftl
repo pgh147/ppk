@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
     <meta name="Author" content="zifan">
-    <meta name="copyright" content="胡桃夹子。All Rights Reserved">
+    <meta name="copyright" content="All Rights Reserved">
     <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="${ctx}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">

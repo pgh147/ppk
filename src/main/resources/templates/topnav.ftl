@@ -6,7 +6,8 @@
 	<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#"> <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
 	</a>
 		<div class="dropdown-menu dropdown-menu-head pull-right">
-			<h5 class="title">You have 5 Mails</h5>
+			<h5 class="title">暂未实现</h5>
+			<!--
 			<ul class="dropdown-list normal-list">
 				<li class="new"><a href=""> <span class="thumb"><img src="${ctx}/static/images/photos/user1.png" alt=""></span> <span class="desc"> <span class="name">陈小林 <span class="badge badge-success">new</span></span> <span class="msg">小帅哥晚上有空吗？一起出来玩吧！...</span>
 					</span>
@@ -25,11 +26,13 @@
 				</a></li>
 				<li class="new"><a href="">Read All Mails</a></li>
 			</ul>
+			-->
 		</div></li>
 	<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#"> <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
 	</a>
 		<div class="dropdown-menu dropdown-menu-head pull-right">
-			<h5 class="title">Notifications</h5>
+			<h5 class="title">暂未实现</h5>
+			<!--
 			<ul class="dropdown-list normal-list">
 				<li class="new"><a href=""> <span class="label label-danger"><i class="fa fa-bolt"></i></span> <span class="name">Server #1 overloaded. </span> <em class="small">34 mins</em>
 				</a></li>
@@ -41,6 +44,7 @@
 				</a></li>
 				<li class="new"><a href="">See All Notifications</a></li>
 			</ul>
+			-->
 		</div></li>
 
 	<li class="user-dropdown">

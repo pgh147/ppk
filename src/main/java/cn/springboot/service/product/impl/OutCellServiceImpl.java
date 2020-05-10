@@ -39,6 +39,7 @@ public class OutCellServiceImpl implements OutCellService {
     @Override
     public boolean addProduct(TOutcell tProduct) {
         if (tProduct != null) {
+        	tProduct.setUserNo("admin");
         	String billNo = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
         	tProduct.setBillNo("OUT"+billNo);
         	tProduct.setId(FactoryAboutKey.getPK(TableEnum.T_OUTCELL));
@@ -57,6 +58,7 @@ public class OutCellServiceImpl implements OutCellService {
     @Override
     public boolean editProduct(TOutcell news) {
         if (news != null && StringUtils.isNotBlank(news.getId())) {
+        	news.setUserNo("admin");
             int flag = tOutcellMapper.updateByPrimaryKeySelective(news);
             if (flag == 1)
                 return true;
@@ -68,6 +70,7 @@ public class OutCellServiceImpl implements OutCellService {
     @Override
     public boolean updateProduct(TOutcell news) {
         if (news != null && StringUtils.isNotBlank(news.getId())) {
+        	news.setUserNo("admin");
 //            TProduct t = productMapper.findById(news.getId());
             int flag = tOutcellMapper.updateByPrimaryKeySelective(news);
             if (flag == 1)
@@ -89,7 +92,7 @@ public class OutCellServiceImpl implements OutCellService {
     @Override
     public List<TOutcell> findProductByKeywords(String keywords) {
         log.info("# 查询默认数据库");
-        return null;//tOutcellMapper.selectByPrimaryKey(keywords);
+        return tOutcellMapper.selectByProductNo(keywords);//tOutcellMapper.selectByPrimaryKey(keywords);
     }
 
     
@@ -128,22 +131,22 @@ public class OutCellServiceImpl implements OutCellService {
 	public int importOutCell(List<TOutcell> list) {
 		int i = 0;
 		for(TOutcell tProduct:list){
-			TOutcell outcell = tOutcellMapper.selectByProductNo(tProduct.getProductNo());
-			if(null != outcell && null != outcell.getBillNo()){
-				outcell.setUserNo(tProduct.getUserNo());
-				outcell.setOutQty(tProduct.getOutQty());
-				outcell.setSurplusQty(tProduct.getSurplusQty());
-				outcell.setUpdateTime(null);
-				outcell.setCreateTime(null);
-				tOutcellMapper.updateByPrimaryKeySelective(outcell);
-			}else{
+//			TOutcell outcell = tOutcellMapper.selectByProductNo(tProduct.getProductNo());
+//			if(null != outcell && null != outcell.getBillNo()){
+//				outcell.setUserNo(tProduct.getUserNo());
+//				outcell.setOutQty(tProduct.getOutQty());
+//				outcell.setSurplusQty(tProduct.getSurplusQty());
+//				outcell.setUpdateTime(null);
+//				outcell.setCreateTime(null);
+//				tOutcellMapper.updateByPrimaryKeySelective(outcell);
+//			}else{
 				
 				String billNo = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
 				tProduct.setBillNo("OUT"+billNo+i);
 				tProduct.setId(FactoryAboutKey.getPK(TableEnum.T_OUTCELL));
 				tProduct.setCreateTime(Calendar.getInstance().getTime());
-				int flag = tOutcellMapper.insertSelective(tProduct);
-			}
+				tOutcellMapper.insertSelective(tProduct);
+//			}
             i++;
 		}
 		return i;

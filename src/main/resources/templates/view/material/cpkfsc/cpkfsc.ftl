@@ -218,7 +218,7 @@
     <script src="${ctx}/static/js/plugins/validate/jquery.validate.min.js"></script>  <!---表单验证--->
     <script src="${ctx}/static/js/plugins/validate/validate-cn.js" ></script> <!---validate 自定义方法--->
 	<!---文件上传中文配置--->
-    <script src="${ctx}/static/page/cpkfsc.js"></script>
+    <script src="${ctx}/static/page/cpkfsc.js?v=20200510"></script>
     
 
 </body>

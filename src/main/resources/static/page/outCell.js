@@ -3,7 +3,7 @@
 
     var loadData,pageNum;
         $(document).ready(function () {
-        	$("#excelImportCls").val("productNo,userNo,outQty,surplusQty");
+        	$("#excelImportCls").val("productNo,userNo,outQty,usQty,ukQty,caQty");
         	//导入
        	 $("#input_import").validate({
             	rules: {
@@ -90,30 +90,51 @@
             });
             $("#input_form").validate({
             	rules: {
-            		userNo: {
-                        required: true,
-                        rangelength: [1, 12],
-                    },
+//            		userNo: {
+//                        required: true,
+//                        rangelength: [1, 12],
+//                    },
                     productNo: {
                         required: true,
                         rangelength: [1,12],
                     },
                     outQty: {
-                    	required: true,
+                    	required: false,
+                    	number: true
+                    },
+                    usQty: {
+                    	required: false,
+                    	number: true
+                    },
+                    ukQty: {
+                    	required: false,
+                    	number: true
+                    },
+                    caQty: {
+                    	required: false,
                     	number: true
                     }
                 },
                 messages: {
-                	userNo: {
-                        required: "请输入开发员编号",
-                        rangelength: jQuery.validator.format("开发员编号应为1-12位的英文字母")
-                    },
+//                	userNo: {
+//                        required: "请输入开发员编号",
+//                        rangelength: jQuery.validator.format("开发员编号应为1-12位的英文字母")
+//                    },
                     productNo: {
                         required: "请输入产品编号",
                         rangelength: jQuery.validator.format("产品编号应为1-12位的英文字母")
                     },
                     outQty: {
                         required: "请输入出库数量",
+                        number: "请输入数字"
+                    },
+                    usQty: {
+                        number: "请输入数字"
+                    },
+                    ukQty: {
+                        number: "请输入数字"
+                    },
+                    caQty: {
                         number: "请输入数字"
                     }
                 },
@@ -131,7 +152,6 @@
             }
             $('#modal-form').on('show.bs.modal', function (e) {
             	$("#show-img-data").empty();
-//            	$(item).attr("disabled",true);
             	var button = $(event.target) // Button that triggered the modal
             	  var type = button.data('typemodel') // Extract info from data-* attributes
             	  if(type =='modlify'){
@@ -161,7 +181,11 @@
             	  }else{
                 	  $(this).find('.modal-title').text('添加出库记录')
             		  $.each($(':input','#input_form'),function(index,item){
-            			  $(item).val('');
+            			  if(item.name == 'productNo'){
+            				  $(item).val(button.data('idmodel'));
+            			  }else{
+            				  $(item).val('');
+            			  }
             		  })
             	  }
             	})
@@ -176,10 +200,8 @@
         $.ajax({
           url: "/outCell/edit.json",
           type: "post",
-//          contentType:"application/x-www-form-urlencoded; charset=UTF-8",
           contentType: "application/json; charset=utf-8",
           dataType: "json",
-//          data: $(form).serialize(),
           data:JSON.stringify(data),
           success: function(data) {
             if(data.status ==1){
@@ -213,13 +235,37 @@
           success: function(data) {
             toastr.success('', '添加成功！');
             $('#modal-form').modal('hide');
-            loadData();
+            loadData(pageNum);
           },
           error:function(e){
         	  toastr.error("出现错误，请更改");
           }
         });
       }
+      
+      $('#outCellList').on('show.bs.modal', function (e) {
+      	var button = $(event.target) // Button that triggered the modal
+  		  var id = button.data('idmodel');
+      		$("#outcell-table-body").empty();
+  		  $.ajax({
+  	          url: "/outCell/selectByNo.json?productNo="+id,
+  	          type: "get",
+  	          dataType: "json",
+  	          data: null,
+  	          success: function(data) {
+  	        	  if(data.list){
+  	        		  var $h="";
+  	        		  $.each(data.list,function(index,item){
+  	        			$h += "<tr><td>"+item.outQty+"</td><td>"+item.usQty+"</td><td>"+item.ukQty+"</td><td>"+item.caQty+"</td><td>"+item.createTime+"</td><td>"+item.remark+"</td></tr>"
+  	        		  })
+  	        		  $("#outcell-table-body").html($h);
+  	        	  }
+  	          },
+  	          error:function(e){
+  	        	  toastr.error("获取明细错误");
+  	          }
+  	        });
+      	})
       //加载数据
       loadData = function loadData(num){
     	  pageNum = num?num:1;
@@ -248,41 +294,20 @@
             		if(data.page.list.length > 0){
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
-//                			 $tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
-//                			 if(item.productStatus <= 15){
-//                				 $tr += '<td><a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.billNo+'</a></td>';
-//                			 }else{
-//                				 $tr += '<td>'+item.billNo+'</td>';
-//                			 }
-                			if(item.productStatus <= 15){
-               				 $tr += '<tr><td><a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</a></td>';//<a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.billNo+'</a></td>';
-               			 }else{
-               				$tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
-//               				 $tr += '<td>'+item.billNo+'</td>';
-               			 }
-                			 $tr +=  ' <td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td> <td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td> <td>'+item.userNo+'</td><td>'+item.outQty+'</td><td>'+(null != item.surplusQty && "" != item.surplusQty?item.surplusQty:"暂无记录")+'</td><td>'+(item.cellSurplusQty?item.cellSurplusQty:'0')+'</td>'+
-//                            '<td>'+(item.createTime?item.createTime:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
-                            '<td>'+(item.usQty?item.usQty:' ')+'</td><td>'+(item.ukQty?item.ukQty:' ')+'</td><td>'+(item.caQty?item.caQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
-                             '<td class="text-right text-nowrap">'+
+//                			if(item.productStatus <= 15){
+//                				$tr += '<tr><td><a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</a></td>';//<a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.billNo+'</a></td>';
+//               			 	}else{
+//               			 		$tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
+//               			 	}
+                				$tr +=  ' <tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td> <td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td> <td>'+(item.cellSurplusQty?item.cellSurplusQty:'0')+'</td>'+
+                				'<td>'+(item.usQty?item.usQty:' ')+'</td><td>'+(item.ukQty?item.ukQty:' ')+'</td><td>'+(item.caQty?item.caQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
+                				'<td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';
-                                 if(item.productStatus <= 15){
-                                	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form"><i class="fa fa-pencil"></i>  编辑</button>';
+                				$tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="search" data-idmodel="'+item.productNo+'" data-target="#outCellList"><i class="fa fa-search"></i>  查看出库记录</button>';
+                                 if(data.flag){ 
+                                		 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="add" data-idmodel="'+item.productNo+'" data-target="#modal-form"><i class="fa fa-pencil"></i>  添加出库记录</button>';
                                  }
-                                     if(data.flag){
-//                                    	 if(item.productStatus == 15){
-//                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')" ><i class="fa fa-eye"></i>审核</button>';
-//                                    	 }else 
-                                    		 if(item.productStatus < 15){
-                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')"><i class="fa fa-eye"></i>审核</button>';
-                                    	 }
-                                    	 if(item.productStatus > 15){
-                                    		 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';
-                                    	 }
-                                     }
-                                     if(item.productStatus <= 15){
-                                    	 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';
-                                     }
-                                     $tr += '</div>'+
+                                 $tr += '</div>'+
                              '</td>'+
                          '</tr>';
                 			

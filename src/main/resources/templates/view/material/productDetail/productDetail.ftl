@@ -331,7 +331,7 @@
       <script src="${ctx}/static/js/plugins/pictureCut/cropper.min.js"></script>
   <script src="${ctx}/static/js/plugins/pictureCut/main.js"></script>
   -->
-    <script src="${ctx}/static/page/prodDetail.js?v=20190613"> </script>
-    <script src="${ctx}/static/js/zoom.js?v=20190614"> </script>
+    <script src="${ctx}/static/page/prodDetail.js??v=20200510"> </script>
+    <script src="${ctx}/static/js/zoom.js?v=20200510"> </script>
 </body>
 </html>

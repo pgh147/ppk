@@ -286,6 +286,6 @@
     <script src="${ctx}/static/js/plugins/validate/jquery.validate.min.js"></script>  <!---表单验证--->
     <script src="${ctx}/static/js/plugins/validate/validate-cn.js" ></script> <!---validate 自定义方法--->
 
-    <script src="${ctx}/static/page/qcInCell.js"> </script>
+    <script src="${ctx}/static/page/qcInCell.js?v=20200510"> </script>
 </body>
 </html>

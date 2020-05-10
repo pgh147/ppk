@@ -25,7 +25,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, bill_no, product_no, user_no, out_qty, out_reason, status, product_status, update_time, 
-    updater, create_time, creater, remark,surplus_qty
+    updater, create_time, creater, remark,us_qty,uk_qty,ca_qty
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -47,12 +47,12 @@
     insert into t_outcell (id, bill_no, product_no, 
       user_no, out_qty, out_reason, 
       status, product_status, update_time, 
-      updater, create_time, creater, surplus_qty,
+      updater, create_time, creater, us_qty,uk_qty,ca_qty,
       remark)
     values (#{id,jdbcType=VARCHAR}, #{billNo,jdbcType=VARCHAR}, #{productNo,jdbcType=VARCHAR}, 
       #{userNo,jdbcType=VARCHAR}, #{outQty,jdbcType=INTEGER}, #{outReason,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{productStatus,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, #{surplusQty,jdbcType=VARCHAR}, 
+      #{updater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, #{usQty,jdbcType=INTEGER}, #{ukQty,jdbcType=INTEGER}, #{caQty,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.springboot.model.product.TOutcell">
@@ -73,9 +73,15 @@
       <if test="outQty != null">
         out_qty,
       </if>
-      <if test="surplusQty != null">
-        surplus_qty,
-      </if>      
+      <if test="usQty != null">
+        us_qty,
+      </if>  
+            <if test="ukQty != null">
+        uk_qty,
+      </if> 
+            <if test="caQty != null">
+        ca_qty,
+      </if>     
       <if test="outReason != null">
         out_reason,
       </if>
@@ -117,9 +123,15 @@
       <if test="outQty != null">
         #{outQty,jdbcType=INTEGER},
       </if>
-      <if test="surplusQty != null">
-        #{surplusQty,jdbcType=VARCHAR},
+      <if test="usQty != null">
+        #{usQty,jdbcType=INTEGER},
       </if>
+      <if test="ukQty != null">
+        #{ukQty,jdbcType=INTEGER},
+      </if>
+      <if test="caQty != null">
+        #{caQty,jdbcType=INTEGER},
+      </if>      
       <if test="outReason != null">
         #{outReason,jdbcType=VARCHAR},
       </if>
@@ -161,9 +173,15 @@
       <if test="outQty != null and '' != outQty or outQty == 0">
         out_qty = #{outQty,jdbcType=INTEGER},
       </if>
-      <if test="surplusQty != null and '' != surplusQty or surplusQty == 0">
-       surplus_qty =  #{surplusQty,jdbcType=VARCHAR},
+      <if test="usQty != null and '' != usQty or usQty == 0">
+       us_qty =  #{usQty,jdbcType=INTEGER},
       </if>
+      <if test="ukQty != null and '' != ukQty or ukQty == 0">
+       uk_qty =  #{ukQty,jdbcType=INTEGER},
+      </if>
+      <if test="caQty != null and '' != caQty or caQty == 0">
+       ca_qty =  #{caQty,jdbcType=INTEGER},
+      </if>            
       <if test="outReason != null and '' != outReason ">
         out_reason = #{outReason,jdbcType=VARCHAR},
       </if>
@@ -208,24 +226,38 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="findProductByPage" parameterType="cn.springboot.model.product.TOutcell" resultMap="BaseResultMap">
+  	<!-- 
   	select a.id, a.bill_no, a.product_no, a.user_no, a.surplus_qty,a.out_qty, a.out_reason, a.status, a.product_status, a.update_time, 
     a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data,d.incell_qty - e.out_qty as cell_surplus_qty,d.us_qty,d.uk_qty,d.ca_qty 
     from t_outcell a inner join t_product b on a.product_no = b.product_no 
     left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
     left JOIN (
-		SELECT product_no,SUM(incell_qty) incell_qty,SUM(us_qty) us_qty,SUM(uk_qty) uk_qty,SUM(ca_qty) ca_qty from t_qc_incell GROUP BY product_no
+		SELECT product_no,SUM(incell_qty) incell_qty,SUM(us_qty) us_qty,SUM(uk_qty) uk_qty,SUM(ca_qty) ca_qty from t_qc_incell where product_status = 20 GROUP BY product_no
 	) as d on a.product_no = d.product_no
 	left JOIN (
 		SELECT product_no,SUM(out_qty) out_qty from t_outcell GROUP BY product_no
 	) as e on a.product_no = e.product_no
-    <where> 1=1
+	 -->
+	SELECT 
+		a.product_no,  a.product_status, a.update_time, 
+    a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data
+ ,sum(a.incell_qty) - IFNULL(d.out_qty,0) as cell_surplus_qty,sum(a.us_qty) - IFNULL(d.us_qty,0) as us_qty,sum(a.uk_qty) - IFNULL(d.uk_qty,0) as uk_qty,sum(a.ca_qty) - IFNULL(d.ca_qty,0)as ca_qty
+ from t_qc_incell a 
+inner join t_product b on a.product_no = b.product_no 
+left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
+left JOIN (
+		SELECT product_no,SUM(out_qty) out_qty,SUM(us_qty) us_qty,SUM(uk_qty) uk_qty,SUM(ca_qty) ca_qty from t_outcell GROUP BY product_no
+	) as d on a.product_no = d.product_no
+
+
+    <where> a.product_status = 20
     	<if test="billNo != null and '' != billNo ">
         and a.bill_no = #{billNo,jdbcType=VARCHAR}
       </if>
       <if test="productNo != null and '' != productNo ">
         and a.product_no like '%${productNo}%' 
       </if>
-            <if test="productName != null and '' != productName ">
+      <if test="productName != null and '' != productName ">
         and b.product_name  like '%${productName}%' 
       </if>
       <if test="userNo != null and '' != userNo ">
@@ -262,11 +294,15 @@
         and a.remark = #{remark,jdbcType=VARCHAR}
       </if>
     </where>
-                <if test="orderSql != null">
+    <!-- 
+        <if test="orderSql != null">
         ${orderSql}
         </if>
         <if test="orderSql == null ">
         order by a.create_time desc
         </if>
+         -->
+      GROUP BY product_no  
+      order by product_no desc
   </select>
 </mapper>

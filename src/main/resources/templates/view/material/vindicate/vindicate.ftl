@@ -269,6 +269,6 @@
     <script src="${ctx}/static/js/plugins/fileinput/fileinput.js"></script>
 	<!---文件上传中文配置--->
 	<script src="${ctx}/static/js/plugins/fileinput/fileinput_locale_zh.js"></script>
-    <script src="${ctx}/static/page/vindicate.js"> </script>
+    <script src="${ctx}/static/page/vindicate.js?v=20200510"> </script>
 </body>
 </html>

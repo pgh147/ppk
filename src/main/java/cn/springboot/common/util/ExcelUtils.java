@@ -201,7 +201,7 @@ public class ExcelUtils {
 				// 数据合法性
 				if (fieldTypeStr.contains("int") || fieldTypeStr.contains("Integer") || fieldTypeStr.contains("Long")
 						|| fieldTypeStr.contains("BigInteger")) {
-					if (!CommonUtils.isInteger(data)) {
+					if (null != data && !"".equals(data)&&!CommonUtils.isInteger(data)) {
 						sb.append(baseInfo).append("必须为整数<br/>");
 						flag = false;
 						continue;

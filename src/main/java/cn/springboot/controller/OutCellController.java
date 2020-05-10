@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sun.tools.internal.ws.processor.model.Parameter;
+import com.sun.tools.internal.ws.processor.model.Request;
 
 import cn.springboot.common.exception.BusinessException;
 import cn.springboot.common.exception.MyselfMsgException;
@@ -160,7 +162,28 @@ private OutCellService outCellService;
         result.put("flag", isAdmin);
         return result;
     }
-    
+    /**
+     * @Description ajax list上传产品
+     * @param news
+     * @return
+     */
+    @RequestMapping(value = "/selectByNo.json", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> selectByNo(@RequestParam(value = "productNo", required = true) String productNo) {
+//    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+//    	List<Role> roles = principal.getRoles();
+//    	boolean isAdmin = false;
+//    	for(Role role:roles){
+//    		if(role.getName().equals("超级管理员")){
+//    			isAdmin = true;
+//    			break;
+//    		}
+//    	}
+    	List<TOutcell> list = outCellService.findProductByKeywords(productNo);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("list", list);
+        return result;
+    }
     /**
      * @Description ajax开发上传产品明细
      * @param news

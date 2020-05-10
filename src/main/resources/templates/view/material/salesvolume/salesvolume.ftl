@@ -139,7 +139,7 @@
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script src="${ctx}/static/js/plugins/echarts/echarts.common.min.js"></script>
    <!-- <script src="${ctx}/static/js/divresize.js"> </script> -->
-    <script src="${ctx}/static/page/salesvolume.js"> </script>
+    <script src="${ctx}/static/page/salesvolume.js?v=20200510"> </script>
     
 
 </body>

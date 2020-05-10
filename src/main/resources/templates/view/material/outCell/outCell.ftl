@@ -36,11 +36,11 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-6 col-sm-4 ">
                             <a id="editable-sample_new" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ff"  href="#modal-form">
-                                添加记录 <i class="fa fa-plus"></i>
+                                添加出库记录 <i class="fa fa-plus"></i>
                             </a>
                             <@shiro.hasRole name="admin_role">
                             <a id="editable-sample_new" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ff"  href="#modal-import">
-                                导入<i class="fa fa-plus"></i>
+                                导入出库记录<i class="fa fa-plus"></i>
                             </a> 
                         </@shiro.hasRole>  
                         </div>
@@ -52,64 +52,14 @@
                                                 <span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary " id="button-simple"> 查询</button></span>
                                         </div>
                                    </div>
-                                   <div class="table-td m-l-sm pull-right">
-                                       <a  class="btn btn-sm btn-primary dropdown-toggle" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> 高级搜索 <span class="caret"></span></a>
-
-                                   </div>
                                 </div>
                         </div>
                     </div>
-                    <!----高级搜索内容区---->
-                    <div class="collapse" id="collapseExample">
-                        <div class="border-top m-t-md m-b-none sidedown-box" >
-                            <div class="row">
-                            <!--
-                            <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label" >单据编号</label>
-                                        <input type="text" id="billNo" name="billNo" value="" placeholder="单据编号" class="form-control">
-                                    </div>
-                                </div>
-                                -->
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label" for="order_id">出库员编号</label>
-                                        <input type="text" id="userNo" name="userNo" value="" placeholder="出库员编号" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label" >状态</label>
-										<select name="productStatus" id="productStatus" class="form-control input-s-sm inline">
-                                            <option value="">-- 请选择状态 --</option>
-                                            <option value="1">-- 初始 --</option>
-                                            <option value="20">-- 审核 --</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-4">
-                                    <div class="form-group" style="text-align: center;margin-top: 20px;">
-                                         <button type="button" class="btn btn-primary" id="search-button"><i class="fa fa-search"></i> 立即搜索</button>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <!--
-                            <div class="row">
-
-                                <div class="col-sm-4 col-sm-push-8 text-right">
-                                    <button type="button" class="btn btn-primary" id="search-button"><i class="fa fa-search"></i> 立即搜索</button>
-                                </div>
-                            </div>
-							-->
-                        </div>
-                    </div>
-                    <!---高级搜索结束---->
+                    
                 </div>
 
 
-                <div class="row">
+                <div class="row" style="overflow:scroll">
                     <div class="col-lg-12">
                         <div class="ibox">
                             <div class="ibox-content" style="padding-top:0px;">
@@ -117,15 +67,16 @@
                                     <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
                                         <thead>
                                             <tr>
-                                                <th>状态</th>
+                                                <!--<th>状态</th>-->
                                                 <!--<th>单号</th>-->
                                                 <th>产品图片</th>
                                             	<th>产品编号 </th>
                                             	<th>产品名称 </th>
-                                                <th>出库员编号</th>
+                                              <!--  <th>出库员编号</th>
                                                 <th>出库数量 </th>
                                                 <th>仓库剩余数量（手动）</th>
-                                                <th>仓库剩余数量（计算）</th>
+                                                -->
+                                                <th>仓库剩余数量</th>
                                                 <th>us数量</th>
                                                 <th>uk数量</th>
                                                 <th>ca数量</th>
@@ -190,7 +141,7 @@
 								</div>
 							</div>		
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="logoFile"> 请上传的Excel </label>
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="logoFile"> 请选中上传的Excel </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
 									<input type="file" class="file-loading" name="productExcelData" id="productImgData"  accept=".xls,.xlsx" >
 									
@@ -224,38 +175,45 @@
                        <form name="entity" id="input_form" class="form-horizontal" enctype="multipart/form-data">
                        
 									<input type="text" style="display:none"  id="produc_id_h" name="id" >
-							<!--
-							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="name"><span class="text-danger">* </span>出库单号 </label>
-								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text"  name="billNo" value="" placeholder="出库单号不可输入" class="form-control" readonly="readonly" >
-								</div>
-							</div>		
-							-->
+
 							<div class="form-group">
 								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="name"><span class="text-danger">* </span>产品编号 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
 									<input type="text"  name="productNo" value="" placeholder="请输入产品编号" class="form-control" required>
 								</div>
-							</div>						                       
-							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="shortName"><span class="text-danger">*</span> 出库员编号 </label>
+							</div>				
+									                       
+							<div class="form-group" style="display:none;">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="shortName"> 出库员编号 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text"  name="userNo" value="" placeholder="请输出库员编号" class="form-control" required>
+									<input type="text"  name="userNo" value="admin" placeholder="请输出库员编号可不填" class="form-control" required>
 								</div>
 							</div>
+							
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="shortName"><span class="text-danger">*</span> 出库数量 </label>
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="shortName"> 出库数量 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
 									<input type="text"  name="outQty" value="" placeholder="出库数量" class="form-control" required>
 								</div>
+							</div>	
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="shortName"> us数量 </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text"  name="usQty" value="" placeholder="us数量" class="form-control" required>
+								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="shortName"> 仓库剩余数量（手动） </label>
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="shortName"> uk数量 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text"  name="surplusQty" value="" placeholder="仓库剩余数量（手动）" class="form-control" >
+									<input type="text"  name="ukQty" value="" placeholder="uk数量" class="form-control" required>
 								</div>
-							</div>							
+							</div>
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="shortName"> ca数量 </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text"  name="caQty" value="" placeholder="ca数量" class="form-control" required>
+								</div>
+							</div>	
 							<div class="form-group">
 								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > 备注 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
@@ -277,6 +235,37 @@
         </div>
     </div>
 
+
+
+    <div class="modal fade" id="outCellList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">出库列表</h4>
+                </div>
+                <div class="modal-body">
+ 							<table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
+                                        <thead>
+                                            <tr>
+                                                <th>出库数量 </th>
+                                                <th>us数量</th>
+                                                <th>uk数量</th>
+                                                <th>ca数量</th>
+                                                <th>创建时间</th>
+                                                <th>备注</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="outcell-table-body">
+                                            
+                                           
+
+                                        </tbody>
+                                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- 全局 scripts -->
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
     <script src="${ctx}/static/js/bootstrap.js"></script>
@@ -297,6 +286,6 @@
     <script src="${ctx}/static/js/plugins/validate/jquery.validate.min.js"></script>  <!---表单验证--->
     <script src="${ctx}/static/js/plugins/validate/validate-cn.js" ></script> <!---validate 自定义方法--->
 
-    <script src="${ctx}/static/page/outCell.js"> </script>
+    <script src="${ctx}/static/page/outCell.js?af=20200510"> </script>
 </body>
 </html>
