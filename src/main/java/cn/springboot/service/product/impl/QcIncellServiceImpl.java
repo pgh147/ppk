@@ -80,26 +80,32 @@ public class QcIncellServiceImpl implements QcIncellService {
 //            TProduct t = productMapper.findById(news.getId());
             int flag = tQcIncellMapper.updateByPrimaryKeySelective(news);
 //            //审核后同步出库
-//            if(news.getProductStatus() == 20 ){
-//            	TQcIncell inCell = tQcIncellMapper.selectByPrimaryKey(news.getId());
-//            	TOutcell tProduct = tOutcellMapper.selectByProductNo(inCell.getProductNo());
-//            	if(null == tProduct){
-//            		String billNo = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
-//            		TOutcell tOutcell = new TOutcell();
-//            		tOutcell.setBillNo("OUT"+billNo);
-//            		tOutcell.setProductNo(inCell.getProductNo());
-//            		tOutcell.setSurplusQty(String.valueOf(inCell.getIncellQty()));
-//            		tOutcell.setUserNo(inCell.getUserNo());
-//            		tOutcell.setId(FactoryAboutKey.getPK(TableEnum.T_OUTCELL));
-//            		tOutcell.setCreateTime(Calendar.getInstance().getTime());
-//            		tOutcellMapper.insertSelective(tOutcell);
-//            	}else{
-//            		TOutcell tOut = new TOutcell();
-//            		tOut.setId(tProduct.getId());
-//            		tOut.setSurplusQty(String.valueOf(Integer.parseInt(tProduct.getSurplusQty())+inCell.getIncellQty()));
-//            		tOutcellMapper.updateByPrimaryKeySelective(tOut);
-//            	}
-//            }
+            if(news.getProductStatus() == 20 ){
+            	TQcIncell inCell = tQcIncellMapper.selectByPrimaryKey(news.getId());
+            	TOutcell tProduct = tOutcellMapper.selectByProductNo(inCell.getProductNo());
+            	if(null == tProduct){
+            		String billNo = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
+            		TOutcell tOutcell = new TOutcell();
+            		tOutcell.setBillNo("OUT"+billNo);
+            		tOutcell.setProductNo(inCell.getProductNo());
+            		tOutcell.setSurplusQty(inCell.getIncellQty());
+            		tOutcell.setUsQty(inCell.getUsQty());
+            		tOutcell.setUkQty(inCell.getUkQty());
+            		tOutcell.setCaQty(inCell.getCaQty());
+            		tOutcell.setUserNo(inCell.getUserNo());
+            		tOutcell.setId(FactoryAboutKey.getPK(TableEnum.T_OUTCELL));
+            		tOutcell.setCreateTime(Calendar.getInstance().getTime());
+            		tOutcellMapper.insertSelective(tOutcell);
+            	}else{
+            		TOutcell tOut = new TOutcell();
+            		tOut.setId(tProduct.getId());
+            		tOut.setSurplusQty(tProduct.getSurplusQty()+inCell.getIncellQty());
+            		tOut.setUsQty(tProduct.getUsQty()+inCell.getUsQty());
+            		tOut.setUkQty(tProduct.getUkQty()+inCell.getUkQty());
+            		tOut.setCaQty(tProduct.getCaQty()+inCell.getCaQty());
+            		tOutcellMapper.updateByPrimaryKeySelective(tOut);
+            	}
+            }
 
             if (flag == 1)
                 return true;

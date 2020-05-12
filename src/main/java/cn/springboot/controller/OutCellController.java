@@ -31,7 +31,9 @@ import cn.springboot.model.ImportRequest;
 import cn.springboot.model.ImportResolve;
 import cn.springboot.model.auth.Role;
 import cn.springboot.model.product.TOutcell;
+import cn.springboot.model.product.TOutcellDtl;
 import cn.springboot.model.product.TQcIncell;
+import cn.springboot.service.product.OutCellDtlService;
 import cn.springboot.service.product.OutCellService;
 
 @Controller
@@ -41,7 +43,8 @@ public class OutCellController {
     private static final Logger log = LoggerFactory.getLogger(OutCellController.class);
 @Autowired
 private OutCellService outCellService;
-    
+@Autowired
+private OutCellDtlService outCellDtlService;    
     /**
      * @Description ajax开发上传产品
      * @param news
@@ -50,7 +53,7 @@ private OutCellService outCellService;
     @RequestMapping(value = "/add.json", method = RequestMethod.POST)
     @ResponseBody
 //    public Map<String, String> add(@ModelAttribute("newsForm") TProduct news) {
-    public Map<String, String> add(@RequestBody TOutcell news) {	
+    public Map<String, String> add(@RequestBody TOutcellDtl news) {	
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
     	news.setCreater(principal.getUser().getUsername());
         boolean flag = outCellService.addProduct(news);
@@ -71,7 +74,7 @@ private OutCellService outCellService;
      */
     @RequestMapping(value = "/edit.json", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> edit(@RequestBody  TOutcell news) {
+    public Map<String, String> edit(@RequestBody  TOutcellDtl news) {
     	Map<String, String> result = new HashMap<>();
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
 //    	news.setUpdateTime(new Date());
@@ -107,7 +110,7 @@ private OutCellService outCellService;
      */
     @RequestMapping(value = "/updateStatus.json", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> updateStatus(@ModelAttribute("newsForm") TOutcell news) {
+    public Map<String, String> updateStatus(@ModelAttribute("newsForm") TOutcellDtl news) {
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
     	List<Role> roles = principal.getRoles();
     	boolean isAdmin = false;
@@ -122,7 +125,7 @@ private OutCellService outCellService;
     	}
 //    	news.setUpdateTime(new Date());
     	news.setUpdater(principal.getUser().getUsername());
-        boolean flag = outCellService.updateProduct(news);
+        boolean flag = outCellDtlService.updateProduct(news);
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
@@ -150,7 +153,7 @@ private OutCellService outCellService;
     			break;
     		}
     	}
-    	if(!isAdmin){
+    	if(!isAdmin && !StringUtils.startsWith(principal.getUser().getUsername(), "p")){
     		product.setpUserNo("'"+principal.getUser().getUsername()+"','a13'");
     	}
 //    	else if(StringUtils.isNotBlank(product.getUserNo())){
@@ -169,17 +172,8 @@ private OutCellService outCellService;
      */
     @RequestMapping(value = "/selectByNo.json", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> selectByNo(@RequestParam(value = "productNo", required = true) String productNo) {
-//    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
-//    	List<Role> roles = principal.getRoles();
-//    	boolean isAdmin = false;
-//    	for(Role role:roles){
-//    		if(role.getName().equals("超级管理员")){
-//    			isAdmin = true;
-//    			break;
-//    		}
-//    	}
-    	List<TOutcell> list = outCellService.findProductByKeywords(productNo);
+    public Map<String, Object> selectByNo(@RequestParam(value = "billNo", required = true) String billNo) {
+    	List<TOutcellDtl> list = outCellDtlService.findProductByKeywords(billNo);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("list", list);
         return result;
@@ -275,11 +269,11 @@ private OutCellService outCellService;
  	        if(colNames.length != mustArray.length){
  	        	throw new MyselfMsgException("导入列colNames与是否必须mustArray的参数长度不一致");
  	        }
- 	        ImportResolve<TOutcell> is = null;
+ 	        ImportResolve<TOutcellDtl> is = null;
  	        if(StringUtils.isEmpty(mainKeyStr)){
- 	        	is = ExcelUtils.getData(req, colNames, mustArray, null, TOutcell.class, "","importFile");
+ 	        	is = ExcelUtils.getData(req, colNames, mustArray, null, TOutcellDtl.class, "","importFile");
  	        }else{
- 	        	is = ExcelUtils.getData(req, colNames, mustArray, mainKeyStr.split(","), TOutcell.class, "","importFile");
+ 	        	is = ExcelUtils.getData(req, colNames, mustArray, mainKeyStr.split(","), TOutcellDtl.class, "","importFile");
  	        }
  	        Map<String, Object> resultMap = new HashMap<String,Object>();//getBaseSimplePageService().importData(dataList, user, reqData);
  	        if(StringUtils.isNotEmpty(is.getErrorMsg())){

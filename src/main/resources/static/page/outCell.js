@@ -248,7 +248,7 @@
   		  var id = button.data('idmodel');
       		$("#outcell-table-body").empty();
   		  $.ajax({
-  	          url: "/outCell/selectByNo.json?productNo="+id,
+  	          url: "/outCell/selectByNo.json?billNo="+id,
   	          type: "get",
   	          dataType: "json",
   	          data: null,
@@ -303,9 +303,9 @@
                 				'<td>'+(item.usQty?item.usQty:' ')+'</td><td>'+(item.ukQty?item.ukQty:' ')+'</td><td>'+(item.caQty?item.caQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
                 				'<td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';
-                				$tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="search" data-idmodel="'+item.productNo+'" data-target="#outCellList"><i class="fa fa-search"></i>  查看出库记录</button>';
+                				$tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="search" data-idmodel="'+item.billNo+'" data-target="#outCellList"><i class="fa fa-search"></i>  查看出库记录</button>';
                                  if(data.flag){ 
-                                		 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="add" data-idmodel="'+item.productNo+'" data-target="#modal-form"><i class="fa fa-pencil"></i>  添加出库记录</button>';
+                                		 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="add" data-idmodel="'+item.productNo+'" data-idmodel="'+item.billNo+'" data-target="#modal-form"><i class="fa fa-pencil"></i>  添加出库记录</button>';
                                  }
                                  $tr += '</div>'+
                              '</td>'+

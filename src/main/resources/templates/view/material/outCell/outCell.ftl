@@ -35,10 +35,10 @@
                 <div class="ibox-content m-b-sm border-bottom">
                     <div class="row">
                         <div class="col-lg-8 col-md-6 col-sm-4 ">
+                            <@shiro.hasRole name="admin_role">
                             <a id="editable-sample_new" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ff"  href="#modal-form">
                                 添加出库记录 <i class="fa fa-plus"></i>
                             </a>
-                            <@shiro.hasRole name="admin_role">
                             <a id="editable-sample_new" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ff"  href="#modal-import">
                                 导入出库记录<i class="fa fa-plus"></i>
                             </a> 

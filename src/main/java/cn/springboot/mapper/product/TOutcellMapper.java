@@ -14,7 +14,7 @@ public interface TOutcellMapper {
     int insertSelective(TOutcell record);
 
     TOutcell selectByPrimaryKey(String id);
-    List<TOutcell> selectByProductNo(String productNo);
+    TOutcell selectByProductNo(String productNo);
     int updateByPrimaryKeySelective(TOutcell record);
 
     int updateByPrimaryKey(TOutcell record);

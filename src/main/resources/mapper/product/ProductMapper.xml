@@ -309,7 +309,7 @@
 	      <if test="pUserNo != null and '' != pUserNo ">
 	        and a.user_no in (${pUserNo})
 	      </if> 		  
-		  <if test="null!=uploadAccount and '' != uploadAccount or uploadAccount == 0">
+		  <if test="null!=uploadAccount and '' != uploadAccount">
 		       and a.upload_account = #{uploadAccount}
 		  </if>
 	      <if test="null!=productAnys and ''!= productAnys">

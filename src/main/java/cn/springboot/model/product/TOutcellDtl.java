@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class TOutcell {
+public class TOutcellDtl {
     private String id;
 
     private String billNo;
@@ -14,7 +14,7 @@ public class TOutcell {
     private String userNo;
 
     private Integer outQty;
-    private Integer surplusQty;
+    private String surplusQty;
     private Integer cellSurplusQty;
     private String outReason;
 
@@ -166,7 +166,13 @@ public class TOutcell {
 		this.orderSql = orderSql;
 	}
 
-	
+	public String getSurplusQty() {
+		return surplusQty;
+	}
+
+	public void setSurplusQty(String surplusQty) {
+		this.surplusQty = surplusQty;
+	}
 
 	public Integer getCellSurplusQty() {
 		return cellSurplusQty;
@@ -206,13 +212,5 @@ public class TOutcell {
 
 	public void setUkQty(Integer ukQty) {
 		this.ukQty = ukQty;
-	}
-
-	public Integer getSurplusQty() {
-		return surplusQty;
-	}
-
-	public void setSurplusQty(Integer surplusQty) {
-		this.surplusQty = surplusQty;
 	}
 }

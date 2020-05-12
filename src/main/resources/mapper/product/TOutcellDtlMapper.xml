@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.springboot.mapper.product.TOutcellMapper">
-  <resultMap id="BaseResultMap" type="cn.springboot.model.product.TOutcell">
+<mapper namespace="cn.springboot.mapper.product.TOutcellDtlMapper">
+  <resultMap id="BaseResultMap" type="cn.springboot.model.product.TOutcellDtl">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="bill_no" jdbcType="VARCHAR" property="billNo" />
     <result column="product_no" jdbcType="VARCHAR" property="productNo" />
@@ -24,39 +24,39 @@
     <result column="ca_qty" jdbcType="INTEGER" property="caQty" />    
   </resultMap>
   <sql id="Base_Column_List">
-    id, bill_no, product_no, user_no, surplus_qty, status, product_status, update_time, 
+    id, bill_no, product_no, user_no, out_qty, out_reason, status, product_status, update_time, 
     updater, create_time, creater, remark,us_qty,uk_qty,ca_qty
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_outcell
+    from t_outcell_dtl
     where id = #{id,jdbcType=VARCHAR}
   </select>
-    <select id="selectByProductNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByBillNo" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_outcell
-    where product_no = #{productNo,jdbcType=VARCHAR}
+    from t_outcell_dtl
+    where bill_no = #{billNo,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from t_outcell
+    delete from t_outcell_dtl
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="cn.springboot.model.product.TOutcell">
-    insert into t_outcell (id, bill_no, product_no, 
-      user_no, surplus_qty, out_reason, 
+    insert into t_outcell_dtl (id, bill_no, product_no, 
+      user_no, out_qty, out_reason, 
       status, product_status, update_time, 
       updater, create_time, creater, us_qty,uk_qty,ca_qty,
       remark)
     values (#{id,jdbcType=VARCHAR}, #{billNo,jdbcType=VARCHAR}, #{productNo,jdbcType=VARCHAR}, 
-      #{userNo,jdbcType=VARCHAR}, #{surplusQty,jdbcType=INTEGER}, #{outReason,jdbcType=VARCHAR}, 
+      #{userNo,jdbcType=VARCHAR}, #{outQty,jdbcType=INTEGER}, #{outReason,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{productStatus,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, #{usQty,jdbcType=INTEGER}, #{ukQty,jdbcType=INTEGER}, #{caQty,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.springboot.model.product.TOutcell">
-    insert into t_outcell
+    insert into t_outcell_dtl
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -72,9 +72,6 @@
       </if>
       <if test="outQty != null">
         out_qty,
-      </if>
-      <if test="surplusQty != null">
-        surplus_qty,
       </if>
       <if test="usQty != null">
         us_qty,
@@ -126,9 +123,6 @@
       <if test="outQty != null">
         #{outQty,jdbcType=INTEGER},
       </if>
-      <if test="surplusQty != null">
-        #{surplusQty,jdbcType=INTEGER},
-      </if>      
       <if test="usQty != null">
         #{usQty,jdbcType=INTEGER},
       </if>
@@ -165,7 +159,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.springboot.model.product.TOutcell">
-    update t_outcell
+    update t_outcell_dtl
     <set>
       <if test="billNo != null and '' != billNo ">
         bill_no = #{billNo,jdbcType=VARCHAR},
@@ -176,8 +170,8 @@
       <if test="userNo != null and '' != userNo ">
         user_no = #{userNo,jdbcType=VARCHAR},
       </if>
-      <if test="surplusQty != null and '' != surplusQty or surplusQty == 0">
-        surplus_qty = #{surplusQty,jdbcType=INTEGER},
+      <if test="outQty != null and '' != outQty or outQty == 0">
+        out_qty = #{outQty,jdbcType=INTEGER},
       </if>
       <if test="usQty != null and '' != usQty or usQty == 0">
        us_qty =  #{usQty,jdbcType=INTEGER},
@@ -216,11 +210,11 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.springboot.model.product.TOutcell">
-    update t_outcell
+    update t_outcell_dtl
     set bill_no = #{billNo,jdbcType=VARCHAR},
       product_no = #{productNo,jdbcType=VARCHAR},
       user_no = #{userNo,jdbcType=VARCHAR},
-      surplus_qty = #{surplusQty,jdbcType=INTEGER},
+      out_qty = #{outQty,jdbcType=INTEGER},
       out_reason = #{outReason,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       product_status = #{productStatus,jdbcType=INTEGER},
@@ -235,15 +229,15 @@
   	<!-- 
   	select a.id, a.bill_no, a.product_no, a.user_no, a.surplus_qty,a.out_qty, a.out_reason, a.status, a.product_status, a.update_time, 
     a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data,d.incell_qty - e.out_qty as cell_surplus_qty,d.us_qty,d.uk_qty,d.ca_qty 
-    from t_outcell a inner join t_product b on a.product_no = b.product_no 
+    from t_outcell_dtl a inner join t_product b on a.product_no = b.product_no 
     left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
     left JOIN (
 		SELECT product_no,SUM(incell_qty) incell_qty,SUM(us_qty) us_qty,SUM(uk_qty) uk_qty,SUM(ca_qty) ca_qty from t_qc_incell where product_status = 20 GROUP BY product_no
 	) as d on a.product_no = d.product_no
 	left JOIN (
-		SELECT product_no,SUM(out_qty) out_qty from t_outcell GROUP BY product_no
+		SELECT product_no,SUM(out_qty) out_qty from t_outcell_dtl GROUP BY product_no
 	) as e on a.product_no = e.product_no
-	 
+	 -->
 	SELECT 
 		a.product_no,  a.product_status, a.update_time, 
     a.updater, a.create_time, a.creater, a.remark,b.product_name,c.img_data
@@ -252,13 +246,11 @@
 inner join t_product b on a.product_no = b.product_no 
 left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
 left JOIN (
-		SELECT product_no,SUM(out_qty) out_qty,SUM(us_qty) us_qty,SUM(uk_qty) uk_qty,SUM(ca_qty) ca_qty from t_outcell GROUP BY product_no
+		SELECT product_no,SUM(out_qty) out_qty,SUM(us_qty) us_qty,SUM(uk_qty) uk_qty,SUM(ca_qty) ca_qty from t_outcell_dtl GROUP BY product_no
 	) as d on a.product_no = d.product_no
--->
-SELECT a.*,b.product_name,c.img_data from (
-SELECT a.bill_no,a.product_no,a.product_status, a.update_time, 
-    a.updater, a.create_time, a.creater, a.remark,a.surplus_qty - SUM(IFNULL(b.out_qty,0)) as surplus_qty,a.us_qty - SUM(IFNULL(b.us_qty,0)) as us_qty,a.uk_qty - SUM(IFNULL(b.uk_qty,0)) as uk_qty,a.ca_qty - SUM(IFNULL(b.ca_qty,0)) as ca_qty from t_outcell a left JOIN t_outcell_dtl b on a.bill_no = b.bill_no
-<where> 1=1
+
+
+    <where> a.product_status = 20
     	<if test="billNo != null and '' != billNo ">
         and a.bill_no = #{billNo,jdbcType=VARCHAR}
       </if>
@@ -302,11 +294,6 @@ SELECT a.bill_no,a.product_no,a.product_status, a.update_time,
         and a.remark = #{remark,jdbcType=VARCHAR}
       </if>
     </where>
-GROUP BY a.bill_no
-) as a 
-inner join t_product b on a.product_no = b.product_no 
-left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
-    
     <!-- 
         <if test="orderSql != null">
         ${orderSql}
@@ -315,6 +302,7 @@ left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
         order by a.create_time desc
         </if>
          -->
-      order by a.product_no desc
+      GROUP BY product_no  
+      order by product_no desc
   </select>
 </mapper>
