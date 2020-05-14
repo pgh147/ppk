@@ -299,7 +299,7 @@
 //               			 	}else{
 //               			 		$tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
 //               			 	}
-                				$tr +=  ' <tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td> <td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td> <td>'+(item.cellSurplusQty?item.cellSurplusQty:'0')+'</td>'+
+                				$tr +=  ' <tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"><td>'+item.productNo+'</td> <td><span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td> <td>'+(item.surplusQty?item.surplusQty:'0')+'</td>'+
                 				'<td>'+(item.usQty?item.usQty:' ')+'</td><td>'+(item.ukQty?item.ukQty:' ')+'</td><td>'+(item.caQty?item.caQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td>'+
                 				'<td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';

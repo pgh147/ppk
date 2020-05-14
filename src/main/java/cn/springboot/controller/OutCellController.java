@@ -19,6 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.belle.bf.common.domain.search.Searchable;
+import com.belle.bf.common.utils.CommonUtils;
+import com.belle.bf.common.vo.ExportRequest;
+import com.belle.bf.common.vo.SystemUser;
+import com.belle.bf.common.web.bind.annotation.CurrentUser;
+import com.belle.bf.common.web.utils.WebUtils;
 import com.github.pagehelper.PageInfo;
 import com.sun.tools.internal.ws.processor.model.Parameter;
 import com.sun.tools.internal.ws.processor.model.Request;
@@ -293,4 +299,26 @@ private OutCellDtlService outCellDtlService;
  		}
  		
  	}
+ 	
+ 	
+ 	/**
+	 * 导出
+	 * @param searchable 通用查询接口
+	 * @param user 当前用户
+	 * @param req http请求
+	 * @return 结果集map: flag
+	 * @throws Exception 异常
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping("/export.json")
+	@ResponseBody
+	public Map<String, Object> exportData(HttpServletRequest req, @RequestBody TOutcell product) throws Exception {
+		
+		PageInfo<TOutcell> page = outCellService.findProductByPage(0, product);
+
+    	// 调用导出服务
+		ExcelUtils.exportData( page.getList(),List<Map> exportColumns);
+//		return resultMap;
+	}
+	
 }

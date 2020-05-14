@@ -1,14 +1,23 @@
 package cn.springboot.common.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+
 import cn.springboot.common.constants.DateFormats;
 import cn.springboot.common.exception.MyselfMsgException;
 import cn.springboot.common.util.ReflectUtils;
 import cn.springboot.model.ImportResolve;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.poi.POIXMLDocument;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -17,10 +26,15 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
@@ -353,4 +367,218 @@ public class ExcelUtils {
 		}
 		throw new IllegalArgumentException("你的excel版本目前poi解析不了");
 	}
+	
+	
+	
+	
+	
+	 /**
+     * 支持大数据量导出
+     * excel 每个sheet最多1048576行
+     *
+     */
+    @Async
+    public void export(List<?> exportData,List<Map> exportColumns) {
+
+        int totalRows = 1; //统计总行数
+
+        Workbook wb = null;
+        try {
+            long beginTime = System.currentTimeMillis();
+            wb = new HSSFWorkbook();
+            Map<String, Boolean> numberFieldMap = new HashMap<String, Boolean>();
+            Map<String, String> combosCache = new HashMap<String, String>();
+            // 创建标题样式
+            CellStyle styleHead = createStyleHead(wb);
+            // 创建内容样式
+            CellStyle styleRIGHT = createStyleContent(wb, "right");
+            CellStyle styleLEFT = createStyleContent(wb, "left");
+                Sheet sheet = wb.createSheet();
+                totalRows = 0;
+                // 生成excel内容
+                Page<?> page = null;
+                int realMaxFnSize = 0;
+                Set<String> sizeTypeNoSet = new HashSet<String>();
+                for (Object data : exportData) {
+                    Object obj = data;
+                    Row row = sheet.createRow(totalRows);
+                    setExcelDataRow(obj, exportColumns, numberFieldMap,
+                            row, styleRIGHT, styleLEFT,
+                             combosCache);
+                    totalRows++;
+                }
+                 createHeadRow(sheet, exportColumns, styleHead);
+
+
+            // 处理文件并发送通知
+//            processFileAndSendNotification(reqData, wb, beginTime, user);
+        } catch (Exception e) {
+//            processException(e, user);
+        }
+    }
+
+    private Row createHeadRow(Sheet sheet, List<Map> exportColumns, CellStyle style1) {
+        // 移动最末尾空行到第0行，作为标题
+        sheet.shiftRows(0, sheet.getLastRowNum(), 1);
+        //设置表头
+        Row headerRow = sheet.createRow(0);
+        headerRow.setHeightInPoints(20);
+        for (int i = 0; i < exportColumns.size(); i++) {
+            Cell cell1 = headerRow.createCell(i);
+            cell1.setCellType(HSSFCell.ENCODING_UTF_16);
+            cell1.setCellValue(exportColumns.get(i).get("title").toString());
+            cell1.setCellStyle(style1);
+        }
+
+        return headerRow;
+    }
+
+    /**
+     * 创建标题的样式
+     *
+     * @param wb
+     * @return
+     */
+    private CellStyle createStyleHead(Workbook wb) {
+        //设置样式 表头
+        CellStyle styleHead = wb.createCellStyle();
+        styleHead.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        Font font1 = wb.createFont();
+        font1.setFontHeightInPoints((short) 13);
+        font1.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        styleHead.setFont(font1);
+
+        return styleHead;
+    }
+
+    /**
+     * 创建内容的样式
+     *
+     * @param wb
+     * @return
+     */
+    private CellStyle createStyleContent(Workbook wb, String align) {
+        CellStyle styleContent = wb.createCellStyle();
+        if (Objects.equals("left", align)) {
+            styleContent.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+        } else if (Objects.equals("right", align)) {
+            styleContent.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+        }
+        styleContent.setWrapText(false);
+
+        return styleContent;
+    }
+    
+
+    private void setExcelDataRow(Object vo, List<Map> exportColumns, Map<String, Boolean> numberFieldMap,
+                                 Row row, CellStyle styleRIGHT, CellStyle styleLEFT, Map<String, String> combosCache) throws Exception {
+        setExcelDataRow(vo, exportColumns, numberFieldMap, row, styleRIGHT, styleLEFT, combosCache, 0);
+    }
+
+    /**
+     * 设置excel数据行
+     *
+     * @param vo
+     * @param exportColumns
+     * @param numberFieldMap
+     * @param row
+     * @param styleRIGHT
+     * @param styleLEFT
+     * @param exportCombos
+     * @param combosCache
+     * @param realMaxFnSize   实际最大的Fn数
+     * @throws Exception
+     */
+    private void setExcelDataRow(Object vo, List<Map> exportColumns, Map<String, Boolean> numberFieldMap,
+                                 Row row, CellStyle styleRIGHT, CellStyle styleLEFT, Map<String, String> combosCache,
+                                 int realMaxFnSize) throws Exception {
+        Map<String, Object> voMap = new HashMap<String, Object>();
+        Class<?> clazz = vo.getClass();
+        if (vo instanceof JSONObject) {
+            for (Map.Entry<String, Object> entry : ((JSONObject) vo).entrySet()) {
+                voMap.put(entry.getKey(), entry.getValue());
+            }
+        } else {
+            CommonUtils.object2MapWithoutNull(vo, voMap);
+        }
+
+        // 处理非尺码横排列字段
+        for (int i = 0; i < exportColumns.size(); i++) {
+            String fieldName = (String) exportColumns.get(i).get("field");
+            String fieldValue = voMap.get(fieldName) == null ? "" : String.valueOf(voMap.get(fieldName));
+//            fieldValue = this.getComboText(fieldValue, fieldName, combosCache);
+            Cell cell = row.createCell(i);
+            setExcelDataCell(cell, fieldName, fieldValue, clazz, numberFieldMap, styleRIGHT, styleLEFT);
+        }
+
+    }
+
+
+    /**
+     * 设置excel数据列
+     *
+     * @param cell
+     * @param fieldName
+     * @param fieldValue
+     * @param clazz
+     * @param numberFieldMap
+     * @param styleRIGHT
+     * @param styleLEFT
+     */
+    private void setExcelDataCell(Cell cell, String fieldName, String fieldValue,
+                                  Class<?> clazz, Map<String, Boolean> numberFieldMap,
+                                  CellStyle styleRIGHT, CellStyle styleLEFT) {
+        if (StringUtils.isNotBlank(fieldValue) && StringUtils.isNotBlank(fieldName)) {
+            if (!numberFieldMap.containsKey(fieldName)) {
+                if (CommonUtils.fieldIsNumber(clazz, fieldName)) {
+                    try {
+                        cell.setCellValue(new Double(fieldValue));
+                        numberFieldMap.put(fieldName, true);
+                        cell.setCellStyle(styleRIGHT);
+                    } catch (Exception e) {
+                        cell.setCellValue(fieldValue);
+                        cell.setCellStyle(styleLEFT);
+                        numberFieldMap.put(fieldName, false);
+                    }
+
+                    return;
+                }
+            } else {
+                if (numberFieldMap.get(fieldName)) {
+                    cell.setCellValue(new Double(fieldValue));
+                    cell.setCellStyle(styleRIGHT);
+                    return;
+                } else {
+                    cell.setCellValue(fieldValue);
+                    cell.setCellStyle(styleLEFT);
+                    return;
+                }
+            }
+            cell.setCellValue(fieldValue);
+        }
+        cell.setCellStyle(styleLEFT);
+    }
+
+
+
+
+    
+    /**
+     * 写入，
+     *
+     * @param wb
+     * @param beginTime
+     * @param user
+     * @throws Exception
+     */
+    public void processFile( Workbook wb, long beginTime) throws Exception {
+        String fileName = "D://dddd.xls";
+        File file = new File(fileName);
+        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+        wb.write(out);
+        IOUtils.closeQuietly(out);
+        if (file.isFile()) {
+            file.delete();//删除文件
+        }
+    }
 }
