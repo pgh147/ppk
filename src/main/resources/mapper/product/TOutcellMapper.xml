@@ -17,7 +17,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_img_no" jdbcType="VARCHAR" property="productImgNo" />
     <result column="img_data" jdbcType="VARCHAR" property="imgData" />
     <result column="us_qty" jdbcType="INTEGER" property="usQty" />
     <result column="uk_qty" jdbcType="INTEGER" property="ukQty" />
@@ -255,9 +256,13 @@ left JOIN (
 		SELECT product_no,SUM(out_qty) out_qty,SUM(us_qty) us_qty,SUM(uk_qty) uk_qty,SUM(ca_qty) ca_qty from t_outcell GROUP BY product_no
 	) as d on a.product_no = d.product_no
 -->
-SELECT a.*,b.product_name,c.img_data from (
-SELECT a.bill_no,a.product_no,a.product_status, a.update_time, 
-    a.updater, a.create_time, a.creater, a.remark,a.surplus_qty - SUM(IFNULL(b.out_qty,0)) as surplus_qty,a.us_qty - SUM(IFNULL(b.us_qty,0)) as us_qty,a.uk_qty - SUM(IFNULL(b.uk_qty,0)) as uk_qty,a.ca_qty - SUM(IFNULL(b.ca_qty,0)) as ca_qty from t_outcell a left JOIN t_outcell_dtl b on a.bill_no = b.bill_no
+SELECT a.*,c.img_data from (
+SELECT a.bill_no,a.product_no,a.product_status, a.update_time, c.product_name,
+    a.updater, a.create_time, a.creater, a.remark,a.surplus_qty - SUM(IFNULL(b.out_qty,0)) as surplus_qty,
+    a.us_qty - SUM(IFNULL(b.us_qty,0)) as us_qty,a.uk_qty - SUM(IFNULL(b.uk_qty,0)) as uk_qty,c.product_img_no,
+    a.ca_qty - SUM(IFNULL(b.ca_qty,0)) as ca_qty from t_outcell a 
+    left JOIN t_outcell_dtl b on a.bill_no = b.bill_no
+    INNER JOIN t_product c on c.product_no = a.product_no
 <where> 1=1
     	<if test="billNo != null and '' != billNo ">
         and a.bill_no = #{billNo,jdbcType=VARCHAR}
@@ -272,7 +277,7 @@ SELECT a.bill_no,a.product_no,a.product_status, a.update_time,
          and a.user_no  like '%${userNo}%'  
       </if>
       <if test="pUserNo != null and '' != pUserNo ">
-        and ( a.user_no in (${pUserNo}) or b.user_no = 'a13')
+        and  c.user_no in (${pUserNo})
       </if> 
       <if test="outQty != null and '' != outQty ">
         and a.out_qty = #{outQty,jdbcType=INTEGER}
@@ -304,8 +309,8 @@ SELECT a.bill_no,a.product_no,a.product_status, a.update_time,
     </where>
 GROUP BY a.bill_no
 ) as a 
-inner join t_product b on a.product_no = b.product_no 
-left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
+<!-- inner join t_product b on a.product_no = b.product_no  -->
+left join t_product_img c on a.product_img_no = c.img_no and c.type = 1
     
     <!-- 
         <if test="orderSql != null">

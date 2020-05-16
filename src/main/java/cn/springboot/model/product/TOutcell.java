@@ -32,6 +32,7 @@ public class TOutcell {
 
     private String remark;
     private String productName;
+    private String productImgNo;
     private String imgData;
     private String orderSql;
     private String pUserNo;
@@ -214,5 +215,13 @@ public class TOutcell {
 
 	public void setSurplusQty(Integer surplusQty) {
 		this.surplusQty = surplusQty;
+	}
+
+	public String getProductImgNo() {
+		return productImgNo;
+	}
+
+	public void setProductImgNo(String productImgNo) {
+		this.productImgNo = productImgNo;
 	}
 }
