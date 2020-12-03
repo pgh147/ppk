@@ -52,7 +52,7 @@ public class LoginController {
 
         String username = user.getUsername();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-        // 获取当前的Subject
+        // 获取当前的Subject test
         Subject currentUser = SecurityUtils.getSubject();
         try {
             // 在调用了login方法后,SecurityManager会收到AuthenticationToken,并将其发送给已配置的Realm执行必须的认证检查
