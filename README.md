@@ -13,7 +13,7 @@
 + 如果切换至sqlite数据库时，则application.properties当中的mybatis分页插件需要改成支持sqlite；
 
 #### 示例启动
-  
+  订单
 + 启动工程；
 + 运行cn.springboot.Application当中的main方法；
 + 浏览器访问http://localhost:8090, 测试账号是admin/123456，即可看示例效果；
