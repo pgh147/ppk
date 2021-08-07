@@ -46,7 +46,7 @@
 
 	<select id="findRoleByUserId" parameterType="string" resultMap="roleMap">
 		<include refid="find_as_xxx" />
-		from t_sys_role r , t_sys_user_role ur where r.id=ur.role_id and ur.user_id=#{userId}
+		from t_sys_role r , t_sys_user_role ur where r.id=ur.role_id and ur.user_id=#{userId} ORDER BY r.order_no asc
 	</select>
 
 	<select id="findRoleByCode" parameterType="string" resultMap="roleMap">

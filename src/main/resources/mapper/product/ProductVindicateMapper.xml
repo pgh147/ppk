@@ -8,6 +8,7 @@
 		<result column="product_no" property="productNo" />
 		<result column="product_name" property="productName" />
 		<result column="user_no" property="userNo" />
+		<result column="true_name" property="trueName" />
 		<result column="upload_account" property="uploadAccount" />
 		<result column="product_img_no" property="productImgNo" />
 		<result column="img_data" property="productImgData" />
@@ -211,9 +212,10 @@ LEFT JOIN (SELECT	product_no,sum(purchase_qty) purchase_qty  FROM	t_purchase	GRO
 </select>
 
 <select id="findUserSaleQty" parameterType="map" resultMap="newsMap">
-SELECT b.user_no,sum(a.quantity) sale_qty FROM t_product_import a INNER JOIN t_product b on a.sku = b.product_no 
+SELECT b.user_no,c.true_name,sum(a.quantity) sale_qty FROM t_product_import a INNER JOIN t_product b on a.sku = b.product_no 
+left JOIN t_sys_user c on b.user_no = c.username
 where order_status = 'Shipped'  and purchase_date &lt;= #{param.endDate} and purchase_date &gt;= #{param.startDate} 
-GROUP BY b.user_no
+GROUP BY b.user_no,c.true_name
 ORDER BY sale_qty desc
 </select>
 </mapper>

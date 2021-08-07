@@ -18,6 +18,7 @@ public class TProduct implements BaseEntity<String> {
 	private String productNo;// '产品编号',
 	private String productName;// '产品名字',
 	private String userNo;// '开发员编号',
+	private String trueName;// '开发员名称',
 	private String uploadAccount;// '上传账号',
 	private String productImgNo;// '产品图片主表',
 	private String rivalLink;// '竞争对手链接',
@@ -473,6 +474,14 @@ public class TProduct implements BaseEntity<String> {
 
 	public void setpUserNo(String pUserNo) {
 		this.pUserNo = pUserNo;
+	}
+
+	public String getTrueName() {
+		return trueName;
+	}
+
+	public void setTrueName(String trueName) {
+		this.trueName = trueName;
 	}
 
 }

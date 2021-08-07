@@ -95,7 +95,7 @@ $("#searchButton").click(function(e){
             		var xData = [],yData = [];
             		for(var i = 0;i<data.list.length;i++){
             			var item = data.list[i];
-            			xData.push(item.userNo);
+            			xData.push(item.trueName);
             			yData.push(item.saleQty);
             		}
             		myChartUserSale.setOption(commonChartsOption({xData:xData,yData:yData,barWidth:20}));

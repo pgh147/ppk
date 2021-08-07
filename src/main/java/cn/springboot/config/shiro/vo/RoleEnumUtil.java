@@ -5,8 +5,9 @@ import cn.springboot.model.auth.Role;
 public enum RoleEnumUtil {
     
     超级管理员("超级管理员","admin_role","超级管理员"),
-    普通用户("普通用户","common_role","普通用户");
-
+    普通用户("普通用户","common_role","普通用户"),
+    产品开发("产品开发","common_dev","产品开发用户"),
+	开发leader("开发leader","dev_leader","开发leader");
     private RoleEnumUtil(String name, String roleCode, String remark) {
         this.name = name;
         this.roleCode = roleCode;

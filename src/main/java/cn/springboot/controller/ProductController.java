@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -239,14 +240,18 @@ public class ProductController {
     	}
     	
     	List<Role> roles = principal.getRoles();
-    	boolean isAdmin = false;
+    	boolean isAdmin = false,isDevAdmin = false;
     	for(Role role:roles){
     		if(role.getName().equals("超级管理员")){
     			isAdmin = true;
     			break;
     		}
+    		if(role.getName().equals("开发leader")){
+    			isDevAdmin = true;
+    			break;
+    		}
     	}
-    	if(!isAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+    	if(!isAdmin &&!isDevAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
     		result.put("status", "0");
             result.put("msg", "无权限");
             return result;
@@ -306,16 +311,19 @@ public class ProductController {
             result.put("msg", "修改失败");
             return result;
     	}
-    	
     	List<Role> roles = principal.getRoles();
-    	boolean isAdmin = false;
+    	boolean isAdmin = false,isDevAdmin = false;
     	for(Role role:roles){
     		if(role.getName().equals("超级管理员")){
     			isAdmin = true;
     			break;
     		}
+    		if(role.getName().equals("开发leader")){
+    			isDevAdmin = true;
+    			break;
+    		}
     	}
-    	if(!isAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+    	if(!isAdmin &&!isDevAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
     		result.put("status", "0");
             result.put("msg", "无权限");
             return result;
@@ -374,14 +382,19 @@ public class ProductController {
     public Map<String, Object> list(@RequestBody TProduct product, @RequestParam(value = "pageNum", required = false) Integer pageNum) {
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
     	List<Role> roles = principal.getRoles();
-    	boolean isAdmin = false;
+    	boolean isAdmin = false,isDevAdmin = false;
     	for(Role role:roles){
     		if(role.getName().equals("超级管理员")){
     			isAdmin = true;
     			break;
     		}
+    		if(role.getName().equals("开发leader")){
+    			isDevAdmin = true;
+    			break;
+    		}
     	}
-    	if(!isAdmin){
+    	// 2021-0807 修改a01能看所有
+    	if(!isAdmin &&!isDevAdmin){
     		product.setpUserNo("'"+principal.getUser().getUsername()+"','a13'");
     	}
 //    	if(StringUtils.isNotBlank(product.getUserNo())){
@@ -428,7 +441,20 @@ public class ProductController {
     	}
     	if(!isAdmin){
     		TProduct pro = productService.findProductById(id);
-    		if(null == pro || !pro.getUserNo().equals(principal.getUser().getUsername())){
+    		if(null == pro ){
+    			result.put("status", "0");
+                result.put("msg", "删除失败");
+    			return result;
+    		}
+    		
+//    		if(principal.getUser().getUsername().equals("a01") ){
+//    			if(pro.getUserNo().indexOf("a0") < 0){    				
+//    				result.put("status", "0");
+//    				result.put("msg", "删除失败");
+//    				return result;
+//    			}
+//    		}else 
+    			if(!pro.getUserNo().equals(principal.getUser().getUsername())){
     			result.put("status", "0");
                 result.put("msg", "删除失败");
     			return result;
