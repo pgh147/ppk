@@ -37,6 +37,9 @@
 		<result column="stkQty" property="stkQty" />
 		<result column="in_qty" property="inQty" />
 		<result column="ing_qty" property="ingQty" />
+		<result column="us_qty" property="usQty" />
+		<result column="out_qty" property="outQty" />
+		<result column="bill_no" property="billNo" />
 	</resultMap>
 
 	<insert id="insert" parameterType="cn.springboot.model.product.TProductVindicate">
@@ -133,7 +136,7 @@
 
 	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct" resultMap="newsMap">
 		SELECT a.product_name,a.user_no,a.upload_account,img.img_data,a.product_no,e.quantity_available stkQty,b.quantity monthQty,c.quantity weekQty,d.quantity threeQty
-		,dd.incell_qty - ee.out_qty inQty,ff.purchase_qty - dd.incell_qty - dd.return_qty ingQty 
+		,dd.incell_qty - ee.out_qty inQty,ff.purchase_qty - dd.incell_qty - dd.return_qty ingQty ,j.us_qty,j.out_qty,j.create_time,j.bill_no
 		from t_product a 
 		LEFT JOIN t_product_img img on a.product_img_no = img.img_no and  img.type = 1
 		LEFT JOIN t_product_stk e on a.product_no = e.seller_sku and e.warehouse_condition_code =  'SELLABLE'
@@ -146,6 +149,11 @@ LEFT JOIN (SELECT	product_no,sum(purchase_qty) purchase_qty  FROM	t_purchase	GRO
 		LEFT JOIN (SELECT sku,sum(quantity) quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= purchase_date GROUP BY sku) as b on a.product_no = b.sku
 		LEFT JOIN (SELECT sku,sum(quantity)quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= purchase_date GROUP BY sku) as c on a.product_no = c.sku
 		left JOIN(SELECT sku,sum(quantity)quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;= purchase_date GROUP BY sku)as d on a.product_no = d.sku
+		LEFT JOIN (
+select af.product_no,af.us_qty,af.out_qty,af.create_time,af.bill_no from t_outcell_dtl as af, 
+(select MAX(create_time) AS create_time,bill_no from t_outcell_dtl GROUP BY bill_no) AS bf
+WHERE af.create_time = bf.create_time AND af.bill_no = bf.bill_no
+) AS j ON a.product_no = j.product_no
 		<where> 1 = 1 
 	      <if test="null!=productNo and ''!= productNo">
 		       and a.product_no like '%${productNo}%'

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>销售列表</title>
+    <title>产品维护列表</title>
     <meta name="keyword" content="">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -127,6 +127,8 @@
                                                 <th class="canSort" name="inQty">本地仓库存</th>
                                                 <th class="canSort" name="outCanSaleDays">海外仓可售天数</th>
                                                 <th class="canSort" name="canSaleDays">可售天数</th>
+                                                <th  name="usQty">最近出库数</th>
+                                                <th  name="outTime">最近出库时间</th>
                                               <!--  <th>采购数量</th>-->
                                             </tr>
                                         </thead>
@@ -244,6 +246,38 @@
             </div>
         </div>
     </div>
+    
+    
+
+    <div class="modal fade" id="outCellList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">出库列表</h4>
+                </div>
+                <div class="modal-body">
+ 							<table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
+                                        <thead>
+                                            <tr>
+                                                <th>出库数量 </th>
+                                                <th>us数量</th>
+                                                <th>uk数量</th>
+                                                <th>ca数量</th>
+                                                <th>创建时间</th>
+                                                <th>备注</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="outcell-table-body">
+                                            
+                                           
+
+                                        </tbody>
+                                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
           <img src="" alt="" class="bigimg">
       <div class="mask">
       	<img src="/static/img/close.png" alt="">
@@ -269,6 +303,6 @@
     <script src="${ctx}/static/js/plugins/fileinput/fileinput.js"></script>
 	<!---文件上传中文配置--->
 	<script src="${ctx}/static/js/plugins/fileinput/fileinput_locale_zh.js"></script>
-    <script src="${ctx}/static/page/vindicate.js?v=20200510"> </script>
+    <script src="${ctx}/static/page/vindicate.js?v=20210512"> </script>
 </body>
 </html>

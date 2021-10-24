@@ -125,7 +125,7 @@
                                                 <th>采购数量</th>
                                                 <th>合格数量 </th>
                                                 <th>不合格数量</th>
-                                                <th>入库数量</th>
+                                                <th id="sort-store">入库数量<span><i  class="fa fa-sort"></i></span></th>
                                                 <th>退货数量</th>
                                                 <th>usukca入库数备注</th>
                                                 <th>us数量</th>
@@ -286,6 +286,6 @@
     <script src="${ctx}/static/js/plugins/validate/jquery.validate.min.js"></script>  <!---表单验证--->
     <script src="${ctx}/static/js/plugins/validate/validate-cn.js" ></script> <!---validate 自定义方法--->
 
-    <script src="${ctx}/static/page/qcInCell.js?v=20200510"> </script>
+    <script src="${ctx}/static/page/qcInCell.js?v=20200512"> </script>
 </body>
 </html>

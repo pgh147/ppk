@@ -246,7 +246,8 @@
     			  productNo:$("#productNo").val(),
     			  billNo:$("#billNo").val(),
     			  userNo:$("#userNo").val(),
-    			  productStatus:$("#productStatus").val()
+    			  productStatus:$("#productStatus").val(),
+    			  orderSql:Sort?Sort:''
     	  }
       	$.ajax({
             type: "POST",
@@ -350,11 +351,26 @@
     	});
       
       loadData();
-      var $button = null;
+      var $button = null,Sort="";;
       //查询
       $("#search-button,#button-simple").click(function(e){
     	  $button = e.target;
     	  $(e.target).attr('disabled',true);
+    	  loadData();
+      });
+      
+      $("#sort-store").click(function(e){
+    	  var $i = $("#sort-store i");
+    	 if($i.attr('class') == 'fa fa-sort' ){
+    		 $i.attr('class','fa fa-sort-desc') 
+    		 Sort = " order by a.incell_qty DESC"
+    	 }else if($i.attr('class') == 'fa fa-sort-desc'){
+    		 $i.attr('class','fa fa-sort-asc') 
+    		 Sort = " order by a.incell_qty asc"
+    	 }else{
+    		 $i.attr('class','fa fa-sort') 
+    		 Sort = ""
+    	 }
     	  loadData();
       });
     

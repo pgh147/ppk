@@ -246,12 +246,27 @@ public class ProductController {
     			isAdmin = true;
     			break;
     		}
-    		if(role.getName().equals("开发leader")){
-    			isDevAdmin = true;
-    			break;
-    		}
+//    		if(role.getName().equals("开发leader")){
+//    			isDevAdmin = true;
+//    			break;
+//    		}
     	}
-    	if(!isAdmin &&!isDevAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+    	List<String> list = new ArrayList<String>();
+    	list.add("a01");
+    	list.add("a02");
+    	list.add("a03");
+    	list.add("a04");
+    	list.add("a05");
+    	list.add("a06");
+    	list.add("a07");
+    	list.add("a08");
+    	list.add("a09");
+    	if(principal.getUser().getUsername().equals("a01")&&!list.contains(news.getUserNo())){
+    		result.put("status", "0");
+            result.put("msg", "无权限");
+            return result;
+    	}
+    	else if(!isAdmin  &&!principal.getUser().getUsername().equals("a01") && !news.getUserNo().equals(principal.getUser().getUsername())){
     		result.put("status", "0");
             result.put("msg", "无权限");
             return result;
@@ -318,12 +333,23 @@ public class ProductController {
     			isAdmin = true;
     			break;
     		}
-    		if(role.getName().equals("开发leader")){
-    			isDevAdmin = true;
-    			break;
-    		}
     	}
-    	if(!isAdmin &&!isDevAdmin && !news.getUserNo().equals(principal.getUser().getUsername())){
+    	List<String> list = new ArrayList<String>();
+    	list.add("a01");
+    	list.add("a02");
+    	list.add("a03");
+    	list.add("a04");
+    	list.add("a05");
+    	list.add("a06");
+    	list.add("a07");
+    	list.add("a08");
+    	list.add("a09");
+    	if(principal.getUser().getUsername().equals("a01")&&!list.contains(news.getUserNo())){
+    		result.put("status", "0");
+            result.put("msg", "无权限");
+            return result;
+    	}
+    	else if(!isAdmin &&!principal.getUser().getUsername().equals("a01") && !news.getUserNo().equals(principal.getUser().getUsername())){
     		result.put("status", "0");
             result.put("msg", "无权限");
             return result;
@@ -388,13 +414,12 @@ public class ProductController {
     			isAdmin = true;
     			break;
     		}
-    		if(role.getName().equals("开发leader")){
-    			isDevAdmin = true;
-    			break;
-    		}
     	}
     	// 2021-0807 修改a01能看所有
-    	if(!isAdmin &&!isDevAdmin){
+    	if(principal.getUser().getUsername().equals("a01")){
+    		product.setpUserNo("'a01','a02','a03','a04','a05','a06','a07','a08','a09','a13'");
+    	}
+    	else if(!isAdmin ){
     		product.setpUserNo("'"+principal.getUser().getUsername()+"','a13'");
     	}
 //    	if(StringUtils.isNotBlank(product.getUserNo())){

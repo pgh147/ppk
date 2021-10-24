@@ -17,7 +17,7 @@ public interface PurchaseService {
 
     public boolean editProduct(TPurchase news);
     public boolean updateProduct(TPurchase tPurchase);
-    public boolean deleteProduct(String id);
+    public boolean deleteProduct(List<String> id);
     public TPurchase findProductById(String newsId);
 
     public List<TPurchase> findProductByKeywords(String keywords);

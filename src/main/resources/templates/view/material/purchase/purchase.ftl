@@ -40,8 +40,11 @@
                                 添加记录 <i class="fa fa-plus"></i>
                             </a>
                             <@shiro.hasRole name="admin_role">
-                            <a id="editable-sample_new" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ff"  href="#modal-import">
+                            <a id="editable-sample_new2" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ff"  href="#modal-import">
                                导入<i class="fa fa-plus"></i>
+                            </a> 
+                         <a id="batch_delete" class="btn btn-primary delete"  onClick="batchDelete()"  href="#">
+                               批量删除<i class="fa fa-delete"></i>
                             </a> 
                         </@shiro.hasRole>  
                         </div>
@@ -109,6 +112,9 @@
                                     <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
                                         <thead>
                                             <tr>
+                                            <th>
+                                            <input type="checkbox" name="dd" id="select-all"  />
+                                            </th>
                                                 <th>状态</th>
                                                 <th>单号</th>
                                                 <th>产品图片</th>

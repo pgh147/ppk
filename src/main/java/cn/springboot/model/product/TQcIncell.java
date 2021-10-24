@@ -49,6 +49,7 @@ public class TQcIncell {
     private Integer usQty;
     private Integer ukQty;
     private String causRemark;
+    
     public String getId() {
         return id;
     }
@@ -272,4 +273,5 @@ public class TQcIncell {
 	public void setCausRemark(String causRemark) {
 		this.causRemark = causRemark;
 	}
+
 }

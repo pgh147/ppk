@@ -230,6 +230,14 @@
           }
         });
       }
+      $("#select-all").bind('click',function(e){
+    	  if($(this).prop('checked')){
+    	      $("input[type=checkbox][name=check-pur]").prop('checked','checked')
+	      }else{
+	    	  $("input[type=checkbox][name=check-pur]").removeAttr('checked')
+	      }
+      })
+      
       //加载数据
       loadData = function loadData(num){
     	  pageNum = num?num:1;
@@ -258,7 +266,7 @@
             		if(data.page.list.length > 0){
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
-                			 $tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
+                			 $tr += '<tr><td><input type="checkbox" name="check-pur" value="'+item.id+'" /></td><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
                 			 if(item.productStatus <= 15){
                 				 $tr += '<td><a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+(item.billNo?item.billNo:' ')+'</a></td>';                				 
                 			 }else{
@@ -353,4 +361,55 @@
                 	  toastr.error("出现错误，请更改");
                   }
                 });
-          }        
+          }  
+        function batchDelete(){
+        	var items = $("input[type=checkbox][name=check-pur]:checked");
+        	if(!items || items.length == 0){
+        		toastr.error("请选择要删除的数据")
+        		return;
+        	}
+            swal(
+                {title:"您确定要删除这些数据吗",
+                    text:"删除后将无法恢复，请谨慎操作！",
+                    type:"warning",
+                    showCancelButton:true,
+                    confirmButtonColor:"#DD6B55",
+                    confirmButtonText:"确定删除！",
+                    cancelButtonText:"取消",
+                    closeOnConfirm:false,
+                    closeOnCancel:false
+                },
+                function(isConfirm)
+                {
+                    if(isConfirm)
+                    {
+                    	
+                    	var ids = [];
+                    	for(var i=0;i<items.length;i++){
+                    		ids.push($(items[i]).val())
+                    	}
+                    	$.ajax({
+                			url: "/purchase/batchDeleteByIds.json?ids="+ids,
+                			type: "get",
+                			dataType: "json",
+                			data: null,
+                			success: function(data) {
+                				swal.close();
+                				toastr.success("删除成功");
+                				loadData();
+                			},
+                			error:function(e){
+                				swal.close();
+                				toastr.error("删除失败");
+                			}
+                		});
+                		
+                    }
+                    else{
+                        swal({title:"已取消",
+                            text:"您取消了删除操作！",
+                            type:"error"})
+                    }
+                }
+            )
+        }

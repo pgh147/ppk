@@ -22,7 +22,8 @@
     <result column="img_data" jdbcType="VARCHAR" property="imgData" />
     <result column="us_qty" jdbcType="INTEGER" property="usQty" />
     <result column="uk_qty" jdbcType="INTEGER" property="ukQty" />
-    <result column="ca_qty" jdbcType="INTEGER" property="caQty" />    
+    <result column="ca_qty" jdbcType="INTEGER" property="caQty" />  
+    <result column="sort" jdbcType="VARCHAR" property="sort" />  
   </resultMap>
   <sql id="Base_Column_List">
     id, bill_no, product_no, user_no, surplus_qty, status, product_status, update_time, 
@@ -307,19 +308,18 @@ SELECT a.bill_no,a.product_no,a.product_status, a.update_time, c.product_name,
         and a.remark = #{remark,jdbcType=VARCHAR}
       </if>
     </where>
-GROUP BY a.bill_no
+GROUP BY a.bill_no HAVING surplus_qty > 0
 ) as a 
 <!-- inner join t_product b on a.product_no = b.product_no  -->
 left join t_product_img c on a.product_img_no = c.img_no and c.type = 1
     
-    <!-- 
-        <if test="orderSql != null">
-        ${orderSql}
+     
+        <if test="sort != null and '' != sort ">
+        ${sort}
         </if>
-        <if test="orderSql == null ">
-        order by a.create_time desc
+        <if test="sort == null or '' == sort ">
+        order by a.product_no desc
         </if>
-         -->
-      order by a.product_no desc
+         
   </select>
 </mapper>

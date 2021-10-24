@@ -10216,7 +10216,9 @@ p.canSort{
 	max-width:400px;
 	max-height:300px;
 }
-
+#sort-store{
+	cursor: pointer;
+}
 
 
 	.bigimg{width:600px;position: fixed;left: 0;top: 0; right: 0;bottom: 0;margin:auto;display: none;z-index:9999;border: 10px solid #fff;}

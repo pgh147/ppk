@@ -1,5 +1,6 @@
 package cn.springboot.service.product.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -109,8 +110,15 @@ public class ProductVindicateServiceImpl implements ProductVindicateService {
 	    	  }
 	    	  
 	      }
-		  List<String> ids = productStkMapper.findProductBySkuStatus(strbuff.substring(0,strbuff.length()-1),"SELLABLE");
-		  List<String> ids2 = productStkMapper.findProductBySkuStatus(strbuff2.substring(0,strbuff2.length()-1),"UNSELLABLE");
+	      List<String> ids = new ArrayList<String>();
+	      if(strbuff.length() > 0){
+			  ids = productStkMapper.findProductBySkuStatus(strbuff.substring(0,strbuff.length()-1),"SELLABLE");
+		  }
+		  List<String> ids2 = new ArrayList<String>();
+		  if(strbuff2.length() > 0){
+			  ids2 = productStkMapper.findProductBySkuStatus(strbuff2.substring(0,strbuff2.length()-1),"UNSELLABLE");
+		  }
+		  
 		  for(TProductStk tp:dataList){
 			  if(ids.contains(tp.getSellerSku())){
 				  productStkMapper.update(tp);

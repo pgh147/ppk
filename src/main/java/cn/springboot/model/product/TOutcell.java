@@ -39,6 +39,8 @@ public class TOutcell {
     private Integer caQty;
     private Integer usQty;
     private Integer ukQty;
+    private String sort;
+    
     public String getId() {
         return id;
     }
@@ -223,5 +225,13 @@ public class TOutcell {
 
 	public void setProductImgNo(String productImgNo) {
 		this.productImgNo = productImgNo;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 }

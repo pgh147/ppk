@@ -124,16 +124,16 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
 	@Override
-	public boolean deleteProduct(String id) {
-		TPurchase pro = tPurchaseMapper.selectByPrimaryKey(id);
-		if(null == pro){
-			return false;
-		}
+	public boolean deleteProduct(List<String> id) {
+//		TPurchase pro = tPurchaseMapper.selectByPrimaryKey(id);
+//		if(null == pro){
+//			return false;
+//		}
 		int num = tPurchaseMapper.deleteByPrimaryKey(id);
 		if(num <= 0){
 			return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Transactional

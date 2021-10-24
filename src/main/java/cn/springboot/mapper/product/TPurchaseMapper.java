@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import cn.springboot.model.product.TPurchase;
 @Mapper
 public interface TPurchaseMapper {
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(List<String> id);
 
     int insert(TPurchase record);
 

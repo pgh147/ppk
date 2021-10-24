@@ -76,7 +76,29 @@
 		        	addStkform(form);
 		        }
             });
-            	
+            $('#outCellList').on('show.bs.modal', function (e) {
+              	var button = $(event.target) // Button that triggered the modal
+          		  var id = button.data('idmodel');
+              		$("#outcell-table-body").empty();
+          		  $.ajax({
+          	          url: "/outCell/selectByNo.json?billNo="+id,
+          	          type: "get",
+          	          dataType: "json",
+          	          data: null,
+          	          success: function(data) {
+          	        	  if(data.list){
+          	        		  var $h="";
+          	        		  $.each(data.list,function(index,item){
+          	        			$h += "<tr><td>"+item.outQty+"</td><td>"+item.usQty+"</td><td>"+item.ukQty+"</td><td>"+item.caQty+"</td><td>"+item.createTime+"</td><td>"+item.remark+"</td></tr>"
+          	        		  })
+          	        		  $("#outcell-table-body").html($h);
+          	        	  }
+          	          },
+          	          error:function(e){
+          	        	  toastr.error("获取明细错误");
+          	          }
+          	        });
+              	})	
       //t添加
       function addSkuform(form) {
     	  var file = document.getElementById('productImgData').files[0];
@@ -188,7 +210,7 @@
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
                 			 $tr += '<tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td>'+item.productNo+'</td> <td> <span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.uploadAccount+'</td> '+
-                            '<td>'+(item.threeQty?item.threeQty:'0')+'<br />'+(item.weekQty?item.weekQty:'0')+'<br />'+(item.monthQty?item.monthQty:'0')+' </td><td>'+(item.stkQty?item.stkQty:'0')+'</td><td>'+(item.ingQty?item.ingQty:'0')+'</td><td>'+(item.inQty?item.inQty:'0')+'</td><td>'+(item.monthQty?Math.round((parseInt(item.stkQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td>'+(item.monthQty?Math.round(((parseInt(item.stkQty)+item.ingQty+item.inQty)/parseInt(item.monthQty))*30):'无销量')+'</td>'+//<td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty" class="canEdit"></td>'+
+                            '<td>'+(item.threeQty?item.threeQty:'0')+'<br />'+(item.weekQty?item.weekQty:'0')+'<br />'+(item.monthQty?item.monthQty:'0')+' </td><td>'+(item.stkQty?item.stkQty:'0')+'</td><td>'+(item.ingQty?item.ingQty:'0')+'</td><td>'+(item.inQty?item.inQty:'0')+'</td><td>'+(item.monthQty?Math.round((parseInt(item.stkQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td>'+(item.monthQty?Math.round(((parseInt(item.stkQty)+item.ingQty+item.inQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td><a style="text-decoration: underline;" data-userid="1" data-toggle="modal" data-typemodel="search" data-idmodel="'+item.billNo+'" data-target="#outCellList">'+(item.outQty?item.outQty:"")+'</a></td><td>'+(item.createTime?item.createTime:'')+'</td>'+     //<td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty" class="canEdit"></td>'+
                          '</tr>';
                 			
                 		});

@@ -75,6 +75,9 @@ public class TProduct implements BaseEntity<String> {
 	private String orderBy;
 	private BigDecimal salePrice;
 	private String pUserNo;//权限
+	private Integer usQty;//本地仓库存数量
+	private Integer outQty;//本地仓库存数量
+	private String billNo;
 	
 	public String getId() {
 		return id;
@@ -482,6 +485,30 @@ public class TProduct implements BaseEntity<String> {
 
 	public void setTrueName(String trueName) {
 		this.trueName = trueName;
+	}
+
+	public Integer getUsQty() {
+		return usQty;
+	}
+
+	public void setUsQty(Integer usQty) {
+		this.usQty = usQty;
+	}
+
+	public String getBillNo() {
+		return billNo;
+	}
+
+	public void setBillNo(String billNo) {
+		this.billNo = billNo;
+	}
+
+	public Integer getOutQty() {
+		return outQty;
+	}
+
+	public void setOutQty(Integer outQty) {
+		this.outQty = outQty;
 	}
 
 }

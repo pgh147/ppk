@@ -14,7 +14,6 @@
     <link href="${ctx}/static/css/plugins/chosen/chosen.css" rel="stylesheet">
     <link href="${ctx}/static/css/animate.css" rel="stylesheet">
     <link href="${ctx}/static/css/style.css" rel="stylesheet">
-    
 </head>
 
 <body class="fixed-sidebar">
@@ -76,7 +75,7 @@
                                                 <th>出库数量 </th>
                                                 <th>仓库剩余数量（手动）</th>
                                                 -->
-                                                <th>仓库剩余数量</th>
+                                                <th id="sort-store">仓库剩余数量<span><i  class="fa fa-sort"></i></span></th>
                                                 <th>us数量</th>
                                                 <th>uk数量</th>
                                                 <th>ca数量</th>

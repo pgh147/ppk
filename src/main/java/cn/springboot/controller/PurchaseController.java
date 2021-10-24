@@ -182,7 +182,7 @@ private PurchaseService purchaseService;
      */
     @RequestMapping(value = "/delete.json", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> deleteById(@RequestParam(value = "id") String id) {
+    public Map<String, Object> deleteById(@RequestParam(value = "id") List<String> id) {
     	Map<String, Object> result = new HashMap<>();
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
     	List<Role> roles = principal.getRoles();
@@ -194,7 +194,7 @@ private PurchaseService purchaseService;
     		}
     	}
     	if(!isAdmin){
-    		TPurchase pro = purchaseService.findProductById(id);
+    		TPurchase pro = purchaseService.findProductById(id.get(0));
     		if(null == pro || !pro.getUserNo().equals(principal.getUser().getUsername())){
     			result.put("status", "0");
                 result.put("msg", "删除失败");
@@ -212,7 +212,42 @@ private PurchaseService purchaseService;
         return result;
     }
     
-    
+    /**
+     * @Description ajax开发上传产品明细
+     * @param news
+     * @return
+     */
+    @RequestMapping(value = "/batchDeleteByIds.json", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> batchDeleteByIds(@RequestParam(value = "ids") List<String> ids) {
+    	Map<String, Object> result = new HashMap<>();
+    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员")){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	if(!isAdmin){
+//    		TPurchase pro = purchaseService.findProductById(ids);
+//    		if(null == pro || !pro.getUserNo().equals(principal.getUser().getUsername())){
+    			result.put("status", "0");
+                result.put("msg", "删除失败");
+    			return result;
+//    		}
+    	}
+    	boolean flag = purchaseService.deleteProduct(ids);
+        if (flag) {
+            result.put("status", "1");
+            result.put("msg", "修改成功");
+        } else {
+            result.put("status", "0");
+            result.put("msg", "修改失败");
+        }
+        return result;
+    }    
     /**
  	 * 导入
  	 * @param req http请求

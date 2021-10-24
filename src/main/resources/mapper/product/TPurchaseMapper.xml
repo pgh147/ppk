@@ -32,9 +32,15 @@
     from t_purchase a
     where a.id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.util.ArrayList">
     delete from t_purchase 
-    where id = #{id,jdbcType=VARCHAR}
+    where id in 
+    
+		<foreach collection="list" item="arr" index="no" open="("
+			separator="," close=")">
+			#{arr}
+		</foreach>
+    
   </delete>
   <insert id="insert" parameterType="cn.springboot.model.product.TPurchase">
     insert into t_purchase (id, bill_no, product_no, 
