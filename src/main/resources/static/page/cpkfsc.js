@@ -7,6 +7,43 @@
             $("#myModa-reset").on('hidden.bs.modal', function (event) {
                 $(this).find("input").val("");
             });
+            $("#input_form").validate({
+             	rules: {
+             		remark: {
+                         required: true
+                     }
+                 },
+                 messages: {
+                	 remark: {
+                         required: "请输入原因",
+                     }
+                 },
+             	debug: true,
+ 		        submitHandler: function(form,b,c) {
+ 		        	console.log(form)
+// 		        	audit(form.id,20)
+ 		        }
+             });
+            
+//            $('#modal-form').on('show.bs.modal', function (e) {
+//            	var button = $(event.target) // Button that triggered the modal
+//            	  var type = button.data('typemodel') // Extract info from data-* attributes
+//            	  if(type =='modlify'){
+////                	  $(this).find('.modal-title').text('修改出库记录')
+////            		  var id = button.data('idmodel');
+//            		 
+//            		  
+//            	  }else{
+////                	  $(this).find('.modal-title').text('添加出库记录')
+////            		  $.each($(':input','#input_form'),function(index,item){
+////            			  if(item.name == 'productNo'){
+////            				  $(item).val(button.data('idmodel'));
+////            			  }else{
+////            				  $(item).val('');
+////            			  }
+////            		  })
+//            	  }
+//            	})
             //删除数据
             $(document).on('click','#editable-sample button.delete', function () {
                 var row=$(this).parents("tr")[0];
@@ -105,7 +142,8 @@
                                  }
                                      if(data.flag){
                                     	 if(item.productStatus == 15){
-                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')" ><i class="fa fa-eye"></i>审核</button>';
+                                    		 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="add" data-idmodel="'+item.productNo+'" data-idmodel="'+item.billNo+'" data-target="#modal-form"><i class="fa fa-pencil"></i>  添加出库记录</button>';
+//                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')" ><i class="fa fa-eye"></i>审核</button>';
                                     	 }else if(item.productStatus < 15){
                                     		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'15'"+')"><i class="fa fa-eye"></i>确认</button>';
                                     	 }
@@ -185,6 +223,7 @@
     });
         
         function audit(id,status){
+        	
           	$.ajax({
                   url: "/product/updateStatus.json",
                   type: "post",
@@ -200,4 +239,5 @@
                 	  toastr.error("出现错误，请更改");
                   }
                 });
+          	
           }        

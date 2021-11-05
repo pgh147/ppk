@@ -94,6 +94,7 @@
                                             <option value="1">-- 初始 --</option>
                                             <option value="15">-- 确认 --</option>
                                             <option value="20">-- 审核 --</option>
+                                            <option value="25">-- 审核不过 --</option>
                                         </select>
                                     </div>
                                 </div>
@@ -197,6 +198,40 @@
         </div>
     </div>
     <!---添加用户结束--->
+    
+    <!--审核-->
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">审核</h4>
+                </div>
+                <div class="modal-body">
+
+                       <form name="entity" id="input_form" class="form-horizontal" enctype="multipart/form-data">
+							<input type="text" style="display:none"  id="produc_id_h" name="id" >	
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > 原因 </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text" id="remark" name="remark"  placeholder="请输入审核原因" class="form-control" >
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-12 col-sm-offset-2">
+									<button class="btn btn-primary" type="submit">
+										<i class="fa fa-check"></i> 确认
+									</button>
+									<button class="btn btn-white" type="reset">拒绝</button>
+								</div>
+							</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- 全局 scripts
     <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
      -->
