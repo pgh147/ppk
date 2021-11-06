@@ -329,10 +329,10 @@
         and a.remark = #{remark,jdbcType=VARCHAR}
       </if>
         </where> 
-        <if test="orderSql != null">
+        <if test="orderSql != null and orderSql != '' ">
         ${orderSql}
         </if>
-        <if test="orderSql == null ">
+        <if test="orderSql == null or orderSql == '' ">
         order by a.create_time desc
         </if>
   </select>
