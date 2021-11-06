@@ -155,6 +155,7 @@ select af.product_no,af.us_qty,af.out_qty,af.create_time,af.bill_no from t_outce
 WHERE af.create_time = bf.create_time AND af.bill_no = bf.bill_no
 ) AS j ON a.product_no = j.product_no
 		<where> 1 = 1 
+		and (a.product_status >= 20 || a.create_time &lt; '2021-11-01 00:00:00' )
 	      <if test="null!=productNo and ''!= productNo">
 		       and a.product_no like '%${productNo}%'
 		  </if>
