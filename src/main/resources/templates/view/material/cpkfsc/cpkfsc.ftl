@@ -148,7 +148,7 @@
                                                 <th>首批发货数量US UK</th>
                                                 <th>预计月销量</th>
                                                 <th>产品起订量</th>
-                                                
+                                                <th>备注</th>
                                                 <th class="text-right">操作</th>
                                             </tr>
                                         </thead>
@@ -223,7 +223,7 @@
 									<button class="btn btn-primary" type="submit">
 										<i class="fa fa-check"></i> 确认
 									</button>
-									<button class="btn btn-white" type="reset">拒绝</button>
+									<button class="btn btn-white" type="reset">重置</button>
 								</div>
 							</div>
                     </form>
