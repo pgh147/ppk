@@ -78,6 +78,7 @@ public class TProduct implements BaseEntity<String> {
 	private Integer usQty;//本地仓库存数量
 	private Integer outQty;//本地仓库存数量
 	private String billNo;
+	private BigDecimal chargeWeight;// 收费重量（体积重和实际重哪个大就填哪个）
 	
 	public String getId() {
 		return id;
@@ -509,6 +510,14 @@ public class TProduct implements BaseEntity<String> {
 
 	public void setOutQty(Integer outQty) {
 		this.outQty = outQty;
+	}
+
+	public BigDecimal getChargeWeight() {
+		return chargeWeight;
+	}
+
+	public void setChargeWeight(BigDecimal chargeWeight) {
+		this.chargeWeight = chargeWeight;
 	}
 
 }

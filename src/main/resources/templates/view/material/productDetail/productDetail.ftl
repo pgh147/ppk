@@ -146,7 +146,13 @@
 								<div class="col-sm-12 col-md-7 col-lg-9">
 									<input type="text" id="pVol" name="pVol" value="" placeholder="毛重(g)" class="form-control" >
 								</div>
-							</div>							
+							</div>	
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="kuaiQianId"> 收费重量(g) </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text" id="chargeWeight" name="chargeWeight" value="" placeholder="收费重量(g)（体积重和实际重哪个大就填哪个）" class="form-control" >
+								</div>
+							</div>													
 							<div class="form-group">
 								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="kuaiQianId"> 首批发货数量US UK </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">

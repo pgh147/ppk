@@ -49,24 +49,25 @@ public class ProductServiceImpl implements ProductService {
         	tProduct.setCreateTime(Calendar.getInstance().getTime());
         	tProduct.setProductImgNo(tProduct.getProductNo());
             int flag = productMapper.insert(tProduct);
-            
-            Map<String,Object> map = new HashMap<String,Object>();
-        	map.put("imgNo", tProduct.getProductNo());
-        	map.put("type", 1);
-        	List<TProductImg> list= productImgMapper.findAllByFilter(map);
-        	if(null != list && list.size() > 0){
-        		list.get(0).setImgData(tProduct.getProductImgData());
-        		productImgMapper.update(list.get(0));
-        	}else{
-        		String imgId = FactoryAboutKey.getPK(TableEnum.T_PRODUCT_IMG);
-            	TProductImg img = new TProductImg();
-                img.setId(imgId);
-                img.setType(1);
-                img.setImgNo(tProduct.getProductNo());
-                img.setCreateTime(Calendar.getInstance().getTime());
-                img.setImgData(tProduct.getProductImgData());
-                productImgMapper.insert(img);
-        	}
+            if(StringUtils.isNoneBlank(tProduct.getProductImgData())){
+            	Map<String,Object> map = new HashMap<String,Object>();
+            	map.put("imgNo", tProduct.getProductNo());
+            	map.put("type", 1);
+            	List<TProductImg> list= productImgMapper.findAllByFilter(map);
+            	if(null != list && list.size() > 0){
+            		list.get(0).setImgData(tProduct.getProductImgData());
+            		productImgMapper.update(list.get(0));
+            	}else{
+            		String imgId = FactoryAboutKey.getPK(TableEnum.T_PRODUCT_IMG);
+            		TProductImg img = new TProductImg();
+            		img.setId(imgId);
+            		img.setType(1);
+            		img.setImgNo(tProduct.getProductNo());
+            		img.setCreateTime(Calendar.getInstance().getTime());
+            		img.setImgData(tProduct.getProductImgData());
+            		productImgMapper.insert(img);
+            	}
+            }
 //            if (StringUtils.equals(tProduct.getTitle(), "a"))
 //                throw new BusinessException("001", "测试事务回溯");
             if (flag == 1)

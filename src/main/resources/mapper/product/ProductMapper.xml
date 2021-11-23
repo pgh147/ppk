@@ -43,6 +43,7 @@
     <result column="qc_notice" jdbcType="VARCHAR" property="qcNotice"/>
     <result column="en_title" jdbcType="VARCHAR" property="enTitle"/>
     <result column="sale_price"  property="salePrice"/>
+    <result column="charge_weight"  property="chargeWeight"/>
 	</resultMap>
 
 	<insert id="insert" parameterType="cn.springboot.model.product.TProduct">
@@ -145,8 +146,11 @@
         p_vol,
       </if>		
       <if test="salePrice != null">
-				remark,
+				sale_price,
 			</if>
+      <if test="chargeWeight != null">
+				charge_weight,
+			</if>			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -247,7 +251,10 @@
       </if>	
       <if test="salePrice != null and '' != salePrice ">
 				 #{salePrice},
-			</if>
+	  </if>
+	<if test="chargeWeight != null and '' != chargeWeight ">
+		 #{chargeWeight},
+	</if>
 		</trim>
 	</insert>
 
@@ -257,7 +264,7 @@
 			,a.product_anys,a.product_safe,a.product_price ,a.product_size ,a.product_vol ,a.first_send_qty ,a.product_order_qty 
 			,a.predict_sales_qty ,a.create_time ,a.creater ,a.remark ,a.product_status,
 			a.product_selling1,a. product_selling2, a.product_selling3, a.product_selling4, a.sale_price,
-    a.product_selling5, a.descript, a.message, a.search_term, a.classify,a.p_size,a.p_vol,a.qc_notice,a.en_title
+    a.product_selling5, a.descript, a.message, a.search_term, a.classify,a.p_size,a.p_vol,a.qc_notice,a.en_title,a.charge_weight
 	    ]]>
 	</sql>
 
@@ -431,6 +438,9 @@
       </if>
       <if test="salePrice != null and '' != salePrice or salePrice == 0">
         sale_price = #{salePrice},
+      </if>
+      <if test="chargeWeight != null and '' != chargeWeight or chargeWeight == 0">
+        charge_weight = #{chargeWeight},
       </if>
 		</set>
 		where id = #{id}

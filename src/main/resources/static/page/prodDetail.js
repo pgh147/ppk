@@ -324,7 +324,8 @@ var detailData,detailId;
     		  var t = $(form).serializeArray();
     		  $.each(t, function() {
     			  if(this.name != 'productImgData' && this.name != 'isUpdateImg'){
-    				  formData.append(this.name,this.value) ;  	    		
+    				  formData.append(this.name,this.value) ; 
+    				  data[this.name]=this.value
     			  }
     		  });
     		  formData.append('file',  $('#productImgData')[0].files[0]);
@@ -349,6 +350,13 @@ var detailData,detailId;
     		  });
     		  
     	  }else{
+    		  var data = {};
+    		  var t = $(form).serializeArray();
+    		  $.each(t, function() {
+    			  if(this.name != 'productImgData' && this.name != 'isUpdateImg'){
+    				  data[this.name]=this.value
+    			  }
+    		  });
 	        $.ajax({
 	          url: "/product/add.json",
 	          type: "post",
