@@ -351,7 +351,7 @@
     	});
       
       loadData();
-      var $button = null,Sort="";;
+      var $button = null,Sort="",sortMap={};
       //查询
       $("#search-button,#button-simple").click(function(e){
     	  $button = e.target;
@@ -359,20 +359,31 @@
     	  loadData();
       });
       
-      $("#sort-store").click(function(e){
-    	  var $i = $("#sort-store i");
+      //排序
+      $(".sort-return").click(function(e){
+    	  var $i = $(this).find("i");
+    	  var name = $(this).attr('name')
     	 if($i.attr('class') == 'fa fa-sort' ){
     		 $i.attr('class','fa fa-sort-desc') 
-    		 Sort = " order by a.incell_qty DESC"
+    		 sortMap[name] = 'desc'
     	 }else if($i.attr('class') == 'fa fa-sort-desc'){
     		 $i.attr('class','fa fa-sort-asc') 
-    		 Sort = " order by a.incell_qty asc"
+    		 sortMap[name] = 'asc'
     	 }else{
     		 $i.attr('class','fa fa-sort') 
-    		 Sort = ""
+    		 delete sortMap[name] 
     	 }
+    	  
+    		  if(JSON.stringify(sortMap) != "{}")Sort = ' order by '
+    		  else Sort = ""
+    	  for(var item in sortMap){
+    		  Sort += item + " "+sortMap[item] + " ,"
+    	  }
+    	  Sort.length > 1?Sort = Sort.substring(0,Sort.length -1):''
     	  loadData();
       });
+      
+      
     
     });
         

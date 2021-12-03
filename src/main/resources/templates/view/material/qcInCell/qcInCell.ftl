@@ -122,11 +122,11 @@
                                                 <th>入库员编号</th>
                                                 <th>开发员编号</th>
                                                 <th>采购员</th>
-                                                <th>采购数量</th>
-                                                <th>合格数量 </th>
-                                                <th>不合格数量</th>
-                                                <th id="sort-store">入库数量<span><i  class="fa fa-sort"></i></span></th>
-                                                <th>退货数量</th>
+                                                <th class="sort-return" name="p.purchase_qty">采购数量<span><i  class="fa fa-sort"></i></span></th>
+                                                <th class="sort-return" name="a.ok_qty">合格数量 <span><i  class="fa fa-sort"></i></span></th>
+                                                <th class="sort-return" name="a.no_ok_qty">不合格数量<span><i  class="fa fa-sort"></i></span></th>
+                                                <th class="sort-return" name="a.incell_qty">入库数量<span><i  class="fa fa-sort"></i></span></th>
+                                                <th class="sort-return" name="a.return_qty">退货数量<span><i  class="fa fa-sort"></i></span></th>
                                                 <th>usukca入库数备注</th>
                                                 <th>us数量</th>
                                                 <th>uk数量</th>

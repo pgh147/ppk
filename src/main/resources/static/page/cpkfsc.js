@@ -11,23 +11,29 @@
              	rules: {
              		remark: {
                          required: true
-                     }
+                     },
+                     productStatus: {
+                         required: true
+                     },
                  },
                  messages: {
                 	 remark: {
-                         required: "请输入原因",
+                         required: "请输入审核意见",
+                     },
+                     productStatus: {
+                         required: "请选中状态",
                      }
                  },
              	debug: true,
  		        submitHandler: function(form) {
  		        	var data = {
- 		        			productStatus:10
  		        	};
  		      	    var t = $(form).serializeArray();
  		      	    $.each(t, function() {
  		      	      data[this.name] = this.value;
  		      	    });
- 		      	    
+ 		      	    data['productStatus'] =parseInt(data['productStatus']) +( data['flag']>0?0:-1)
+ 		      	    delete data['flag']
  		          	$.ajax({
  		                  url: "/product/updateStatus.json",
  		                  type: "post",
@@ -35,12 +41,12 @@
  		                  dataType: "json",
  		                  data: data,
  		                  success: function(data) {
- 		                    toastr.success('', '已经拒绝成功！');
+ 		                    toastr.success('', '审核成功！');
  		                    $('#modal-form').modal('hide');
  		                    loadData(pageNum);
  		                  },
  		                  error:function(e){
- 		                	  toastr.error("出现错误，请更改");
+ 		                	  toastr.error("出现错误，请联系管理员");
  		                  }
  		                });
  		        }
@@ -51,7 +57,9 @@
             		  $.each($(':input','#input_form'),function(index,item){
             			  if(item.name == 'id'){
             				  $(item).val(button.data('idmodel'));
-            			  }
+            			  }else if(item.name == 'productStatus'){
+            				  $(item).val(button.data('statusmodel'));
+            			  } 
             		  })
             	  
             	})
@@ -119,7 +127,7 @@
             		if(data.page.list.length > 0){
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
-                			 $tr += '<tr><td>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:10,itemName:"拒绝"},{itemValue:15,itemName:"确认"},{itemValue:20,itemName:"审核"}],item.productStatus)+'</td>';
+                			 $tr += '<tr><td title='+(item.remark?"审核意见："+item.remark:'审核意见：无')+'><i class="fa fa-info-circle"></i>'+ findInArr([{itemValue:1,itemName:"初始"},{itemValue:9,itemName:"一审拒绝"},{itemValue:10,itemName:"一审接受"},{itemValue:14,itemName:"二审拒绝"},{itemValue:15,itemName:"二审接受"},{itemValue:19,itemName:"三审拒绝"},{itemValue:20,itemName:"三审接受"}],item.productStatus)+'</td>';
 //                			 if(item.productStatus <= 15){
                 				 $tr +='<td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'" >'+item.productNo+' </a></td>';
 //                				 $tr +='<td><img width="100" height="70" src="'+item.productImgData+'"></td><td> <a data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form">'+item.productNo+' </a></td>';
@@ -145,20 +153,22 @@
             					 $tr += ' '; 
             				 } 
 //                            '<td><a style="width:100px" target="_blank"  href="'+(item.supplierLink?item.supplierLink:"")+'"  class="long-break-word">'+(item.supplierLink?item.supplierLink:' ')+'</a></td><td>'+(item.firstSendQty?item.firstSendQty:' ')+'</td><td>'+(item.productOrderQty?item.productOrderQty:' ')+'</td><td>'+(item.predictSalesQty?item.predictSalesQty:' ')+'</td>'+
-                			 $tr +='</td><td>'+(item.firstSendQty?item.firstSendQty:' ')+'</td><td>'+(item.productOrderQty?item.productOrderQty:' ')+'</td><td>'+(item.predictSalesQty?item.predictSalesQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td><td class="text-right text-nowrap">'+
+                			 $tr +='</td><td>'+(item.firstSendQty?item.firstSendQty:' ')+'</td><td>'+(item.productOrderQty?item.productOrderQty:' ')+'</td><td>'+(item.chargeWeight?item.chargeWeight:' ')+'</td><td>'+(item.predictSalesQty?item.predictSalesQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td><td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';
                                  if(item.productStatus <= 15 && item.productStatus != 10){
-//                                	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="modlify" data-idmodel="'+item.id+'" data-target="#modal-form"><i class="fa fa-pencil"></i> <a href="/product/detail/page?id='+item.id+'"> 编辑</a></button>';
                                 	 $tr += '<button class="btn btn-white btn-sm edit"  ><i class="fa fa-pencil"></i> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'"> 编辑</a></button>';
                                  }
                                      if(data.flag){
-                                    	 if(item.productStatus == 15){
-                                    		 
-                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')" ><i class="fa fa-eye"></i>审核</button>';
-                                    	 }else if(item.productStatus < 15&& item.productStatus != 10){
-                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'15'"+')"><i class="fa fa-eye"></i>确认</button>';
-                                    		 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="add" data-idmodel="'+item.id+'"  data-target="#modal-form"><i class="fa fa-pencil"></i>  审核拒绝</button>';
-                                    	 }
+//                                    	 if(item.productStatus == 15){
+//                                    		 
+//                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'20'"+')" ><i class="fa fa-eye"></i>审核</button>';
+//                                    	 }else if(item.productStatus < 15&& item.productStatus != 10){
+//                                    		 $tr += '<button class="btn-white  btn btn-sm rset" onclick="audit('+"'"+item.id+"'"+','+"'15'"+')"><i class="fa fa-eye"></i>确认</button>';
+//                                    		 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-typemodel="add" data-idmodel="'+item.id+'"  data-target="#modal-form"><i class="fa fa-pencil"></i>  审核拒绝</button>';
+//                                    	 }
+                                    	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-statusmodel="10" data-idmodel="'+item.id+'" '+(item.productStatus > 8?"disabled":"")+' data-target="#modal-form">  一审</button>';
+                                    	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-statusmodel="15" data-idmodel="'+item.id+'" '+(item.productStatus > 13?"disabled":"")+' data-target="#modal-form">  二审</button>';
+                                    	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-statusmodel="20" data-idmodel="'+item.id+'" '+(item.productStatus > 18?"disabled":"")+' data-target="#modal-form">  三审</button>';
                                     	 if(item.productStatus > 15){
                                     		 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';
                                     	 }

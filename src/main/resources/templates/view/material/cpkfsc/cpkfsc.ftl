@@ -147,6 +147,7 @@
                                                 <th>供应商链接</th>
                                                 <th>首批发货数量US UK</th>
                                                 <th>预计月销量</th>
+                                                <th>收费重量</th>
                                                 <th>产品起订量</th>
                                                 <th>备注</th>
                                                 <th class="text-right">操作</th>
@@ -211,10 +212,18 @@
 
                        <form name="entity" id="input_form" class="form-horizontal" enctype="multipart/form-data">
 							<input type="text" style="display:none"  id="produc_id_h" name="id" >	
+								<input type="text" style="display:none"  id="produc_status_h" name="productStatus" >	
 							<div class="form-group">
-								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > 原因 </label>
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > 状态 </label>
 								<div class="col-sm-12 col-md-7 col-lg-9">
-									<input type="text" id="remark" name="remark"  placeholder="请输入审核原因" class="form-control" >
+								<label><input name="flag" type="radio" value="1" />同意 </label> 
+								<label><input name="flag" type="radio" value="-1" />拒绝 </label> 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" > 意见</label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="text" id="remark" name="remark"  placeholder="请输入审核意见" class="form-control" >
 								</div>
 							</div>
 
@@ -223,7 +232,6 @@
 									<button class="btn btn-primary" type="submit">
 										<i class="fa fa-check"></i> 确认
 									</button>
-									<button class="btn btn-white" type="reset">重置</button>
 								</div>
 							</div>
                     </form>
@@ -253,7 +261,7 @@
     <script src="${ctx}/static/js/plugins/validate/jquery.validate.min.js"></script>  <!---表单验证--->
     <script src="${ctx}/static/js/plugins/validate/validate-cn.js" ></script> <!---validate 自定义方法--->
 	<!---文件上传中文配置--->
-    <script src="${ctx}/static/page/cpkfsc.js?v=20211110"></script>
+    <script src="${ctx}/static/page/cpkfsc.js?v=20211128"></script>
     
 
 </body>

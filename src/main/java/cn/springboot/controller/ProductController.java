@@ -410,8 +410,11 @@ public class ProductController {
     	List<Role> roles = principal.getRoles();
     	boolean isAdmin = false,isDevAdmin = false;
     	for(Role role:roles){
-    		if(role.getName().equals("超级管理员")){
+    		if(role.getName().equals("超级管理员") ){
     			isAdmin = true;
+    			break;
+    		}else if(role.getName().equals("开发leader")){
+    			isDevAdmin = true;
     			break;
     		}
     	}
@@ -428,7 +431,7 @@ public class ProductController {
     	PageInfo<TProduct> page = productService.findProductByPage(pageNum, product);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("page", page);
-        result.put("flag", isAdmin);
+        result.put("flag", isAdmin||isDevAdmin);
         return result;
     }
     
