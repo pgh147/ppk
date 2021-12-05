@@ -22,4 +22,5 @@ public interface ProductVindicateMapper extends BaseMapper<String, TProductVindi
     public List<TProduct> findProductListNoIn(String ids);
     List<TProduct> findUserSaleQty(@Param("param") Map<String,Object> param);
     List<TProduct> findTop10SKU(@Param("param") Map<String,Object> param);
+    List<TProduct> findSKU12MonthList(@Param("param") Map<String,Object> param);
 }

@@ -54,6 +54,9 @@
                             <a id="editable-sample_new" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ffd"  href="#modal-form2">
                                 上传库存 <i class="fa fa-plus"></i>
                             </a> 
+                            <a id="editable-sample_new" class="btn btn-primary" data-toggle="modal" data-typemodel="add" data="ffd"  href="#modal-form3">
+                                上传利润率 <i class="fa fa-upload"></i>
+                            </a>                            
                         </@shiro.hasRole>    
                         </div>
                         <div class=" col-lg-4 col-md-6 col-sm-8 " >
@@ -122,6 +125,7 @@
                                                 <th>开发员编号</th>
                                                 <th>上传账号 </th>
                                                 <th style="padding:0;"><div style="font-size: 11px;-webkit-transform: scale(0.7,0.7);height: 0px;"><p  class="canSort" name="threeQty">产品3天销量 </p><p class="canSort" name="weekQty"> 产品7天销量 </p><p class="canSort" name="monthQty">产品30天销量</p></div></th>
+                                               <th class="canSort" name="profitRate">产品利润率</th>
                                                 <th class="canSort" name="stkQty">亚马逊库存</th>
                                                 <th class="canSort" name="ingQty">采购在途库存</th>
                                                 <th class="canSort" name="inQty">本地仓库存</th>
@@ -247,6 +251,46 @@
         </div>
     </div>
     
+    
+    <div class="modal fade" id="modal-form3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">上传利润率</h4>
+                </div>
+                <div class="modal-body">
+
+                       <form name="entity" id="input_form3" class="form-horizontal" enctype="multipart/form-data">
+                       
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="logoFile"> 请输入要上传的列，必须对应excel中的列 </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+								
+									<textarea  name="excelImportCls" id="excelImportCls3" style="width: 100%;"  ></textarea>
+								</div>
+							</div>		
+							<div class="form-group">
+								<label class="col-sm-12 col-md-4 col-lg-3 control-label" for="logoFile"> 请上传SKU的Excel </label>
+								<div class="col-sm-12 col-md-7 col-lg-9">
+									<input type="file" class="file-loading" name="productMoneyData" id="productMoneyData"  accept=".xls,.xlsx" >
+									
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-12 col-sm-offset-2">
+									<button class="btn btn-primary" type="submit">
+										<i class="fa fa-check"></i> 填写完成，提交！
+									</button>
+									<button class="btn btn-white" type="reset">重置</button>
+								</div>
+							</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     
 
     <div class="modal fade" id="outCellList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -518,7 +518,25 @@ public class ProductController {
         }
         return "view/material/vindicate/vindicate";
     }
-    
+    /**
+     * 产品维护页面
+     * @return
+     */
+    @RequestMapping(value = "/vindicate/saleQty/page", method = RequestMethod.GET)
+    String showVindicateSaleQty(HttpServletRequest request, ModelMap map) {
+        List<PermissionVo> perVos = (List<PermissionVo>)SecurityUtils.getSubject().getSession().getAttribute(Constants.PERMISSION_SESSION);
+        if(null == perVos || perVos.size() <= 0){
+        	map.put("err", "没有访问权限");
+        	return "common/error";
+        }
+        boolean hasPagePermission = checkHasPermission(perVos,"product/vindicate/page");
+        
+        if(!hasPagePermission){
+        	map.put("err", "没有访问权限");
+        	return "common/error";
+        }
+        return "view/material/vindicate/saleQty";
+    }
     
     /**
      * 产品销售量页面

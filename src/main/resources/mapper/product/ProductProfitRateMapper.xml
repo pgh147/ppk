@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.springboot.mapper.product.ProductProfitRateMapper">
+	<resultMap id="newsMap" type="cn.springboot.model.product.TProductProfitRate">
+		<result column="fnsku" property="fnsku" />
+		<result column="your_price" property="yourPrice" />
+		<result column="sales_price" property="salesPrice" />
+		<result column="longest_side" property="longestSide" />
+		<result column="shortest_side" property="medianSide" />
+		<result column="median_side" property="shortestSide" />
+		<result column="estimated_fee_total" property="estimatedFeeTotal" />
+		<result column="fba" property="fba" />
+	</resultMap>
+
+	<insert id="insert" parameterType="cn.springboot.model.product.TProductProfitRate">
+		insert into t_product_profit_rate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fnsku != null">
+				fnsku ,
+			</if>
+			<if test="yourPrice != null">	
+				your_price ,
+			</if>
+			<if test="salesPrice != null">	
+				sales_price	,
+			</if>
+			<if test="longestSide != null">	
+				longest_side	,
+			</if>
+			<if test="shortestSide != null">	
+				shortest_side	,
+			</if>
+			<if test="medianSide != null">	
+				median_side	 ,
+			</if>
+			<if test="estimatedFeeTotal != null">	
+				estimated_fee_total	 ,
+			</if>
+			<if test="fba != null">	
+				fba	,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fnsku != null">
+				#{fnsku} ,
+			</if>
+			<if test="yourPrice != null">	
+				#{yourPrice} ,
+			</if>
+			<if test="salesPrice != null">	
+				#{salesPrice}	,
+			</if>
+			<if test="longestSide != null">	
+				#{longestSide}	,
+			</if>
+			<if test="shortestSide != null">	
+				#{shortestSide}	,
+			</if>
+			<if test="medianSide != null">	
+				#{medianSide}	 ,
+			</if>
+			<if test="estimatedFeeTotal != null">	
+				#{estimatedFeeTotal}	 ,
+			</if>
+			<if test="fba != null">	
+				#{fba}	,
+			</if>
+		</trim>
+	</insert>
+
+	<sql id="find_xxx">
+	    <![CDATA[	   
+			select a.fnsku , a.your_price,a.sales_price,a.longest_side ,a.shortest_side ,a.median_side 
+			,a.estimated_fee_total,a.fba 
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	from t_product_profit_rate a 
+	    ]]>
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	where 1=1
+	    ]]>
+	</sql>
+
+	<select id="findById" parameterType="string" resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<![CDATA[
+			where a.fnsku=#{id}
+		]]>
+	</select>
+<select id="findProductListIn" parameterType="string" resultType="string">
+		select fnsku from t_product_profit_rate where 
+		fnsku in (${orderIds}) 
+</select>		
+	<select id="findProductByKeywords" parameterType="string"
+		resultMap="newsMap">
+		<include refid="find_xxx" />
+		<include refid="from_xxx" />
+		<where>
+			<if test="keywords != null and keywords != ''"> a.fnsku like '%${keywords}%'</if>
+		</where>
+	</select>
+
+	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct" resultMap="newsMap">
+		<include refid="find_xxx" />,c.img_data ,b.product_name,b.product_price,b.predict_sales_qty,b.product_order_qty
+		<include refid="from_xxx" /> inner join t_product b on a.product_no = b.product_no
+		left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
+		<where> 1 = 1 
+	      <if test="null!=fnsku and ''!= fnsku">
+		       and a.fnsku = #{fnsku}
+		  </if>	    
+		</where>
+		order by a.fnsku desc
+	</select>
+
+	<update id="update" parameterType="cn.springboot.model.product.TProductProfitRate">
+		update t_product_profit_rate
+		<set>
+			<if test="fnsku != null">
+				 fnsku = #{fnsku} ,
+			</if>
+			<if test="yourPrice != null">	
+				your_price = #{yourPrice} ,
+			</if>
+			<if test="salesPrice != null">	
+				 sales_price= #{salesPrice}	,
+			</if>
+			<if test="longestSide != null">	
+				 longest_side= #{longestSide}	,
+			</if>
+			<if test="shortestSide != null">	
+				shortest_side = #{shortestSide}	,
+			</if>
+			<if test="medianSide != null">	
+				 median_side= #{medianSide}	 ,
+			</if>
+			<if test="estimatedFeeTotal != null">	
+				 estimated_fee_total= #{estimatedFeeTotal}	 ,
+			</if>
+			<if test="fba != null">	
+				 fba= #{fba}	,
+			</if>
+		</set>
+		where fnsku = #{fnsku}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from t_product_profit_rate where
+		fnsku=#{id}
+	</delete>
+
+</mapper>

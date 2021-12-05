@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 
 import cn.springboot.model.product.TProduct;
 import cn.springboot.model.product.TProductImport;
+import cn.springboot.model.product.TProductProfitRate;
 import cn.springboot.model.product.TProductStk;
 import cn.springboot.model.product.TProductVindicate;
 
@@ -24,6 +25,8 @@ public interface ProductVindicateService {
     public PageInfo<TProduct> findProductByPage(Integer pageNum, TProduct keywords);
     void importSku(List<TProductImport> dataList);
     void importStk(List<TProductStk> dataList);
+    void importProfitRate(List<TProductProfitRate> dataList);
     public List<TProduct>  findUserSaleQty(Map<String,Object> param);
     public List<TProduct>  findTop10SKU(Map<String,Object> param);
+    public List<TProduct> findSKU12MonthList(Map<String,Object> param);
 }

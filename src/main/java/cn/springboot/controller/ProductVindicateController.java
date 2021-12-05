@@ -30,6 +30,7 @@ import cn.springboot.model.ImportResolve;
 import cn.springboot.model.auth.Role;
 import cn.springboot.model.product.TProduct;
 import cn.springboot.model.product.TProductImport;
+import cn.springboot.model.product.TProductProfitRate;
 import cn.springboot.model.product.TProductStk;
 import cn.springboot.service.product.ProductService;
 import cn.springboot.service.product.ProductVindicateService;
@@ -172,7 +173,65 @@ private ProductVindicateService productVindicateService;
 		}
 	}
     
-    
+	/**
+	 * 导入
+	 * @param req http请求
+	 * @param user 当前用户
+	 * @param reqData 保存请求的数据
+	 * @return 结果集map: flag
+	 * @throws Exception 异常
+	 */
+	@RequestMapping("/importProfitRate.json")
+	@ResponseBody
+	public Map<String, Object> importProfitRate(HttpServletRequest req, 
+			ImportRequest reqData) throws Exception {
+		try{
+	    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+	    	List<Role> roles = principal.getRoles();
+	    	boolean isAdmin = false;
+	    	for(Role role:roles){
+	    		if(role.getName().equals("超级管理员")){
+	    			isAdmin = true;
+	    			break;
+	    		}
+	    	}
+	    	if(!isAdmin){
+	    		throw new BusinessException("1001", "无权限导入");
+	    	}
+			String mainKeyStr = reqData.getMainKey();
+	        Map<String, Object> resultMap = new HashMap<String,Object>();//getBaseSimplePageService().importData(dataList, user, reqData);
+        
+     		String colNamesStr2 = reqData.getColNames();
+     		String mustArrayStr2 =  reqData.getMustArray();
+     		
+     		// 解析excel
+     		String[] colNames2 = colNamesStr2.split(",");
+             String[] mustArray2 = mustArrayStr2.split(",");
+             if(colNames2.length != mustArray2.length){
+             	throw new MyselfMsgException("导入列colNames与是否必须mustArray的参数长度不一致");
+             }
+             ImportResolve<TProductProfitRate> is2 = null;
+             if(StringUtils.isEmpty(mainKeyStr)){
+             	is2 = ExcelUtils.getData(req, colNames2, mustArray2, null, TProductProfitRate.class, "","importFile");
+             }else{
+             	is2 = ExcelUtils.getData(req, colNames2, mustArray2, mainKeyStr.split(","), TProductProfitRate.class, "","importFile");
+             }
+             if(StringUtils.isNotEmpty(is2.getErrorMsg())){
+             	resultMap.put("code", "9999");
+    			resultMap.put("detail", is2.getErrorMsg());
+    			return resultMap;
+     		}
+             productVindicateService.importProfitRate(is2.getDataList());
+             resultMap.put("code", "0");
+             resultMap.put("status", "导入成功");
+             return resultMap;
+		}catch(Exception e){
+			Map<String, Object> resultMap = new HashMap<String,Object>();
+			resultMap.put("code", "9999");
+			resultMap.put("detail", e.getMessage());
+			return resultMap;
+		}
+	}
     /**
      * @Description ajax list上传产品
      * @param news
@@ -239,5 +298,19 @@ private ProductVindicateService productVindicateService;
         return result;
     }
     
-
+    /**
+     * @Description ajax list上传产品
+     * @param news
+     * @return
+     */
+    @RequestMapping(value = "/findSKUMonthList.json", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> findSKUMonthList( @RequestParam(value = "productNo", required = true) String productNo) {
+    	Map<String,Object> param = new HashMap<String,Object>();
+    	param.put("productNo", productNo);
+    	List<TProduct> list = productVindicateService.findSKU12MonthList(param);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("list", list);
+        return result;
+    }
 }

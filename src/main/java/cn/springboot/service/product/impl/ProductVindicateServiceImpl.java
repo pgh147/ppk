@@ -15,10 +15,12 @@ import com.github.pagehelper.PageInfo;
 
 import cn.springboot.common.constants.Constants;
 import cn.springboot.mapper.product.ProductImportMapper;
+import cn.springboot.mapper.product.ProductProfitRateMapper;
 import cn.springboot.mapper.product.ProductStkMapper;
 import cn.springboot.mapper.product.ProductVindicateMapper;
 import cn.springboot.model.product.TProduct;
 import cn.springboot.model.product.TProductImport;
+import cn.springboot.model.product.TProductProfitRate;
 import cn.springboot.model.product.TProductStk;
 import cn.springboot.model.product.TProductVindicate;
 import cn.springboot.service.product.ProductVindicateService;
@@ -39,7 +41,8 @@ public class ProductVindicateServiceImpl implements ProductVindicateService {
     private ProductStkMapper productStkMapper;
     @Autowired
     private ProductImportMapper productImportMapper;
-    
+    @Autowired
+    private ProductProfitRateMapper productProfitRateMapper;
 
     @Override
     public TProductVindicate findProductById(String id) {
@@ -131,6 +134,27 @@ public class ProductVindicateServiceImpl implements ProductVindicateService {
 	}
 
 	@Override
+	public void importProfitRate(List<TProductProfitRate> dataList) {
+		StringBuffer strbuff = new StringBuffer("");
+	      for(TProductProfitRate tp:dataList){
+	      	//订单ID
+	    	  strbuff.append("'"+tp.getFnsku()+"',");
+	      }
+		  List<String> ids = productProfitRateMapper.findProductListIn(strbuff.substring(0,strbuff.length()-1));
+		  for(TProductProfitRate tp:dataList){
+			  try{
+				  if(ids.contains(tp.getFnsku())){
+					  productProfitRateMapper.update(tp);
+				  }else{
+					  productProfitRateMapper.insert(tp);
+				  }
+			  }catch(Exception e){
+				  log.error("导入异常数据："+tp.getFnsku()+";"+e.getMessage());
+			  }
+		  }
+	}
+	
+	@Override
 	public List<TProduct> findUserSaleQty(Map<String, Object> param) {
 		return productVindicateMapper.findUserSaleQty(param);
 	}
@@ -138,6 +162,11 @@ public class ProductVindicateServiceImpl implements ProductVindicateService {
 	@Override
 	public List<TProduct> findTop10SKU(Map<String, Object> param) {
 		return productVindicateMapper.findTop10SKU(param);
+	}
+
+	@Override
+	public List<TProduct> findSKU12MonthList(Map<String, Object> param) {
+		return productVindicateMapper.findSKU12MonthList(param);
 	}
 
 

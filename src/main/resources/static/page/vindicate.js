@@ -28,6 +28,7 @@
         $(document).ready(function () {
         	$("#excelImportCls").val("amazonOrderId,merchantOrderId,purchaseDate,lastUpdatedDate,orderStatus,fulfillmentChannel,salesChannel,orderChannel,url,shipServiceLevel,productName,sku,asin,itemStatus,quantity,currency,itemPrice,itemTax,shippingPrice,shippingTax,giftWrapPrice,giftWrapTax,itemPromotionDiscount,shipPromotionDiscount,shipCity,shipState,shipPostalCode,shipCountry,promotionIds");
         	$("#excelImportCls2").val("sellerSku,fulfillmentChannelSku,asin,conditionType,warehouseConditionCode,quantityAvailable");
+        	$("#excelImportCls3").val("fnsku,yourPrice,salesPrice,longestSide,medianSide,shortestSide,estimatedFeeTotal,fba");
 
         	$(".canSort").click(function(e){
         		if($(e.target).attr("class").indexOf('desc') > -1){
@@ -76,6 +77,22 @@
 		        	addStkform(form);
 		        }
             });
+            $("#input_form3").validate({
+            	rules: {
+            		productStkData: {
+                        required: true
+                    }
+                },
+                messages: {
+                	productStkData: {
+                        required: "请上传Excel",
+                    }
+                },
+            	debug: true,
+		        submitHandler: function(form) {
+		        	addMoneyform(form);
+		        }
+            });            
             $('#outCellList').on('show.bs.modal', function (e) {
               	var button = $(event.target) // Button that triggered the modal
           		  var id = button.data('idmodel');
@@ -153,6 +170,33 @@
         	  toastr.error("出现错误，请更改");
           });
       }
+      
+      function addMoneyform(form) {
+    	  var file3 = document.getElementById('productMoneyData').files[0];
+          var formData = new FormData($('#input_form3')[0]);
+          formData.append('importFile', file3);
+          formData.append('colNames', $("#excelImportCls3").val());
+          formData.append('mustArray', $("#excelImportCls3").val());
+          $.ajax({
+              url: '/product_vindicate/importProfitRate.json',
+              type: 'POST',
+              cache: false,
+              data: formData,
+              processData: false,
+              contentType: false,
+          }).done(function(res) {
+        	  if(res.code == "0"){
+        		  toastr.success('', '导入成功！');
+                  $('#modal-form3').modal('hide');
+                  loadData();
+        	  }else{
+        		  toastr.error('', '导入出错！'+res.detail);
+                  $('#modal-form3').modal('hide');
+        	  }
+          }).fail(function(res) {
+        	  toastr.error("出现错误，请更改");
+          });
+      }
       //加载数据
       function loadData(num){
     	  var param ={
@@ -209,8 +253,8 @@
             		if(data.page.list.length > 0){
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
-                			 $tr += '<tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td>'+item.productNo+'</td> <td> <span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.uploadAccount+'</td> '+
-                            '<td>'+(item.threeQty?item.threeQty:'0')+'<br />'+(item.weekQty?item.weekQty:'0')+'<br />'+(item.monthQty?item.monthQty:'0')+' </td><td>'+(item.stkQty?item.stkQty:'0')+'</td><td>'+(item.ingQty?item.ingQty:'0')+'</td><td>'+(item.inQty?item.inQty:'0')+'</td><td>'+(item.monthQty?Math.round((parseInt(item.stkQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td>'+(item.monthQty?Math.round(((parseInt(item.stkQty)+item.ingQty+item.inQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td><a style="text-decoration: underline;" data-userid="1" data-toggle="modal" data-typemodel="search" data-idmodel="'+item.billNo+'" data-target="#outCellList">'+(item.outQty?item.outQty:"")+'</a></td><td>'+(item.createTime?item.createTime:'')+'</td>'+     //<td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty" class="canEdit"></td>'+
+                			 $tr += '<tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td><a href="/product/vindicate/saleQty/page?id='+item.productNo+'" >'+item.productNo+' </a></td> <td> <span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.uploadAccount+'</td> '+
+                            '<td>'+(item.threeQty?item.threeQty:'0')+'<br />'+(item.weekQty?item.weekQty:'0')+'<br />'+(item.monthQty?item.monthQty:'0')+' </td><td>'+(item.profitRate?item.profitRate*100+'%':'-')+'</td><td>'+(item.stkQty?item.stkQty:'0')+'</td><td>'+(item.ingQty?item.ingQty:'0')+'</td><td>'+(item.inQty?item.inQty:'0')+'</td><td>'+(item.monthQty?Math.round((parseInt(item.stkQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td>'+(item.monthQty?Math.round(((parseInt(item.stkQty)+item.ingQty+item.inQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td><a style="text-decoration: underline;" data-userid="1" data-toggle="modal" data-typemodel="search" data-idmodel="'+item.billNo+'" data-target="#outCellList">'+(item.outQty?item.outQty:"")+'</a></td><td>'+(item.createTime?item.createTime:'')+'</td>'+     //<td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty" class="canEdit"></td>'+
                          '</tr>';
                 			
                 		});
