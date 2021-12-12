@@ -45,6 +45,13 @@ public class TProduct implements BaseEntity<String> {
     private String productSelling4;
 
     private String productSelling5;
+    
+    private String productSelling6;
+    private String productSelling7;
+    private String productSelling8;
+    private String productSelling9;
+    private String productSelling10;
+    
     private String descript;
 
     private String message;
@@ -529,6 +536,46 @@ public class TProduct implements BaseEntity<String> {
 
 	public void setProfitRate(BigDecimal profitRate) {
 		this.profitRate = profitRate;
+	}
+
+	public String getProductSelling6() {
+		return productSelling6;
+	}
+
+	public void setProductSelling6(String productSelling6) {
+		this.productSelling6 = productSelling6;
+	}
+
+	public String getProductSelling7() {
+		return productSelling7;
+	}
+
+	public void setProductSelling7(String productSelling7) {
+		this.productSelling7 = productSelling7;
+	}
+
+	public String getProductSelling8() {
+		return productSelling8;
+	}
+
+	public void setProductSelling8(String productSelling8) {
+		this.productSelling8 = productSelling8;
+	}
+
+	public String getProductSelling9() {
+		return productSelling9;
+	}
+
+	public void setProductSelling9(String productSelling9) {
+		this.productSelling9 = productSelling9;
+	}
+
+	public String getProductSelling10() {
+		return productSelling10;
+	}
+
+	public void setProductSelling10(String productSelling10) {
+		this.productSelling10 = productSelling10;
 	}
 
 }

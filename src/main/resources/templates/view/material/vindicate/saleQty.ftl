@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>销售汇总</title>
+    <title>SKU销售曲线</title>
     <meta name="keyword" content="">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +39,7 @@
                 <div class="row">
                         <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>top10SKU</h5>
+                            <h5>SKU销售曲线图</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -64,7 +64,7 @@
                     版权所有，<strong>违者必究.</strong> 
                 </div>
                 <div>
-                    <strong>Copyright</strong> Wuling Company &copy; 2014-2015
+                    <strong>Copyright</strong> Lancaitong Company &copy; 2020-2021
                 </div>
             </div>
         </div>

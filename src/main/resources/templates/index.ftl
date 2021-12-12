@@ -62,7 +62,7 @@
                      <strong>版权所有</strong> 违法必究.
                 </div>
                 <div>
-                    <strong>Copyright</strong> Example Company &copy; 2019-2020
+                    <strong>Copyright</strong> Lancaitong Company &copy; 2020-2021
                 </div>
             </div>
 

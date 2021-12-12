@@ -440,7 +440,7 @@
                     10GB of <strong>250GB</strong> Free.
                 </div>
                 <div>
-                    <strong>Copyright</strong> Example Company &copy; 2014-2015
+                    <strong>Copyright</strong> Lancaitong Company &copy; 2020-2021
                 </div>
             </div>
 

@@ -215,6 +215,8 @@
     			  orderBy += "stkQty/monthQty  desc";
     		  }else if(name == 'canSaleDays'){
     			  orderBy += "(stkQty+ingQty+inQty)/monthQty desc";
+    		  }else if(name == 'profitRate'){
+    			  orderBy += "profit_rate  desc";
     		  }else{
     			  orderBy += name+" desc";
     		  }
@@ -228,6 +230,8 @@
     			  orderBy += "stkQty/monthQty  asc";
     		  }else if(name == 'canSaleDays'){
     			  orderBy += "(stkQty+ingQty+inQty)/monthQty asc";
+    		  }else if(name == 'profitRate'){
+    			  orderBy += "profit_rate  asc";
     		  }else{
     			  orderBy += name+" asc";
     		  }
@@ -253,7 +257,7 @@
             		if(data.page.list.length > 0){
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
-                			 $tr += '<tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td><a href="/product/vindicate/saleQty/page?id='+item.productNo+'" >'+item.productNo+' </a></td> <td> <span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.uploadAccount+'</td> '+
+                			 $tr += '<tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td><a href="/product/vindicate/saleQty/page?id='+item.id+'" >'+item.productNo+' </a></td> <td> <span style="width:200px" title="'+(item.productName?item.productName:"")+'"  class="long-break-word">'+item.productName+'</span></td><td>'+item.userNo+'</td><td>'+item.uploadAccount+'</td> '+
                             '<td>'+(item.threeQty?item.threeQty:'0')+'<br />'+(item.weekQty?item.weekQty:'0')+'<br />'+(item.monthQty?item.monthQty:'0')+' </td><td>'+(item.profitRate?item.profitRate*100+'%':'-')+'</td><td>'+(item.stkQty?item.stkQty:'0')+'</td><td>'+(item.ingQty?item.ingQty:'0')+'</td><td>'+(item.inQty?item.inQty:'0')+'</td><td>'+(item.monthQty?Math.round((parseInt(item.stkQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td>'+(item.monthQty?Math.round(((parseInt(item.stkQty)+item.ingQty+item.inQty)/parseInt(item.monthQty))*30):'无销量')+'</td><td><a style="text-decoration: underline;" data-userid="1" data-toggle="modal" data-typemodel="search" data-idmodel="'+item.billNo+'" data-target="#outCellList">'+(item.outQty?item.outQty:"")+'</a></td><td>'+(item.createTime?item.createTime:'')+'</td>'+     //<td><input value="'+(item.okQty?item.okQty:'0')+'" onchange="onchangeInput('+"'"+item.id+"'"+',this)" name="okQty" class="canEdit"></td>'+
                          '</tr>';
                 			

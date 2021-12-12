@@ -16,7 +16,7 @@ var detailData,detailId;
 							isCanClick = false;
 							return true;      	    			
 						}
-					}else if(detailData[this.name]  != this.value){
+					}else if(detailData[this.name]  != this.value && !(detailData[this.name] == null && this.value == '')){
 						isCanClick = false;
 						return true;  
 					}

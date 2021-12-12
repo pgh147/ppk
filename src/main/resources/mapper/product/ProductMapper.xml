@@ -33,6 +33,11 @@
     <result column="product_selling3" jdbcType="VARCHAR" property="productSelling3" />
     <result column="product_selling4" jdbcType="VARCHAR" property="productSelling4" />
     <result column="product_selling5" jdbcType="VARCHAR" property="productSelling5" />
+    <result column="product_selling6" jdbcType="VARCHAR" property="productSelling6" />
+    <result column="product_selling7" jdbcType="VARCHAR" property="productSelling7" />
+    <result column="product_selling8" jdbcType="VARCHAR" property="productSelling8" />
+    <result column="product_selling9" jdbcType="VARCHAR" property="productSelling9" />
+    <result column="product_selling10" jdbcType="VARCHAR" property="productSelling10" />
     <result column="descript" jdbcType="VARCHAR" property="descript" />
     <result column="message" jdbcType="VARCHAR" property="message" />
     <result column="search_term" jdbcType="VARCHAR" property="searchTerm" />
@@ -121,6 +126,21 @@
       <if test="productSelling5 != null and '' != productSelling5 ">
         product_selling5,
       </if>
+<if test="productSelling6 != null and '' != productSelling6 ">
+        product_selling6,
+      </if>
+      <if test="productSelling7 != null and '' != productSelling7 ">
+        product_selling7,
+      </if>
+      <if test="productSelling8 != null and '' != productSelling8 ">
+        product_selling8,
+      </if>
+      <if test="productSelling9 != null and '' != productSelling9 ">
+        product_selling9,
+      </if>
+      <if test="productSelling10 != null and '' != productSelling10 ">
+        product_selling10,
+      </if>      
       <if test="descript != null and '' != descript ">
         descript,
       </if>
@@ -225,6 +245,21 @@
       <if test="productSelling5 != null and '' != productSelling5 ">
         #{productSelling5,jdbcType=VARCHAR},
       </if>
+      <if test="productSelling6 != null and '' != productSelling6 ">
+        #{productSelling6,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling7 != null and '' != productSelling7 ">
+        #{productSelling7,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling8 != null and '' != productSelling8 ">
+        #{productSelling8,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling9 != null and '' != productSelling9 ">
+        #{productSelling9,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling10 != null and '' != productSelling10 ">
+        #{productSelling10,jdbcType=VARCHAR},
+      </if>
       <if test="descript != null and '' != descript ">
         #{descript,jdbcType=VARCHAR},
       </if>
@@ -264,7 +299,8 @@
 			,a.product_anys,a.product_safe,a.product_price ,a.product_size ,a.product_vol ,a.first_send_qty ,a.product_order_qty 
 			,a.predict_sales_qty ,a.create_time ,a.creater ,a.remark ,a.product_status,
 			a.product_selling1,a. product_selling2, a.product_selling3, a.product_selling4, a.sale_price,
-    a.product_selling5, a.descript, a.message, a.search_term, a.classify,a.p_size,a.p_vol,a.qc_notice,a.en_title,a.charge_weight
+ 			a.product_selling7,a. product_selling9, a.product_selling8, a.product_selling10,
+    a.product_selling5,a.product_selling6, a.descript, a.message, a.search_term, a.classify,a.p_size,a.p_vol,a.qc_notice,a.en_title,a.charge_weight
 	    ]]>
 	</sql>
 
@@ -411,6 +447,21 @@
       </if>
       <if test="productSelling5 != null and '' != productSelling5 ">
         product_selling5 = #{productSelling5,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling6 != null and '' != productSelling6 ">
+        product_selling6 = #{productSelling6,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling7 != null and '' != productSelling7 ">
+        product_selling7 = #{productSelling7,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling8 != null and '' != productSelling8 ">
+        product_selling8 = #{productSelling8,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling9 != null and '' != productSelling9 ">
+        product_selling9 = #{productSelling9,jdbcType=VARCHAR},
+      </if>
+      <if test="productSelling10 != null and '' != productSelling10 ">
+        product_selling10 = #{productSelling10,jdbcType=VARCHAR},
       </if>
       <if test="descript != null and '' != descript ">
         descript = #{descript,jdbcType=VARCHAR},

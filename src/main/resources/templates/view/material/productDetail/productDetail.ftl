@@ -198,6 +198,11 @@
 									<input type="text" id="productSelling3" name="productSelling3" value="" placeholder="卖点3" class="form-control" >
 									<input type="text" id="productSelling4" name="productSelling4" value="" placeholder="卖点4" class="form-control" >
 									<input type="text" id="productSelling5" name="productSelling5" value="" placeholder="卖点5" class="form-control" >
+									<input type="text" id="productSelling5" name="productSelling6" value="" placeholder="卖点6" class="form-control" >
+									<input type="text" id="productSelling5" name="productSelling7" value="" placeholder="卖点7" class="form-control" >
+									<input type="text" id="productSelling5" name="productSelling8" value="" placeholder="卖点8" class="form-control" >
+									<input type="text" id="productSelling5" name="productSelling9" value="" placeholder="卖点9" class="form-control" >
+									<input type="text" id="productSelling5" name="productSelling10" value="" placeholder="卖点10" class="form-control" >
 								</div>
 							</div>
 
@@ -247,7 +252,7 @@
                     版权所有，<strong>违者必究.</strong> 
                 </div>
                 <div>
-                    <strong>Copyright</strong> Example Company &copy; 2019-2020
+                    <strong>Copyright</strong> Lancaitong Company &copy; 2020-2021
                 </div>
             </div>
 

@@ -16,7 +16,7 @@ $(document).ready(function () {
 	
     function loadTop10Data(){
   	  var param ={
-  			productNo:id
+  			id:id
   	  }
     	$.ajax({
           type: "GET",
@@ -28,18 +28,17 @@ $(document).ready(function () {
           	if(data.list.length > 0){
           		var xData = [],yData = [];  
           		 var date = new Date();    
-          		 var year = date.getFullYear();    
-          		 date.setMonth(date.getMonth()+1, 1)
           		 //获取到当前月份,设置月份   
-          		 for (var i = 0; i < 12; i++) {      
-          			 date.setMonth(date.getMonth() - 1);
+          		 for (var i = 0; i < 365; i++) {      
+          			 date.setDate(date.getDate() - 1);
           			 //每次循环一次 月份值减1        
           			 var m = date.getMonth() + 1;        
-          			 m = m < 10 ? "0" + m : m;        
-          			xData.push(date.getFullYear() + "-" + (m))  
+          			 m = m < 10 ? "0" + m : m;     
+          			var d = date.getDate()< 10 ? "0" + date.getDate() : date.getDate();        
+          			xData.push(date.getFullYear() + "-" + (m)+ "-" + (d))  
           		 }
           		 xData.reverse();
-          		for(var i = 0;i<12;i++){
+          		for(var i = 0;i<365;i++){
           			yData.push(null);
           			for(var j = 0;j<data.list.length;j++){
           				var item = data.list[j];
@@ -72,18 +71,20 @@ $(document).ready(function () {
     	        grid: {
     	            left: '3%',
     	            right: '4%',
-    	            bottom: '3%',
+    	            bottom: '10%',
     	            containLabel: true
     	        },
     	        xAxis : [
     	            {
     	                type : 'category',
     	                data : data.xData,
-    	                axisTick: {
-    	                    alignWithLabel: true
-    	                },
+//    	                axisTick: {
+//    	                    alignWithLabel: false
+//    	                },
+//    	                splitNumber:10,
     	            	axisLabel:{
-    	            		interval :0
+    	            		interval :function(index, value) {console.log(value);if(value&&value.split("-")[2] == '01'){return true}else{ return false}},
+//    	            		rotate:45
     	            	}
     	            }
     	        ],
@@ -98,8 +99,37 @@ $(document).ready(function () {
     	                name:'卖出数量',
     	                type:'line',
 //    	                barWidth: data.barWidth?data.barWidth:'60%',
-    	                data:data.yData
-    	            }
+    	                data:data.yData,
+    	                smooth: true,
+//    	                itemStyle: {
+    	                	normal: {
+    	                        label: {
+    	                            show: true, //开启显示
+    	                            position: 'top', //在上方显示
+    	                            formatter: function (val) {
+    	                                // console.log(val);
+    	                                if ([2, 7, 12, 17].includes(val.dataIndex)) {
+    	                                    return val.value + '%'
+    	                                } else {
+    	                                    return ' '
+    	                                }
+    	                            },
+    	                            color: 'black'
+    	                        },
+    	                    },
+    	                    // 单独改变小原点样式
+    	                    emphasis:{
+    	                        selectorLabel:{
+    	                            showSymbol:false,
+    	                        },
+    	                        color:"transparent",
+    	                        borderColor:"transparent",
+    	                        borderWidth:0,
+    	                        transitionDuration:0,
+    	                    }
+
+    	                }
+//    	            }
     	        ]
     	    };
     }

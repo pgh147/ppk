@@ -2,7 +2,7 @@
  * Cropper v0.9.2
  * https://github.com/fengyuanchen/cropper
  *
- * Copyright (c) 2014-2015 Fengyuan Chen and contributors
+ * Copyright (c) 2020-2021 Fengyuan Chen and contributors
  * Released under the MIT license
  *
  * Date: 2015-04-18T04:35:01.500Z

@@ -305,9 +305,9 @@ private ProductVindicateService productVindicateService;
      */
     @RequestMapping(value = "/findSKUMonthList.json", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> findSKUMonthList( @RequestParam(value = "productNo", required = true) String productNo) {
+    public Map<String, Object> findSKUMonthList( @RequestParam(value = "id", required = true) String id) {
     	Map<String,Object> param = new HashMap<String,Object>();
-    	param.put("productNo", productNo);
+    	param.put("id", id);
     	List<TProduct> list = productVindicateService.findSKU12MonthList(param);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("list", list);

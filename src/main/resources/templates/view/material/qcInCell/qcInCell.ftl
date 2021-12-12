@@ -160,7 +160,7 @@
                     版权所有，<strong>违者必究.</strong> 
                 </div>
                 <div>
-                    <strong>Copyright</strong> Example Company &copy; 2019-2020
+                    <strong>Copyright</strong> Lancaitong Company &copy; 2020-2021
                 </div>
             </div>
 

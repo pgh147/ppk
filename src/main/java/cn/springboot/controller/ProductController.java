@@ -712,6 +712,13 @@ public class ProductController {
       Map<String,String> map14 = new HashMap<String,String>();
       Map<String,String> map15 = new HashMap<String,String>();
       Map<String,String> map16 = new HashMap<String,String>();
+      
+      Map<String,String> map17 = new HashMap<String,String>();
+      Map<String,String> map18 = new HashMap<String,String>();
+      Map<String,String> map19 = new HashMap<String,String>();
+      Map<String,String> map20 = new HashMap<String,String>();
+      Map<String,String> map21 = new HashMap<String,String>();
+      
       map1.put("title", "产品编号");
       map1.put("field", "productNo");
       map2.put("title", "英文标题");
@@ -726,6 +733,18 @@ public class ProductController {
       map6.put("field", "productSelling4");
       map7.put("title", "卖点5");
       map7.put("field", "productSelling5");
+      
+      map17.put("title", "卖点6");
+      map17.put("field", "productSelling6");
+      map18.put("title", "卖点7");
+      map18.put("field", "productSelling7");
+      map19.put("title", "卖点8");
+      map19.put("field", "productSelling8");
+      map20.put("title", "卖点9");
+      map20.put("field", "productSelling9");
+      map21.put("title", "卖点10");
+      map21.put("field", "productSelling10");
+      
       map8.put("title", "描述");
       map8.put("field", "descript");
       map9.put("title", "广告词");
@@ -751,6 +770,8 @@ public class ProductController {
       exportColumns.add(map10);exportColumns.add(map11);exportColumns.add(map12);
       exportColumns.add(map13);exportColumns.add(map14);exportColumns.add(map15);
       exportColumns.add(map16);
+      exportColumns.add(map17);exportColumns.add(map18);exportColumns.add(map19);
+      exportColumns.add(map20);exportColumns.add(map21);
       	SXSSFWorkbook wb = null;
     	//响应到客户端
 		try {

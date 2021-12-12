@@ -136,7 +136,7 @@
 	</select>
 
 	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct" resultMap="newsMap">
-		SELECT a.product_name,a.user_no,a.upload_account,img.img_data,a.product_no,cast(e.quantity_available as  DECIMAL(8,2))  stkQty,b.quantity monthQty,c.quantity weekQty,d.quantity threeQty
+		SELECT a.id,a.product_name,a.user_no,a.upload_account,img.img_data,a.product_no,cast(e.quantity_available as  DECIMAL(8,2))  stkQty,b.quantity monthQty,c.quantity weekQty,d.quantity threeQty
 		, ee.inQty ,ff.purchase_qty - dd.incell_qty - dd.return_qty ingQty ,j.us_qty,j.out_qty,j.create_time,j.bill_no
 		,
 		cast((ifnull(g.sales_price,0)-ifnull(g.estimated_fee_total,0) -(ifnull(g.fba,0)/( ifnull(a.charge_weight*1000,1000))) 
@@ -243,12 +243,13 @@ ORDER BY sale_qty desc
 </select>
 <select id="findSKU12MonthList" parameterType="map" resultMap="newsMap">
 	SELECT a.sku product_no,sum(a.quantity) sale_qty,
-concat(YEAR(purchase_date),'-',LPAD(MONTH(purchase_date),2,'0')) as remark
-	FROM t_product_import a
+concat(YEAR(purchase_date),'-',LPAD(MONTH(purchase_date),2,'0'),'-',LPAD(day(purchase_date),2,'0')) as remark
+	FROM t_product_import a 
+	inner join t_product b on a.sku = b.product_no
 	WHERE order_status = 'Shipped'
 	 AND purchase_date &lt;= now()
-	 AND purchase_date &gt;= date_sub(now(),interval 4 year)
-	 AND a.sku = #{param.productNo}
-	GROUP BY YEAR(purchase_date),MONTH(purchase_date)
+	 AND purchase_date &gt;= date_sub(now(),interval 1 year)
+	 AND b.id = #{param.id}
+	GROUP BY YEAR(purchase_date),MONTH(purchase_date),day(purchase_date)
 </select>
 </mapper>
