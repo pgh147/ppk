@@ -81,7 +81,7 @@
 			<if test="userNo != null">
 				#{userNo},
 			</if>
-			
+
 			<if test="saleQty != null">
 				#{saleQty} ,
 			</if>
@@ -135,121 +135,148 @@
 		</where>
 	</select>
 
-	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct" resultMap="newsMap">
-		SELECT a.id,a.product_name,a.user_no,a.upload_account,img.img_data,a.product_no,cast(e.quantity_available as  DECIMAL(8,2))  stkQty,b.quantity monthQty,c.quantity weekQty,d.quantity threeQty
+	<select id="findProductByPage" parameterType="cn.springboot.model.product.TProduct"
+		resultMap="newsMap">
+		SELECT
+		a.id,a.product_name,a.user_no,a.upload_account,img.img_data,a.product_no,cast(e.quantity_available
+		as DECIMAL(8,2)) stkQty,b.quantity monthQty,c.quantity
+		weekQty,d.quantity threeQty
 		, ee.inQty ,ff.purchase_qty - dd.incell_qty - dd.return_qty ingQty ,j.us_qty,j.out_qty,j.create_time,j.bill_no
 		,
-		cast((ifnull(g.sales_price,0)-ifnull(g.estimated_fee_total,0) -(ifnull(g.fba,0)/( ifnull(a.charge_weight*1000,1000))) 
-- a.product_price)/a.product_price as decimal(9,3)) as profit_rate
-		from t_product a 
-		LEFT JOIN t_product_img img on a.product_img_no = img.img_no and  img.type = 1
-		LEFT JOIN t_product_stk e on a.product_no = e.seller_sku and e.warehouse_condition_code =  'SELLABLE'
-		
-		LEFT JOIN (SELECT	product_no,SUM(incell_qty) incell_qty,SUM(return_qty) return_qty FROM	t_qc_incell	GROUP BY	product_no) AS dd ON a.product_no = dd.product_no
-LEFT JOIN (
-	SELECT
+		cast((ifnull(g.sales_price,0)-ifnull(g.estimated_fee_total,0) -
+		(ifnull(g.fba,0)/1000* ifnull(a.charge_weight,0)) - a.product_price)
+		/a.product_price as decimal(9,3)) as profit_rate
+		from t_product a
+		LEFT JOIN t_product_img img on a.product_img_no = img.img_no and img.type
+		= 1
+		LEFT JOIN t_product_stk e on a.product_no = e.seller_sku and
+		e.warehouse_condition_code = 'SELLABLE'
+
+		LEFT JOIN (SELECT product_no,SUM(incell_qty) incell_qty,SUM(return_qty)
+		return_qty FROM t_qc_incell GROUP BY product_no) AS dd ON a.product_no
+		= dd.product_no
+		LEFT JOIN (
+		SELECT
 		a.product_no,
-a.surplus_qty - COALESCE(SUM(b.out_qty),0) inQty,
+		a.surplus_qty - COALESCE(SUM(b.out_qty),0) inQty,
 		SUM(b.out_qty) out_qty
-	FROM
+		FROM
 		t_outcell a
 		left JOIN t_outcell_dtl b on a.product_no = b.product_no
-	GROUP BY
+		GROUP BY
 		a.product_no
-) AS ee ON a.product_no = ee.product_no
-LEFT JOIN (SELECT	product_no,sum(purchase_qty) purchase_qty  FROM	t_purchase	GROUP BY	product_no) AS ff ON a.product_no = ff.product_no
-	
-		LEFT JOIN (SELECT sku,sum(quantity) quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= purchase_date GROUP BY sku) as b on a.product_no = b.sku
-		LEFT JOIN (SELECT sku,sum(quantity)quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= purchase_date GROUP BY sku) as c on a.product_no = c.sku
-		left JOIN(SELECT sku,sum(quantity)quantity FROM t_product_import where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;= purchase_date GROUP BY sku)as d on a.product_no = d.sku
+		) AS ee ON a.product_no = ee.product_no
+		LEFT JOIN (SELECT product_no,sum(purchase_qty) purchase_qty FROM
+		t_purchase GROUP BY product_no) AS ff ON a.product_no = ff.product_no
+
+		LEFT JOIN (SELECT sku,sum(quantity) quantity FROM t_product_import
+		where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 30
+		DAY) &lt;= purchase_date GROUP BY sku) as b on a.product_no = b.sku
+		LEFT JOIN (SELECT sku,sum(quantity)quantity FROM t_product_import
+		where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+		&lt;= purchase_date GROUP BY sku) as c on a.product_no = c.sku
+		left
+		JOIN(SELECT sku,sum(quantity)quantity FROM t_product_import where
+		order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;=
+		purchase_date GROUP BY sku)as d on a.product_no = d.sku
 		LEFT JOIN (
-select af.product_no,af.us_qty,af.out_qty,af.create_time,af.bill_no from t_outcell_dtl as af, 
-(select MAX(create_time) AS create_time,bill_no from t_outcell_dtl GROUP BY bill_no) AS bf
-WHERE af.create_time = bf.create_time AND af.bill_no = bf.bill_no
-) AS j ON a.product_no = j.product_no
-LEFT JOIN 	t_product_profit_rate g ON a.product_no = g.fnsku
-		<where> 1 = 1 
-		and (a.product_status >= 20 || a.create_time &lt; '2021-11-01 00:00:00' )
-	      <if test="null!=productNo and ''!= productNo">
-		       and a.product_no like '%${productNo}%'
-		  </if>
-		  <if test="null!=userNo and ''!= userNo">
-		       and a.user_no in (${userNo})
-		  </if>
-		  <if test="null!=uploadAccount and ''!= uploadAccount">
-		  and a.upload_account = #{uploadAccount}
-		  </if>
-		  <if test="null!=productName and ''!= productName">
-		  and a.product_name like '%${productName}%'
-		  </if>	    
-		</where> 
+		select af.product_no,af.us_qty,af.out_qty,af.create_time,af.bill_no
+		from t_outcell_dtl as af,
+		(select MAX(create_time) AS create_time,bill_no from t_outcell_dtl GROUP BY
+		bill_no) AS bf
+		WHERE af.create_time = bf.create_time AND af.bill_no = bf.bill_no
+		) AS j ON a.product_no = j.product_no
+		LEFT JOIN t_product_profit_rate g ON a.product_no = g.fnsku
+		<where>
+			1 = 1
+			and (a.product_status >= 20 || a.create_time &lt; '2021-11-01 00:00:00'
+			)
+			<if test="null!=productNo and ''!= productNo">
+				and a.product_no like '%${productNo}%'
+			</if>
+			<if test="null!=userNo and ''!= userNo">
+				and a.user_no in (${userNo})
+			</if>
+			<if test="null!=uploadAccount and ''!= uploadAccount">
+				and a.upload_account = #{uploadAccount}
+			</if>
+			<if test="null!=productName and ''!= productName">
+				and a.product_name like '%${productName}%'
+			</if>
+		</where>
 		<if test="null!=orderBy and ''!= orderBy">
-		  order by ${orderBy}
-		  </if>	    
+			order by ${orderBy}
+		</if>
 		<if test="null == orderBy or '' == orderBy">
-		  order by monthQty desc
-		</if>	    
+			order by monthQty desc
+		</if>
 	</select>
 
 	<update id="update" parameterType="cn.springboot.model.product.TProduct">
 		update t_product_vindicate
 		<set>
 			<if test="productNo != null">
-				product_no =  #{productNo,jdbcType=VARCHAR},
+				product_no = #{productNo,jdbcType=VARCHAR},
 			</if>
 			<if test="userNo != null">
-				user_no =  #{userNo,jdbcType=VARCHAR},
+				user_no = #{userNo,jdbcType=VARCHAR},
 			</if>
 			<if test="productPrice != null">
-				product_price  =  #{saleQty,jdbcType=DECIMAL},
+				product_price = #{saleQty,jdbcType=DECIMAL},
 			</if>
 			<if test="cellQty != null">
-				cell_qty  =  #{cellQty,jdbcType=DECIMAL},
+				cell_qty = #{cellQty,jdbcType=DECIMAL},
 			</if>
 			<if test="status != null">
-				status  =  #{status,jdbcType=INTEGER},
+				status = #{status,jdbcType=INTEGER},
 			</if>
 			<if test="updateTime != null">
-				update_time  =  #{updateTime,jdbcType=TIMESTAMP},
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updater != null">
-				updater  =  #{updater,jdbcType=VARCHAR},
+				updater = #{updater,jdbcType=VARCHAR},
 			</if>
-			
+
 			<if test="remark != null">
-				remark =  #{remark,jdbcType=VARCHAR},
+				remark = #{remark,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id}
 	</update>
 
 	<delete id="delete" parameterType="string">
-		delete from t_product_vindicate where
+		delete from
+		t_product_vindicate where
 		id=#{id}
 	</delete>
-<select id="findTop10SKU" parameterType="map" resultMap="newsMap">
-	SELECT a.sku product_no,sum(a.quantity) sale_qty FROM t_product_import a  where order_status = 'Shipped' 
-	and purchase_date &lt;= #{param.endDate} and purchase_date &gt;= #{param.startDate} GROUP BY sku
-	ORDER BY sale_qty desc
-	LIMIT 10
-</select>
+	<select id="findTop10SKU" parameterType="map" resultMap="newsMap">
+		SELECT a.sku product_no,sum(a.quantity) sale_qty FROM t_product_import a
+		where order_status = 'Shipped'
+		and purchase_date &lt;= #{param.endDate} and purchase_date &gt;=
+		#{param.startDate} GROUP BY sku
+		ORDER BY sale_qty desc
+		LIMIT 10
+	</select>
 
-<select id="findUserSaleQty" parameterType="map" resultMap="newsMap">
-SELECT b.user_no,c.true_name,sum(a.quantity) sale_qty FROM t_product_import a INNER JOIN t_product b on a.sku = b.product_no 
-left JOIN t_sys_user c on b.user_no = c.username
-where order_status = 'Shipped'  and purchase_date &lt;= #{param.endDate} and purchase_date &gt;= #{param.startDate} 
-GROUP BY b.user_no,c.true_name
-ORDER BY sale_qty desc
-</select>
-<select id="findSKU12MonthList" parameterType="map" resultMap="newsMap">
-	SELECT a.sku product_no,sum(a.quantity) sale_qty,
-concat(YEAR(purchase_date),'-',LPAD(MONTH(purchase_date),2,'0'),'-',LPAD(day(purchase_date),2,'0')) as remark
-	FROM t_product_import a 
-	inner join t_product b on a.sku = b.product_no
-	WHERE order_status = 'Shipped'
-	 AND purchase_date &lt;= now()
-	 AND purchase_date &gt;= date_sub(now(),interval 1 year)
-	 AND b.id = #{param.id}
-	GROUP BY YEAR(purchase_date),MONTH(purchase_date),day(purchase_date)
-</select>
+	<select id="findUserSaleQty" parameterType="map" resultMap="newsMap">
+		SELECT b.user_no,c.true_name,sum(a.quantity) sale_qty FROM
+		t_product_import a INNER JOIN t_product b on a.sku = b.product_no
+		left JOIN t_sys_user c on b.user_no = c.username
+		where order_status = 'Shipped' and purchase_date &lt;= #{param.endDate} and
+		purchase_date &gt;= #{param.startDate}
+		GROUP BY b.user_no,c.true_name
+		ORDER BY sale_qty desc
+	</select>
+	<select id="findSKU12MonthList" parameterType="map" resultMap="newsMap">
+		SELECT a.sku product_no,sum(a.quantity) sale_qty,
+		concat(YEAR(purchase_date),'-',LPAD(MONTH(purchase_date),2,'0'),'-',LPAD(day(purchase_date),2,'0'))
+		as remark
+		FROM t_product_import a
+		inner join t_product b on a.sku = b.product_no
+		WHERE order_status = 'Shipped'
+		AND purchase_date &lt;= now()
+		AND purchase_date &gt;= date_sub(now(),interval 1 year)
+		AND b.id = #{param.id}
+		GROUP BY YEAR(purchase_date),MONTH(purchase_date),day(purchase_date)
+	</select>
 </mapper>
