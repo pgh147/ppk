@@ -145,7 +145,7 @@
 		,
 		cast((ifnull(g.sales_price,0)-ifnull(g.estimated_fee_total,0) -
 		(ifnull(g.fba,0)/1000* ifnull(a.charge_weight,0)) - a.product_price)
-		/a.product_price as decimal(9,3)) as profit_rate
+		/ifnull(g.sales_price,0) as decimal(9,3)) as profit_rate
 		from t_product a
 		LEFT JOIN t_product_img img on a.product_img_no = img.img_no and img.type
 		= 1
