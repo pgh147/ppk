@@ -308,7 +308,7 @@ SELECT a.bill_no,a.product_no,a.product_status, a.update_time, c.product_name,
         and a.remark = #{remark,jdbcType=VARCHAR}
       </if>
     </where>
-GROUP BY a.bill_no HAVING surplus_qty > 0
+GROUP BY a.bill_no HAVING surplus_qty != 0
 ) as a 
 <!-- inner join t_product b on a.product_no = b.product_no  -->
 left join t_product_img c on a.product_img_no = c.img_no and c.type = 1

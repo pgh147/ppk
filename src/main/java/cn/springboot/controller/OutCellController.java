@@ -42,10 +42,10 @@ import cn.springboot.service.product.OutCellService;
 public class OutCellController {
 
     private static final Logger log = LoggerFactory.getLogger(OutCellController.class);
-@Autowired
-private OutCellService outCellService;
-@Autowired
-private OutCellDtlService outCellDtlService;    
+	@Autowired
+	private OutCellService outCellService;
+	@Autowired
+	private OutCellDtlService outCellDtlService;    
     /**
      * @Description ajax开发上传产品
      * @param news

@@ -3,7 +3,7 @@
 
     var loadData,pageNum;
         $(document).ready(function () {
-        	$("#excelImportCls").val("productNo,userNo,outQty,usQty,ukQty,caQty");
+        	$("#excelImportCls").val("productNo,userNo,outQty,usQty,ukQty,caQty,remark");
         	//导入
        	 $("#input_import").validate({
             	rules: {

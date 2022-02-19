@@ -153,7 +153,7 @@
             					 $tr += ' '; 
             				 } 
 //                            '<td><a style="width:100px" target="_blank"  href="'+(item.supplierLink?item.supplierLink:"")+'"  class="long-break-word">'+(item.supplierLink?item.supplierLink:' ')+'</a></td><td>'+(item.firstSendQty?item.firstSendQty:' ')+'</td><td>'+(item.productOrderQty?item.productOrderQty:' ')+'</td><td>'+(item.predictSalesQty?item.predictSalesQty:' ')+'</td>'+
-                			 $tr +='</td><td>'+(item.firstSendQty?item.firstSendQty:' ')+'</td><td>'+(item.productOrderQty?item.productOrderQty:' ')+'</td><td>'+(item.chargeWeight?item.chargeWeight:' ')+'</td><td>'+(item.predictSalesQty?item.predictSalesQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td><td class="text-right text-nowrap">'+
+                			 $tr +='</td><td>'+(item.firstSendQty?item.firstSendQty:' ')+'</td><td>'+(item.productOrderQty?item.productOrderQty:' ')+'</td><td>'+(item.predictSalesQty?item.predictSalesQty:' ')+'</td><td>'+(item.remark?item.remark:' ')+'</td><td class="text-right text-nowrap">'+
                                  '<div class="btn-group ">';
                                  if(item.productStatus <= 15 && item.productStatus != 10){
                                 	 $tr += '<button class="btn btn-white btn-sm edit"  ><i class="fa fa-pencil"></i> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'"> 编辑</a></button>';
@@ -172,6 +172,10 @@
                                     	 if(item.productStatus > 15){
                                     		 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';
                                     	 }
+                                     }else if(data.devflag){
+                                    	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-statusmodel="10" data-idmodel="'+item.id+'" '+(item.productStatus > 8?"disabled":"")+' data-target="#modal-form">  一审</button>';
+                                    	 $tr += '<button class="btn btn-white btn-sm edit" data-userid="1" data-toggle="modal" data-statusmodel="15" data-idmodel="'+item.id+'" '+(item.productStatus > 13?"disabled":"")+' data-target="#modal-form">  二审</button>';
+                                    	 
                                      }
                                      if(item.productStatus <= 15){
                                     	 $tr += '<button class="btn-white  btn btn-sm delete" data-userid="1" data-idmodel="'+item.id+'"><i class="fa fa-trash"></i>  删除</button>';

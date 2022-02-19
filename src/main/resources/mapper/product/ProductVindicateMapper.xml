@@ -141,7 +141,7 @@
 		a.id,a.product_name,a.user_no,a.upload_account,img.img_data,a.product_no,cast(e.quantity_available
 		as DECIMAL(8,2)) stkQty,b.quantity monthQty,c.quantity
 		weekQty,d.quantity threeQty
-		, ee.inQty ,ff.purchase_qty - dd.incell_qty - dd.return_qty ingQty ,j.us_qty,j.out_qty,j.create_time,j.bill_no
+		, ee.inQty ,ff.purchase_qty  ingQty ,j.us_qty,j.out_qty,j.create_time,j.bill_no
 		,
 		cast((ifnull(g.sales_price,0)-ifnull(g.estimated_fee_total,0) -
 		(ifnull(g.fba,0)/1000* ifnull(a.charge_weight,0)) - a.product_price)
@@ -151,10 +151,11 @@
 		= 1
 		LEFT JOIN t_product_stk e on a.product_no = e.seller_sku and
 		e.warehouse_condition_code = 'SELLABLE'
-
+<!--
 		LEFT JOIN (SELECT product_no,SUM(incell_qty) incell_qty,SUM(return_qty)
 		return_qty FROM t_qc_incell GROUP BY product_no) AS dd ON a.product_no
 		= dd.product_no
+		  -->
 		LEFT JOIN (
 		SELECT
 		a.product_no,
@@ -166,8 +167,8 @@
 		GROUP BY
 		a.product_no
 		) AS ee ON a.product_no = ee.product_no
-		LEFT JOIN (SELECT product_no,sum(purchase_qty) purchase_qty FROM
-		t_purchase GROUP BY product_no) AS ff ON a.product_no = ff.product_no
+		LEFT JOIN (SELECT tp.product_no,sum(purchase_qty) purchase_qty FROM
+		t_purchase tp inner join  t_qc_incell qi on qi.purchase_no = tp.bill_no GROUP BY tp.product_no) AS ff ON a.product_no = ff.product_no
 
 		LEFT JOIN (SELECT sku,sum(quantity) quantity FROM t_product_import
 		where order_status = 'Shipped' and DATE_SUB(CURDATE(), INTERVAL 30

@@ -375,14 +375,17 @@ public class ProductController {
     public Map<String, String> updateStatus(@ModelAttribute("newsForm") TProduct news) {
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
     	List<Role> roles = principal.getRoles();
-    	boolean isAdmin = false;
+    	boolean isAdmin = false,isDevAdmin = false;
     	for(Role role:roles){
     		if(role.getName().equals("超级管理员")){
     			isAdmin = true;
     			break;
+    		}else if(role.getName().equals("开发leader")){
+    			isDevAdmin = true;
+//    			break;
     		}
     	}
-    	if(!isAdmin){
+    	if(!isAdmin && !isDevAdmin){
     		throw new BusinessException("1001", "无权限");
     	}
 //    	news.setUpdateTime(new Date());
@@ -415,7 +418,7 @@ public class ProductController {
     			break;
     		}else if(role.getName().equals("开发leader")){
     			isDevAdmin = true;
-    			break;
+//    			break;
     		}
     	}
     	// 2021-0807 修改a01能看所有
@@ -431,7 +434,8 @@ public class ProductController {
     	PageInfo<TProduct> page = productService.findProductByPage(pageNum, product);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("page", page);
-        result.put("flag", isAdmin||isDevAdmin);
+        result.put("flag", isAdmin);
+        result.put("devflag", isDevAdmin);
         return result;
     }
     
@@ -734,27 +738,27 @@ public class ProductController {
       map7.put("title", "卖点5");
       map7.put("field", "productSelling5");
       
-      map17.put("title", "卖点6");
-      map17.put("field", "productSelling6");
-      map18.put("title", "卖点7");
-      map18.put("field", "productSelling7");
-      map19.put("title", "卖点8");
-      map19.put("field", "productSelling8");
-      map20.put("title", "卖点9");
-      map20.put("field", "productSelling9");
-      map21.put("title", "卖点10");
-      map21.put("field", "productSelling10");
+      map8.put("title", "卖点6");
+      map8.put("field", "productSelling6");
+      map9.put("title", "卖点7");
+      map9.put("field", "productSelling7");
+      map10.put("title", "卖点8");
+      map10.put("field", "productSelling8");
+      map11.put("title", "卖点9");
+      map11.put("field", "productSelling9");
+      map12.put("title", "卖点10");
+      map12.put("field", "productSelling10");
       
-      map8.put("title", "描述");
-      map8.put("field", "descript");
-      map9.put("title", "广告词");
-      map9.put("field", "message");
-      map10.put("title", "searchTerm");
-      map10.put("field", "searchTerm");
-      map11.put("title", "分类");
-      map11.put("field", "classify");   
-      map12.put("title", "售价");
-      map12.put("field", "salePrice");  
+      map17.put("title", "描述");
+      map17.put("field", "descript");
+      map18.put("title", "广告词");
+      map18.put("field", "message");
+      map19.put("title", "searchTerm");
+      map19.put("field", "searchTerm");
+      map20.put("title", "分类");
+      map20.put("field", "classify");   
+      map21.put("title", "售价");
+      map21.put("field", "salePrice");  
       
       map13.put("title", "产品尺寸");
       map13.put("field", "productSize");

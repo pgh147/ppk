@@ -147,7 +147,6 @@
                                                 <th>供应商链接</th>
                                                 <th>首批发货数量US UK</th>
                                                 <th>预计月销量</th>
-                                                <th>收费重量</th>
                                                 <th>产品起订量</th>
                                                 <th>备注</th>
                                                 <th class="text-right">操作</th>
@@ -260,8 +259,7 @@
     <script src="${ctx}/static/js/plugins/sweetalert/sweetalert.min.js" async></script><!---对话框 alert--->
     <script src="${ctx}/static/js/plugins/validate/jquery.validate.min.js"></script>  <!---表单验证--->
     <script src="${ctx}/static/js/plugins/validate/validate-cn.js" ></script> <!---validate 自定义方法--->
-	<!---文件上传中文配置--->
-    <script src="${ctx}/static/page/cpkfsc.js?v=20211128"></script>
+	<script src="${ctx}/static/page/cpkfsc.js?v=20211228"></script>
     
 
 </body>
