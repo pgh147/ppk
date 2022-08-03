@@ -44,6 +44,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean addProduct(TProduct tProduct) {
         if (tProduct != null) {
+        	List<TProduct> prods = productMapper.findProductByKeywords(tProduct.getProductNo());
+        	if(prods.size()>0){
+        		return false;
+        	}
 //        	String imgId = FactoryAboutKey.getPK(TableEnum.T_PRODUCT_IMG);
         	tProduct.setId(FactoryAboutKey.getPK(TableEnum.T_PRODUCT));
         	tProduct.setCreateTime(Calendar.getInstance().getTime());

@@ -366,10 +366,13 @@ var detailData,detailId;
 	//          data: $(form).serialize(),
 	          data:JSON.stringify(data),
 	          success: function(data) {
-	            toastr.success('', '添加成功！');
-	            $('#modal-form').modal('hide');
-	//            loadData();
-	            window.location.href = '/product/upload/page';
+	        	  if(data.status == 1){
+	        		  toastr.success('', '添加成功！');
+	        		  $('#modal-form').modal('hide');
+	        		  window.location.href = '/product/upload/page';
+	        	  }else{
+	        		  toastr.error(data.msg);
+	        	  }
 	          },
 	          error:function(e){
 	        	  toastr.error("出现错误，请更改");
