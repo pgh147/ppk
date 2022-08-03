@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.springboot.mapper.product.TWorkLogMapper">
+  <resultMap id="BaseResultMap" type="cn.springboot.model.product.TWorkLog">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="work_log" jdbcType="VARCHAR" property="workLog" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_read" jdbcType="INTEGER" property="isRead" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater" jdbcType="VARCHAR" property="updater" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,  work_log, user_no,  status, is_read, update_time, updater, create_time, creater
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_work_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByIds" parameterType="java.lang.String">
+  	delete from t_work_log
+    where id in (${ids})
+  </delete>
+  <insert id="insert" parameterType="cn.springboot.model.product.TIssues">
+    insert into t_work_log (id,   user_no, work_log, status, is_read, update_time, updater, create_time, creater)
+    values (#{id,jdbcType=VARCHAR},  
+      #{userNo,jdbcType=VARCHAR}, #{workLog,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+       #{isRead,jdbcType=INTEGER},  #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.springboot.model.product.TIssues">
+    insert into t_work_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="workLog != null">
+        work_log,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isRead != null">
+        is_read,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+                   
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="workLog != null">
+        #{workLog,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>              
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.springboot.model.product.TIssues">
+    update t_work_log
+    <set>
+      <if test="userNo != null and '' != userNo ">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="workLog != null and '' != workLog ">
+        work_log = #{workLog,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and '' != status  or status == 0">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null and '' != isRead  or isRead == 0">
+        is_read = #{isRead,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null and '' != updater ">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null and '' != creater ">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.springboot.model.product.TIssues">
+    update t_work_log
+    set 
+      user_no = #{userNo,jdbcType=VARCHAR},
+      work_log = #{workLog,jdbcType=VARCHAR},
+      is_read = #{isRead,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="findProductByPage" parameterType="cn.springboot.model.product.TIssues" resultMap="BaseResultMap">
+  	select a.id,  a.work_log, a.user_no, a.is_read,a.status,  a.update_time, a.updater, a.create_time, a.creater
+    from t_work_log a 
+        <where>  1 = 1 
+            <if test="productName != null and '' != productName ">
+        and b.product_name  like '%${productName}%' 
+      </if>
+      <if test="userNo != null and '' != userNo ">
+         and a.user_no  like '%${userNo}%'  
+      </if>
+      <if test="pUserNo != null and '' != pUserNo ">
+       <!-- and ( a.user_no in (${pUserNo}) ) --> 
+       and ( a.user_no = '${pUserNo}' or ( a.`status` = 5 and LEFT(a.user_no,1) = '${startPUserNo}'))
+      </if>      
+      <if test="isRead != null and '' != isRead ">
+        and a.is_read = #{isRead,jdbcType=INTEGER}
+      </if>
+      <if test="status != null and '' != status ">
+        and a.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        and a.update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updater != null and '' != updater ">
+        and a.updater = #{updater,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        and a.create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="creater != null and '' != creater ">
+        and a.creater = #{creater,jdbcType=VARCHAR}
+      </if>
+        </where> 
+        <if test="orderSql != null and orderSql != '' ">
+        ${orderSql}
+        </if>
+        <if test="orderSql == null or orderSql == '' ">
+        order by a.create_time desc
+        </if>
+  </select>
+</mapper>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.springboot.mapper.product.TIssuesMapper">
+  <resultMap id="BaseResultMap" type="cn.springboot.model.product.TIssues">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="product_no" jdbcType="VARCHAR" property="productNo" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="img_data" jdbcType="VARCHAR" property="imgData" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="issues" jdbcType="VARCHAR" property="issues" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_ok" jdbcType="INTEGER" property="isOk" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater" jdbcType="VARCHAR" property="updater" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,  product_no, user_no, issues, status, is_ok, update_time, updater, create_time, creater
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_issues
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_issues
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByIds" parameterType="java.lang.String">
+  	delete from t_issues
+    where id in (${ids})
+  </delete>
+  <insert id="insert" parameterType="cn.springboot.model.product.TIssues">
+    insert into t_issues (id,  product_no, user_no, issues, status, is_ok, update_time, updater, create_time, creater)
+    values (#{id,jdbcType=VARCHAR},  #{productNo,jdbcType=VARCHAR}, 
+      #{userNo,jdbcType=VARCHAR}, #{issues,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+       #{isOk,jdbcType=INTEGER},  #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.springboot.model.product.TIssues">
+    insert into t_issues
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productNo != null">
+        product_no,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="issues != null">
+        issues,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isOk != null">
+        is_ok,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+                   
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productNo != null">
+        #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="issues != null">
+        #{issues,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isOk != null">
+        #{is_ok,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>              
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.springboot.model.product.TIssues">
+    update t_issues
+    <set>
+      <if test="productNo != null and '' != productNo ">
+        product_no = #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null and '' != userNo ">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="issues != null and '' != issues ">
+        issues = #{issues,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and '' != status  or status == 0">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isOk != null and '' != isOk  or isOk == 0">
+        is_ok = #{isOk,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null and '' != updater ">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null and '' != creater ">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.springboot.model.product.TIssues">
+    update t_issues
+    set product_no = #{productNo,jdbcType=VARCHAR},
+      user_no = #{userNo,jdbcType=VARCHAR},
+      issues = #{issues,jdbcType=VARCHAR},
+      is_ok = #{isOk,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="findProductByPage" parameterType="cn.springboot.model.product.TIssues" resultMap="BaseResultMap">
+  	select a.id,  a.product_no, a.user_no, a.issues,a.is_ok,a.status,  a.update_time, a.updater, a.create_time, a.creater, b.product_name,c.img_data
+    from t_issues a inner join t_product b on a.product_no = b.product_no left join t_product_img c on b.product_img_no = c.img_no and c.type = 1
+        <where>  1 = 1 
+     <if test="productNo != null and '' != productNo ">
+        and a.product_no like '%${productNo}%' 
+      </if>
+            <if test="productName != null and '' != productName ">
+        and b.product_name  like '%${productName}%' 
+      </if>
+      <if test="userNo != null and '' != userNo ">
+         and a.user_no  like '%${userNo}%'  
+      </if>
+      <if test="pUserNo != null and '' != pUserNo ">
+        and ( a.user_no in (${pUserNo}) or b.user_no = 'a13')
+      </if>      
+      <if test="isOk != null and '' != isOk ">
+        and a.is_ok = #{isOk,jdbcType=INTEGER}
+      </if>
+      <if test="status != null and '' != status ">
+        and a.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="updateTime != null and '' != updateTime ">
+        and a.update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updater != null and '' != updater ">
+        and a.updater = #{updater,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null and '' != createTime ">
+        and a.create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="creater != null and '' != creater ">
+        and a.creater = #{creater,jdbcType=VARCHAR}
+      </if>
+        </where> 
+        <if test="orderSql != null and orderSql != '' ">
+        ${orderSql}
+        </if>
+        <if test="orderSql == null or orderSql == '' ">
+        order by a.create_time desc
+        </if>
+  </select>
+</mapper>

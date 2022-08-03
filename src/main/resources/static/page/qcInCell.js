@@ -197,10 +197,8 @@
           type: "post",
           contentType: "application/json; charset=utf-8",
           dataType: "json",
-//          data: $(form).serialize(),
           data:JSON.stringify(data),
           success: function(data) {
-            
             if(data.status ==1){
             	toastr.success('', '修改成功！');
                 $('#modal-form').modal('hide');

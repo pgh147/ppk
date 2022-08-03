@@ -664,6 +664,45 @@ public class ProductController {
         return "view/material/productDetail/productDetail";
     }
     
+    /**
+     * 待解决事项
+     * @return
+     */
+    @RequestMapping(value = "/bwl/djjsx", method = RequestMethod.GET)
+    String showDjjsx(HttpServletRequest request, ModelMap map) {
+        List<PermissionVo> perVos = (List<PermissionVo>)SecurityUtils.getSubject().getSession().getAttribute(Constants.PERMISSION_SESSION);
+        if(null == perVos || perVos.size() <= 0){
+        	map.put("err", "没有访问权限");
+        	return "common/error";
+        }
+        boolean hasPagePermission = checkHasPermission(perVos,"product/bwl/djjsx");
+        
+        if(!hasPagePermission){
+        	map.put("err", "没有访问权限");
+        	return "common/error";
+        }
+        return "view/material/bwl/djjsx";
+    }
+    
+    /**
+     * 工作日志页面
+     * @return
+     */
+    @RequestMapping(value = "/bwl/gzrz", method = RequestMethod.GET)
+    String showGzrz(HttpServletRequest request, ModelMap map) {
+        List<PermissionVo> perVos = (List<PermissionVo>)SecurityUtils.getSubject().getSession().getAttribute(Constants.PERMISSION_SESSION);
+        if(null == perVos || perVos.size() <= 0){
+        	map.put("err", "没有访问权限");
+        	return "common/error";
+        }
+        boolean hasPagePermission = checkHasPermission(perVos,"product/bwl/gzrz");
+        
+        if(!hasPagePermission){
+        	map.put("err", "没有访问权限");
+        	return "common/error";
+        }
+        return "view/material/bwl/gzrz";
+    }
     
     /**
      * 大数据量导出
