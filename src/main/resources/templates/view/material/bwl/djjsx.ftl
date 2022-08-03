@@ -106,7 +106,7 @@
                                     <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
                                         <thead>
                                             <tr>
-                                            	<th>状态</th>
+                                            	
                                                 <th>产品图片</th>
                                             	<th>产品编号 </th>
                                                 <th>开发员编号</th>

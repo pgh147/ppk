@@ -197,8 +197,7 @@
             		if(data.page.list.length > 0){
             			var $tr = "";
                 		$.each(data.page.list,function(index,item){
-                			 $tr += '<tr><td>'+item.status+'</td>';
-                				 $tr +='<td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'" >'+item.productNo+' </a></td>';
+                			 $tr += '<tr><td class="imgbox"><img width="100" height="100" src="/product/getImg/'+item.productNo+'.json" class="smallimg"></td><td> <a href="/product/detail/page?id='+item.id+'&pageNum='+(num?num:1)+'" >'+item.productNo+' </a></td>';
 
                 			 $tr +='<td>'+item.userNo+'</td><td><pre>'+item.issues+'</pre></td> <td>'+item.createTime+'</td>'; 
                 			 
