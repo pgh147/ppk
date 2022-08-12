@@ -167,7 +167,7 @@
          and a.user_no  like '%${userNo}%'  
       </if>
       <if test="pUserNo != null and '' != pUserNo ">
-        and ( a.user_no in (${pUserNo}) or b.user_no = 'a13')
+        and ( a.user_no in (${pUserNo}) or b.user_no = 'a13' or (b.user_no  in (${pUserNo}) and a.user_no = 'cheng.wb') )
       </if>      
       <if test="isOk != null and '' != isOk ">
         and a.is_ok = #{isOk,jdbcType=INTEGER}

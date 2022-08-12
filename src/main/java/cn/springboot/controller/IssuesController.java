@@ -60,7 +60,13 @@ private ExportBigExcelService excelService;
     	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
     	news.setCreater(principal.getUser().getUsername());
     	news.setUserNo(principal.getUser().getUsername());
-        boolean flag = issuesService.addProduct(news);
+    	boolean flag = true;
+    	try {
+			
+    		 flag = issuesService.addProduct(news);
+		} catch (Exception e) {
+			flag = false;
+		}
         Map<String, String> result = new HashMap<>();
         if (flag) {
             result.put("status", "1");
