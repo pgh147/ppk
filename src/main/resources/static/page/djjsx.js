@@ -48,9 +48,13 @@
 					dataType : "json",
 					data : JSON.stringify(data),
 					success : function(data) {
-						toastr.success('', '添加成功！');
-						$('#modal-form').modal('hide');
-						loadData(pageNum);
+						if(data.status == 0){
+							toastr.error("出现错误，请更改");
+						}else{							
+							toastr.success('', '添加成功！');
+							$('#modal-form').modal('hide');
+							loadData(pageNum);
+						}
 					},
 					error : function(e) {
 						toastr.error("出现错误，请更改");

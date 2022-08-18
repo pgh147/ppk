@@ -24,6 +24,12 @@
     from t_issues
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByProductNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_issues
+    where product_no = #{productNo,jdbcType=VARCHAR}
+  </select>  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from t_issues
     where id = #{id,jdbcType=VARCHAR}

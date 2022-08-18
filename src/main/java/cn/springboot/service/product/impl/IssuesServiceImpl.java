@@ -170,9 +170,17 @@ public class IssuesServiceImpl implements IssuesService {
 	@Override
 	public boolean addProduct(TIssues news) {
         if (news != null) {
-        	news.setId(FactoryAboutKey.getPK(TableEnum.T_QC_INCELL));
-        	news.setCreateTime(Calendar.getInstance().getTime());
-            int flag = issuesMapper.insertSelective(news);
+        	int flag = 0;
+//        	TIssues t = issuesMapper.selectByProductNo(news.getProductNo());
+//        	if(null != t){
+//        		news.setIssues(news.getIssues()+"\n"+t.getIssues());
+//        		news.setId(t.getId());
+//        		flag = issuesMapper.updateByPrimaryKeySelective(news);
+//        	}else{
+        		news.setId(FactoryAboutKey.getPK(TableEnum.T_QC_INCELL));
+        		news.setCreateTime(Calendar.getInstance().getTime());
+        		flag = issuesMapper.insertSelective(news);
+//        	}
             if (flag == 1)
                 return true;
             else
