@@ -271,7 +271,11 @@ public class ProductController {
             result.put("msg", "无权限");
             return result;
     	}
-
+    	if(news.getProductStatus() >= 19 && !isAdmin){
+    		result.put("status", "0");
+            result.put("msg", "无权限");
+            return result;
+    	}
     	if(null != file){
     		int fileNamelength = file.getOriginalFilename().length();
     		if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
@@ -350,6 +354,12 @@ public class ProductController {
             return result;
     	}
     	else if(!isAdmin &&!principal.getUser().getUsername().equals("a01") && !news.getUserNo().equals(principal.getUser().getUsername())){
+    		result.put("status", "0");
+            result.put("msg", "无权限");
+            return result;
+    	}
+    	
+    	if(news.getProductStatus() >= 19 && !isAdmin){
     		result.put("status", "0");
             result.put("msg", "无权限");
             return result;
@@ -447,9 +457,20 @@ public class ProductController {
     @RequestMapping(value = "/detail.json", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> findById(@RequestParam(value = "id") String id) {
+    	Principal principal = (Principal)SecurityUtils.getSubject().getPrincipal();
+    	List<Role> roles = principal.getRoles();
+    	boolean isAdmin = false,isDevAdmin = false;
+    	for(Role role:roles){
+    		if(role.getName().equals("超级管理员") ){
+    			isAdmin = true;
+    			break;
+    		}
+    	}
+    	
     	TProduct page = productService.findProductById(id);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("page", page);
+        result.put("flag", isAdmin);
         return result;
     }
     

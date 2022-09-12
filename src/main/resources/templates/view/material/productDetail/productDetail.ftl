@@ -234,7 +234,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-12 col-sm-offset-2">
-									<button class="btn btn-primary" type="submit">
+									<button class="btn btn-primary" id="submitId" type="submit">
 										<i class="fa fa-check"></i> 填写完成，提交！
 									</button>
 									<button class="btn btn-white" type="reset">重置</button>
@@ -342,7 +342,7 @@
       <script src="${ctx}/static/js/plugins/pictureCut/cropper.min.js"></script>
   <script src="${ctx}/static/js/plugins/pictureCut/main.js"></script>
   -->
-    <script src="${ctx}/static/page/prodDetail.js??v=20200510"> </script>
+    <script src="${ctx}/static/page/prodDetail.js??v=20200910"> </script>
     <script src="${ctx}/static/js/zoom.js?v=20200510"> </script>
 </body>
 </html>

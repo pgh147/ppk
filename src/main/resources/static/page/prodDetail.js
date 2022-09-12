@@ -223,7 +223,15 @@ var detailData,detailId;
           	        			  }else if(item.name != 'productImgData'){
           	        				$(item).val(data.page[item.name]);
           	        			  }
+          	        			  
+          	        			  if(data.page.productStatus >= 19 && !data.flag){
+          	        				$(item).attr("readonly",true);
+          	        			  }
           	        		  })
+          	        		  
+          	        		if(data.page.productStatus >= 19 && !data.flag){
+      	        				$("#submitId").remove();
+      	        			  }
           	        	  }
           	          },
           	          error:function(e){
